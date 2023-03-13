@@ -64,6 +64,18 @@ const navItems = [
     text: "Add Committees",
     icon: <ControlPointOutlined />,
   },
+  {
+    text: "Management",
+    icon: null,
+  },
+  {
+    text: "Convenors",
+    icon: <VisibilityOutlined />,
+  },
+  {
+    text: "Members",
+    icon: <ControlPointOutlined />,
+  },
 ];
 const Sidebar = ({
   drawerWidth,
@@ -123,13 +135,16 @@ const Sidebar = ({
                     </Typography>
                   );
                 }
-                const lcText = text.toLocaleLowerCase();
+                const lcText = text.replaceAll(" ", "-").toLocaleLowerCase();
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
                         navigate(`/${lcText}`);
                         setActive(lcText);
+                        if (!isNonMobile) {
+                          setIsSidebarOpen(!isSidebarOpen);
+                        }
                       }}
                       sx={{
                         backgroundColor:
