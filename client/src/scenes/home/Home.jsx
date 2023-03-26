@@ -1,10 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import HomeNavbar from "../../components/HomeNavbar";
 const Home = () => {
   return (
     <div>
-      <Link to="/admin">Hello</Link>
+      <HomeNavbar />
     </div>
   );
 };
