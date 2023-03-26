@@ -7,3 +7,6 @@ export {default as Home} from "./home/Home";
 export {default as Layout} from "./layout/Layout";
 export {default as Login} from "./login/Login";
 export {default as ViewCommittee} from "./viewCommittee/ViewCommittee";
+export {default as Convenors} from "./convenors/Convenors";
+export {default as AddConvenor} from "./addConvenor/AddConvenor";
+export {default as CreateEvent} from "./createEvent/CreateEvent";
