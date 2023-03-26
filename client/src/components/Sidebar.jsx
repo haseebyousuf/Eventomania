@@ -28,7 +28,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 import FlexBetween from "./FlexBetween";
 import Profile from "assets/profile.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLogout } from "state";
 
 const adminNavItems = [
