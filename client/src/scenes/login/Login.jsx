@@ -6,6 +6,7 @@ import HomeNavbar from "../../components/HomeNavbar";
 const Login = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   // const theme = useTheme();
+
   return (
     <Box
       sx={{

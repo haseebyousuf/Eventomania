@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import {
   Box,
@@ -15,10 +15,10 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLogin, setMode } from "state";
+import { setLogin } from "state";
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
-  password: yup.string().required("required"),
+  password: yup.string().required("No password provided."),
 });
 const initialValuesLogin = {
   email: "",
@@ -26,12 +26,9 @@ const initialValuesLogin = {
 };
 const LoginForm = () => {
   const dispatch = useDispatch();
-  dispatch(
-    setMode({
-      mode: "light",
-    })
-  );
+
   const navigate = useNavigate();
+
   const theme = useTheme();
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
 
@@ -47,12 +44,12 @@ const LoginForm = () => {
       const verifiedAdmin = await admin.data;
       onSubmitProps.resetForm();
       if (verifiedAdmin) {
+        console.log(verifiedAdmin);
         setButtonDisabled(false);
         dispatch(
           setLogin({
-            adminId: verifiedAdmin.adminId,
+            user: verifiedAdmin.user,
             token: verifiedAdmin.token,
-            role: verifiedAdmin.role,
           })
         );
         navigate("/dashboard");
@@ -89,20 +86,37 @@ const LoginForm = () => {
                 <Box
                   display="flex"
                   justifyContent="center"
-                  alignItems="center"
+                  alignItems="flex-start"
                   flexDirection="column"
                   p="0.5rem"
                 >
                   <Typography
+                    fontSize="1.8rem"
+                    textDecoration="underline"
+                    fontWeight="bold"
+                    p="1rem 0rem 1rem 0rem"
+                    color={theme.palette.secondary.main}
+                  >
+                    EVENTOMANIA
+                  </Typography>
+                  <Typography
                     fontSize="1.5rem"
                     textDecoration="underline"
                     fontWeight="bold"
-                    p="1rem"
-                    color={theme.palette.secondary.main}
+                    color={theme.palette.secondary}
                   >
-                    Sign in to Eventomania
+                    Hello Admin 👋
                   </Typography>
-                  <AdminPanelSettingsOutlinedIcon fontSize="large" />
+                  <Typography
+                    fontSize="1rem"
+                    textDecoration="underline"
+                    color={theme.palette.secondary}
+                    paddingBottom="0.6rem"
+                  >
+                    Sign In to access your account
+                  </Typography>
+
+                  {/* <AdminPanelSettingsOutlinedIcon fontSize="large" /> */}
                 </Box>
                 <TextField
                   id="email"
