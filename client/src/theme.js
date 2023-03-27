@@ -1,19 +1,19 @@
 // color design tokens export
 export const tokensDark = {
     grey: {
-      0: "#ffffff", // manually adjusted
-      10: "#f6f6f6", // manually adjusted
-      50: "#f0f0f0", // manually adjusted
-      100: "#e0e0e0",
-      200: "#c2c2c2",
-      300: "#a3a3a3",
+      0: "#FFFFFF",
+      10: "#F6F6F6",
+      50: "#F0F0F0",
+      100: "#E0E0E0",
+      200: "#C2C2C2",
+      300: "#A3A3A3",
       400: "#858585",
       500: "#666666",
-      600: "#525252",
-      700: "#3d3d3d",
-      800: "#292929",
-      900: "#141414",
-      1000: "#000000", // manually adjusted
+      600: "#4D4D4D",
+      700: "#333333",
+      800: "#1A1A1A",
+      900: "#0A0A0A",
+      1000: "#000000",// manually adjusted
     },
     primary: {
       // blue
@@ -100,6 +100,7 @@ export const tokensDark = {
               neutral: {
                 ...tokensLight.grey,
                 main: tokensDark.grey[500],
+                light: tokensDark.grey[400],
               },
               background: {
                 default: tokensDark.grey[0],
