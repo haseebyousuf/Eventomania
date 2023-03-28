@@ -40,20 +40,19 @@ const eventScheema = yup.object().shape({
   venue: yup.string().required("*Venue is Required!"),
   description: yup.string().required("*Description is Required"),
   banner: yup.string().required("required"),
-
-  // recomendedAudiance: yup.string(),
-  // startTime: yup.string().required("Start Time cannot be empty"),
+  order: yup.string().required("required"),
+  recomendedAudiance: yup.string(),
 });
 
 const initailValuesEvent = {
   name: "",
   startDate: null,
-  // startTime: "",
   endDate: null,
   venue: "",
   description: "",
-  baner: "",
-  // recomendedAudiance: "",
+  banner: "",
+  order: "",
+  recomendedAudiance: "",
 };
 
 const CreateEvent = () => {
@@ -281,6 +280,73 @@ const CreateEvent = () => {
                       </LocalizationProvider>
                     </Box>
                     <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: isNonMobile
+                          ? "space-between"
+                          : "center",
+                        flexWrap: "Wrap",
+                      }}
+                    >
+                      <TextField
+                        sx={{ width: isNonMobile ? "100%" : "18rem" }}
+                        id="description"
+                        name="description"
+                        autoComplete="off"
+                        color="secondary"
+                        multiline
+                        minRows={3}
+                        label="Event Description"
+                        value={values.description}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        margin="normal"
+                        helperText={
+                          touched.description ? errors.description : ""
+                        }
+                        error={
+                          touched.description && Boolean(errors.description)
+                        }
+                        fullWidth
+                        variant="outlined"
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: isNonMobile
+                          ? "space-between"
+                          : "center",
+                        flexWrap: "Wrap",
+                      }}
+                    >
+                      <TextField
+                        sx={{ width: isNonMobile ? "100%" : "18rem" }}
+                        id="recomendedAudiance"
+                        name="recomendedAudiance"
+                        autoComplete="off"
+                        color="secondary"
+                        label="Recomended Audiance"
+                        value={values.recomendedAudiance}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        margin="normal"
+                        helperText={
+                          touched.recomendedAudiance
+                            ? errors.recomendedAudiance
+                            : "Seperate Each by Comma (,)"
+                        }
+                        error={
+                          touched.recomendedAudiance &&
+                          Boolean(errors.recomendedAudiance)
+                        }
+                        fullWidth
+                        variant="outlined"
+                      />
+                    </Box>
+                    <Box
                       border={`1px solid ${palette.neutral.medium}`}
                       borderRadius="5px"
                       sx={{
@@ -324,7 +390,17 @@ const CreateEvent = () => {
                                   }}
                                 >
                                   <CloudUploadOutlined />
-                                  <p>Add Banner Here</p>
+                                  <p
+                                    style={{
+                                      fontSize: !isNonMobile && "0.7rem",
+                                    }}
+                                  >
+                                    Add Banner Here{" "}
+                                    <span style={{ color: "red" }}>
+                                      {" "}
+                                      (Only .jpg and .png)
+                                    </span>
+                                  </p>
                                 </Box>
                               </>
                             ) : (
@@ -336,11 +412,13 @@ const CreateEvent = () => {
                           </Box>
                         )}
                       </Dropzone>
-                      {errors.bannerr && touched.banner && (
+                      {errors.banner && touched.banner && (
                         <div className="error">{errors.banner}</div>
                       )}
                     </Box>
                     <Box
+                      border={`1px solid ${palette.neutral.medium}`}
+                      borderRadius="5px"
                       sx={{
                         width: "100%",
                         display: "flex",
@@ -350,28 +428,62 @@ const CreateEvent = () => {
                         flexWrap: "Wrap",
                       }}
                     >
-                      <TextField
+                      <Dropzone
                         sx={{ width: isNonMobile ? "100%" : "18rem" }}
-                        id="description"
-                        name="description"
-                        autoComplete="off"
-                        color="secondary"
-                        multiline
-                        minRows={3}
-                        label="About Event"
-                        value={values.description}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        margin="normal"
-                        helperText={
-                          touched.description ? errors.description : ""
+                        accept={{ "application/pdf": [".pdf"] }}
+                        multiple={false}
+                        onDrop={(acceptedFiles) =>
+                          setFieldValue("order", acceptedFiles[0])
                         }
-                        error={
-                          touched.description && Boolean(errors.description)
-                        }
-                        fullWidth
-                        variant="outlined"
-                      />
+                      >
+                        {({ getRootProps, getInputProps }) => (
+                          <Box
+                            {...getRootProps()}
+                            border={`2px dashed ${palette.neutral.light}`}
+                            margin="1rem 0 1rem 0"
+                            p="1rem"
+                            sx={{
+                              "&:hover": { cursor: "pointer" },
+                              width: isNonMobile ? "100%" : "18rem",
+                            }}
+                          >
+                            <input {...getInputProps()} />
+                            {!values.order ? (
+                              <>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    gap: 1,
+                                  }}
+                                >
+                                  <CloudUploadOutlined />
+                                  <p
+                                    style={{
+                                      fontSize: !isNonMobile && "0.7rem",
+                                    }}
+                                  >
+                                    Add Order File Here{" "}
+                                    <span style={{ color: "red" }}>
+                                      {" "}
+                                      (Only .pdf)
+                                    </span>
+                                  </p>
+                                </Box>
+                              </>
+                            ) : (
+                              <FlexBetween>
+                                <Typography>{values.order.name}</Typography>
+                                <EditOutlinedIcon />
+                              </FlexBetween>
+                            )}
+                          </Box>
+                        )}
+                      </Dropzone>
+                      {errors.order && touched.order && (
+                        <div className="error">{errors.order}</div>
+                      )}
                     </Box>
                   </CardContent>
                   <CardActions
