@@ -27,9 +27,9 @@ const EventScheema = new mongoose.Schema({
     required: true,
   },
   bannerPath: String,
-  orderFiLePath: String,
   bannerName: String,
-  orderFiLeName: String,
+  orderPath: String,
+  orderName: String,
   committee:[{
       id:{
         type:String,
@@ -49,7 +49,6 @@ const EventScheema = new mongoose.Schema({
   isPublished:{
     type: Boolean,
     default: "false",
-    required: true,
   }
 }, { timestamps: true });
 
