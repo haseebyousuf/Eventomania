@@ -23,27 +23,33 @@ const AllCommittees = () => {
     {
       field: "_id",
       headerName: "ID",
-      flex: 0.5,
+      minWidth: 200,
+      // flex: 1,
     },
     {
       field: "name",
       headerName: "Name",
-      flex: 1,
+      minWidth: 100,
+      // flex: 1,
     },
     {
       field: "description",
       headerName: "Description",
-      flex: 1,
+      // flex: 1,
+      minWidth: 270,
     },
     {
       field: "convenorName",
       headerName: "Convenor",
-      flex: 1,
+      minWidth: 200,
+      // flex: 1,
     },
     {
       field: "members",
       headerName: "Members",
-      flex: 0.5,
+      minWidth: 100,
+
+      // flex: 0.5,
       renderCell: (params) => {
         return params.value.length;
       },
@@ -51,7 +57,9 @@ const AllCommittees = () => {
     {
       field: "events",
       headerName: "No. of Events",
-      flex: 0.5,
+      minWidth: 100,
+
+      // flex: 0.5,
       renderCell: (params) => {
         return params.value.length;
       },
