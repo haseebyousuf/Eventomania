@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import multer from 'multer';
+import { v4 as uuidv4 } from 'uuid';
 
 import path from "path";
 import {fileURLToPath} from "url";
@@ -41,8 +42,7 @@ const storage = multer.diskStorage({
     cb(null, "public/assets");
   },
   filename: function (req, file,cb){
-    // cb(null, file.originalname);
-    cb(null, file.fieldname + '-' + Date.now()+ path.extname(file.originalname));
+    cb(null, file.fieldname + '-' +uuidv4() + '-' + Date.now()+ path.extname(file.originalname));
   }
 });
 
@@ -51,7 +51,7 @@ const upload = multer({storage})
 // ROUTES WITH FILE UPLOADS
 app.post("/event/createEvent", upload.fields([
   {name:'banner', maxCount:1},
-  {name: 'orderFile', maxCount:1},
+  {name: 'order', maxCount:1},
 ]), createEvent);
 // ROUTES
 app.use('/committee', committeeRoutes);
