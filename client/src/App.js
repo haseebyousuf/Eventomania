@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
-import {Home,Dashboard, Layout, AddCommiittees, Login, AllCommittees,Convenors, AddConvenor, CreateEvent} from "./scenes"
+import {Home,Dashboard, Layout, AddCommiittees, Login, AllCommittees,Convenors, AddConvenor, CreateEvent, PublishEvent} from "./scenes"
 function App() { 
     const mode = useSelector((state) => state.mode);
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -21,6 +21,7 @@ function App() {
                     <Route element={<Layout />} >
                         {/* admin Routes */}
                         <Route path="/dashboard" element={isAuth ? <Dashboard /> : <Navigate to="/admin" />}  />  
+                        <Route path="/publish-event" element={isAuth && user.role === "admin" ? <PublishEvent /> : <Navigate to="/admin" />}  />
                         <Route path="/add-committees" element={isAuth && user.role === "admin" ? <AddCommiittees /> : <Navigate to="/admin" />}  />
                         <Route path="/view-committees" element={isAuth && user.role === "admin" ? <AllCommittees /> : <Navigate to="/admin" />}  />
                         <Route path="/convenors" element={isAuth && user.role === "admin"  ? <Convenors /> : <Navigate to="/admin" />}  />
