@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import {
   Box,
   Typography,
@@ -23,9 +22,8 @@ import * as yup from "yup";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import axios from "axios";
 // import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { FlexBetween } from "../../components/FlexBetween";
 
 const eventScheema = yup.object().shape({
   name: yup.string().required("*Name Required!"),
@@ -39,8 +37,8 @@ const eventScheema = yup.object().shape({
     .typeError("Invalid Date and Time!"),
   venue: yup.string().required("*Venue is Required!"),
   description: yup.string().required("*Description is Required"),
-  banner: yup.string().required("required"),
-  order: yup.string().required("required"),
+  banner: yup.string().required("*banner required"),
+  order: yup.string().required("*order file required"),
   recomendedAudiance: yup.string(),
 });
 
@@ -57,49 +55,38 @@ const initailValuesEvent = {
 
 const CreateEvent = () => {
   const mode = useSelector((state) => state.mode);
-  const [data, setData] = useState({ committees: null, isLoading: true });
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/committee/get-committees`)
-      .then((response) => {
-        setData({ ...data, committees: response.data, isLoading: false });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const user = useSelector((state) => state.user);
   const theme = useTheme();
   const { palette } = useTheme();
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
-      console.log(values);
-      // const { committee } = values;
-      // const committeeName = committee.split("|")[0];
-      // const committeeId = committee.split("|")[1];
-      // const convenor = {
-      //   ...values,
-      //   committeeName,
-      //   committeeId,
-      //   role: "convenor",
-      // };
-      // const savedConvenorResponse = await axios({
-      //   method: "post",
-      //   url: "http://localhost:5001/admin/addConvenor",
-      //   headers: { "Content-Type": "application/json" },
-      //   data: JSON.stringify(convenor),
-      // });
-      // const savedConvenor = await savedConvenorResponse.data;
-      // onSubmitProps.resetForm();
-      // if (savedConvenor) {
-      //   alert("Added Successfully!");
-      //   // <Alert variant="outlined" severity="success">
-      //   //   <AlertTitle>Added</AlertTitle>
-      //   //   <strong>{savedCommittee.name}</strong> added successfully!
-      //   // </Alert>
-      // }
+      const formData = new FormData();
+      for (let value in values) {
+        formData.append(value, values[value]);
+      }
+      const committee = { id: user.committeeId, name: user.committeeName };
+      const createdBy = { id: user._id, name: user.name };
+      formData.append("committee", [JSON.stringify(committee)]);
+      formData.append("createdBy", [JSON.stringify(createdBy)]);
+
+      const savedEventResponse = await axios({
+        method: "post",
+        url: "http://localhost:5001/event/createEvent",
+        headers: { "Content-Type": "application/JSON" },
+        data: formData,
+      });
+      const savedEvent = await savedEventResponse.data;
+      onSubmitProps.resetForm();
+      if (savedEvent) {
+        alert("Added Successfully!");
+        // <Alert variant="outlined" severity="success">
+        //   <AlertTitle>Added</AlertTitle>
+        //   <strong>{savedCommittee.name}</strong> added successfully!
+        // </Alert>
+      }
     } catch (error) {
-      alert("error");
+      console.log(error.response);
       // <Alert variant="outlined" severity="error">
       //   <AlertTitle>Error</AlertTitle>
       //   Failed to connect to server
@@ -243,7 +230,7 @@ const CreateEvent = () => {
                                   Boolean(errors.startDate),
                                 helperText: touched.startDate
                                   ? errors.startDate
-                                  : "Enter when event will start",
+                                  : "",
                               },
                             }}
                           />
@@ -413,7 +400,7 @@ const CreateEvent = () => {
                         )}
                       </Dropzone>
                       {errors.banner && touched.banner && (
-                        <div className="error">{errors.banner}</div>
+                        <div style={{ color: "#d32f2f" }}>{errors.banner}</div>
                       )}
                     </Box>
                     <Box
@@ -482,7 +469,13 @@ const CreateEvent = () => {
                         )}
                       </Dropzone>
                       {errors.order && touched.order && (
-                        <div className="error">{errors.order}</div>
+                        <div
+                          style={{
+                            color: "#d32f2f",
+                          }}
+                        >
+                          {errors.order}
+                        </div>
                       )}
                     </Box>
                   </CardContent>
