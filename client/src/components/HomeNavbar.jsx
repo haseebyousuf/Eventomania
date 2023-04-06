@@ -7,7 +7,7 @@ import {
   ChevronRight,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMode } from "state";
 import {
   AppBar,
@@ -46,6 +46,8 @@ const navItems = [
 const Navbar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const mode = useSelector((state) => state.mode);
+
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -61,13 +63,22 @@ const Navbar = () => {
     <AppBar
       sx={{
         position: "static",
-        background: "none",
-        boxShadow: "box-shadow: 0 2px 2px rgb(0 0 0 / 0.1)",
-        borderBottom: "2px",
-        BorderBottomColor: "red",
+        backgroundColor:
+          mode === "dark" ? "transparent" : theme.palette.background.alt,
+        boxShadow: "0 2px 0px rgba(0 0 0 / 0.1)",
+        // borderBottom: "2px",
+        // BorderBottomColor: "red",
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          margin: isNonMobile ? "auto 5rem auto 5rem" : "auto 2rem auto 2rem",
+          // padding: "auto 0rem auto 0rem",
+          paddingLeft: "0rem !important",
+          paddingRight: "0rem !important",
+        }}
+      >
         {/* LEFT SIDE  */}
         <FlexBetween>
           <Box
