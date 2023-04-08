@@ -1,69 +1,96 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Switch, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-
+import moment from "moment";
+import EventActions from "./EventActions";
 const PublishEvent = () => {
   const theme = useTheme();
-  const [data, setData] = useState({ committees: null, isLoading: true });
+  const [data, setData] = useState({ events: null, isLoading: true });
+
+  const getEvents = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/events/getUnpublishedEvents`
+      );
+      setData({ ...data, events: response.data, isLoading: false });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    const getCommittees = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/events/getUnpublishedEvents`
-        );
-        setData({ ...data, committees: response.data, isLoading: false });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCommittees();
+    console.log("useEffect");
+    getEvents();
   }, []);
   const columns = [
     {
       field: "_id",
       headerName: "ID",
-      minWidth: 200,
+      minWidth: 100,
       // flex: 1,
     },
     {
       field: "name",
       headerName: "Name",
-      minWidth: 100,
+      minWidth: 150,
       // flex: 1,
     },
     {
-      field: "description",
-      headerName: "Description",
+      field: "committee",
+      headerName: "Organized By",
+      minWidth: 150,
+      renderCell: (params) => {
+        return params.row.committee[0].name;
+      },
       // flex: 1,
-      minWidth: 270,
     },
     {
-      field: "convenorName",
-      headerName: "Convenor",
+      field: "createdBy",
+      headerName: "Created By",
+      minWidth: 150,
+      renderCell: (params) => {
+        return params.row.createdBy[0].name;
+      },
+      // flex: 1,
+    },
+    {
+      field: "venue",
+      headerName: "Venue",
+      // flex: 1,
+      minWidth: 180,
+    },
+    {
+      field: "startDate",
+      headerName: "Starts On",
       minWidth: 200,
-      // flex: 1,
-    },
-    {
-      field: "members",
-      headerName: "Members",
-      minWidth: 100,
-
-      // flex: 0.5,
       renderCell: (params) => {
-        return params.value.length;
+        return moment(params.row.startDate).format("MMMM Do YYYY, h:mm A");
       },
     },
     {
-      field: "events",
-      headerName: "No. of Events",
-      minWidth: 100,
-
-      // flex: 0.5,
+      field: "endDate",
+      headerName: "Ends On",
+      minWidth: 200,
       renderCell: (params) => {
-        return params.value.length;
+        return moment(params.row.endDate).format("MMMM Do YYYY, h:mm A");
       },
     },
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      width: 250,
+      renderCell: (params) => (
+        <EventActions setData={setData} data={data} {...{ params }} />
+      ),
+    },
+    // {
+    //   field: "publish",
+    //   headerName: "Publish",
+    //   type: "actions",
+    //   width: 100,
+    //   renderCell: (params) => <Switch color="success" {...{ params }} />,
+    // },
   ];
 
   return (
@@ -124,7 +151,7 @@ const PublishEvent = () => {
         <DataGrid
           loading={data.isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.committees || []}
+          rows={data.events || []}
           columns={columns}
         />
       </Box>
