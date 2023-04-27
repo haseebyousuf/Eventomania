@@ -1,10 +1,293 @@
-import React from "react";
+import {
+  Box,
+  MenuItem,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import axios from "axios";
+import { Rings } from "react-loader-spinner";
+import EventCard from "components/EventCard";
+import React, { useEffect, useState } from "react";
 import HomeNavbar from "../../components/HomeNavbar";
+import moment from "moment";
+import { motion } from "framer-motion";
 const Home = () => {
+  const theme = useTheme();
+
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+  const [events, setEvents] = useState(null);
+  const [upcommingEvents, setUpcommingEvents] = useState(null);
+  const [pastEvents, setPastEvents] = useState(null);
+  const [filteredPastEvents, setFilteredPastEvents] = useState(null);
+  const [filteredUpcommingEvents, setFilteredUpcommingEvents] = useState(null);
+
+  const [committees, setCommittees] = useState(null);
+  const [animateCard, setAnimateCard] = useState({ y: 0, opacity: 1 });
+  const [activeUpcommingFilter, setActiveUpcommingFilter] = useState("all");
+  const [activePastFilter, setActivePastFilter] = useState("all");
+
+  useEffect(() => {
+    const getCommittees = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/committee/get-committees`
+        );
+        setCommittees({
+          ...committees,
+          committees: response.data.map((committee) => committee.name),
+          isLoading: false,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const getEvents = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/events/getPublishedEvents`
+        );
+        setEvents(response.data);
+        setUpcommingEvents(
+          response.data.filter(
+            (item) =>
+              moment(item.startDate).isAfter(moment()) ||
+              moment(item.startDate).isSame(moment(), "day", "month", "year")
+          )
+        );
+        setPastEvents(
+          response.data.filter((item) =>
+            moment(item.startDate).isBefore(moment())
+          )
+        );
+        setFilteredUpcommingEvents(
+          response.data.filter(
+            (item) =>
+              moment(item.startDate).isAfter(moment()) ||
+              moment(item.startDate).isSame(moment(), "day", "month", "year")
+          )
+        );
+        setFilteredPastEvents(
+          response.data.filter((item) =>
+            moment(item.startDate).isBefore(moment())
+          )
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getEvents();
+    getCommittees();
+  }, []);
+
+  const handleUpcommingEventFilter = ({ target }) => {
+    setActiveUpcommingFilter(target.value);
+    setAnimateCard([{ y: 100, opacity: 0 }]);
+
+    setTimeout(() => {
+      setAnimateCard([{ y: 0, opacity: 1 }]);
+      if (target.value === "all") {
+        setFilteredUpcommingEvents(upcommingEvents);
+      } else {
+        setFilteredUpcommingEvents(
+          upcommingEvents.filter(
+            (event) => event.committee[0].name === target.value
+          )
+        );
+      }
+    }, 500);
+  };
+  const handlePastEventFilter = ({ target }) => {
+    setActivePastFilter(target.value);
+    setAnimateCard([{ y: 100, opacity: 0 }]);
+
+    setTimeout(() => {
+      setAnimateCard([{ y: 0, opacity: 1 }]);
+      if (target.value === "all") {
+        setFilteredPastEvents(pastEvents);
+      } else {
+        setFilteredPastEvents(
+          pastEvents.filter((event) => event.committee[0].name === target.value)
+        );
+      }
+    }, 500);
+  };
+
   return (
-    <div>
-      <HomeNavbar />
-    </div>
+    <>
+      {events ? (
+        <Box
+          sx={{
+            height: "100vh",
+          }}
+        >
+          <HomeNavbar />
+          <Box
+            sx={{
+              margin: isNonMobile
+                ? "2rem 5rem 2rem 5rem"
+                : "1rem 2rem 1rem 2rem",
+            }}
+          >
+            <h1>Upcomming Events...</h1>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                paddingBottom: "2rem",
+              }}
+            >
+              <Typography>Filter:</Typography>
+              <TextField
+                margin="dense"
+                color="secondary"
+                name="upcommingFilter"
+                variant="outlined"
+                sx={{ width: isNonMobile ? "17rem" : "18rem" }}
+                notched="true"
+                value={activeUpcommingFilter}
+                id="committee"
+                select
+                label="Committee"
+                onChange={handleUpcommingEventFilter}
+              >
+                <MenuItem value="all" selected>
+                  All
+                </MenuItem>
+                {committees &&
+                  Object.values(committees.committees).map((committee) => (
+                    <MenuItem key={committee} value={committee}>
+                      {committee}
+                    </MenuItem>
+                  ))}
+              </TextField>
+            </Box>
+
+            <Box
+              component={motion.div}
+              animate={animateCard}
+              transition={{
+                duration: 0.5,
+                delayChildren: 0.5,
+                ease: "easeInOut",
+              }}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                gap: "5rem",
+                flexWrap: "wrap",
+                paddingBottom: "2rem",
+              }}
+            >
+              {events && filteredUpcommingEvents.length > 0 ? (
+                filteredUpcommingEvents
+                  .sort((a, b) => moment(a.startDate) - moment(b.startDate))
+                  .map((event) => {
+                    return (
+                      <EventCard isPast={false} key={event._id} event={event} />
+                    );
+                  })
+              ) : (
+                <Box>No Upcomming Events</Box>
+              )}
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              margin: isNonMobile
+                ? "1rem 5rem 1rem 5rem"
+                : "1rem 2rem 1rem 2rem",
+            }}
+          >
+            <h1>Past Events...</h1>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                paddingBottom: "2rem",
+              }}
+            >
+              <Typography>Filter:</Typography>
+              <TextField
+                margin="dense"
+                color="secondary"
+                name="pastFilter"
+                variant="outlined"
+                sx={{ width: isNonMobile ? "17rem" : "18rem" }}
+                notched="true"
+                value={activePastFilter}
+                id="committee"
+                select
+                label="Committee"
+                onChange={handlePastEventFilter}
+              >
+                <MenuItem value="all" selected>
+                  All
+                </MenuItem>
+                {committees &&
+                  Object.values(committees.committees).map((committee) => (
+                    <MenuItem key={committee} value={committee}>
+                      {committee}
+                    </MenuItem>
+                  ))}
+              </TextField>
+            </Box>
+
+            <Box
+              component={motion.div}
+              animate={animateCard}
+              transition={{
+                duration: 0.5,
+                delayChildren: 0.5,
+                ease: "easeInOut",
+              }}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                gap: "5rem",
+                flexWrap: "wrap",
+                paddingBottom: "2rem",
+              }}
+            >
+              {events && filteredPastEvents.length > 0 ? (
+                filteredPastEvents
+                  .sort((a, b) => moment(b.startDate) - moment(a.startDate))
+                  .map((event) => {
+                    return (
+                      <EventCard isPast={true} key={event._id} event={event} />
+                    );
+                  })
+              ) : (
+                <Box>No Past Events</Box>
+              )}
+            </Box>
+          </Box>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Rings
+            height="100"
+            width="100"
+            color={theme.palette.secondary.main}
+            radius="6"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel="rings-loading"
+          />
+        </Box>
+      )}
+    </>
   );
 };
 
