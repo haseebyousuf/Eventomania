@@ -13,15 +13,25 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { generatePath, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
-const EventCard = ({ event }) => {
+const EventCard = ({ event, isPast }) => {
   // const dispatch = useDispatch();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   const mode = useSelector((state) => state.mode);
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Box
+      component={motion.div}
+      initial={{ y: 100, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{
+        duration: 0.3,
+        ease: "easeInOut",
+      }}
       sx={{
         width: isNonMobile ? "20rem" : "100%",
         // paddingBottom: "2rem",
@@ -106,8 +116,19 @@ const EventCard = ({ event }) => {
             }}
             size="large"
             color="secondary"
+            onClick={() => {
+              // navigate(
+              //   generatePath("/eventDetails/:eventId", {
+              //     eventId: event._id,
+              //     event,
+              //   })
+              // );
+              navigate(`/eventDetails/${event._id}`, {
+                state: { event, isPast },
+              });
+            }}
           >
-            Register Now
+            {!isPast ? "Register Now" : "View Details"}
           </Button>
         </CardActions>
       </Card>
