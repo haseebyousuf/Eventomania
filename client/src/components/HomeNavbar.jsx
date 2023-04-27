@@ -62,9 +62,9 @@ const Navbar = () => {
   return (
     <AppBar
       sx={{
-        position: "static",
+        position: "sticky",
         backgroundColor:
-          mode === "dark" ? "transparent" : theme.palette.background.alt,
+          mode === "dark" ? "#2d3355" : theme.palette.background.alt,
         boxShadow: "0 2px 0px rgba(0 0 0 / 0.1)",
         // borderBottom: "2px",
         // BorderBottomColor: "red",
@@ -106,7 +106,15 @@ const Navbar = () => {
               textColor="secondary"
             >
               {navItems.map(({ text, link }) => {
-                return <Tab label={text} key={text} />;
+                return (
+                  <Tab
+                    onClick={() => {
+                      navigate(link);
+                    }}
+                    label={text}
+                    key={text}
+                  />
+                );
               })}
             </Tabs>
             <Button
