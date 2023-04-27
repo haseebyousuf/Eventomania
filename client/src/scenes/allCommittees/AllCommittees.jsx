@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import dayjs from "dayjs";
 
 const AllCommittees = () => {
   const theme = useTheme();
@@ -43,6 +44,14 @@ const AllCommittees = () => {
       headerName: "Convenor",
       minWidth: 200,
       // flex: 1,
+    },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      minWidth: 200,
+      renderCell: (params) => {
+        return dayjs(params.row.createdAt).format("DD-MM-YYYY");
+      },
     },
     {
       field: "members",
