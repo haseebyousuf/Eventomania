@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
-import {Home,Dashboard, Layout, AddCommiittees, Login, AllCommittees,Convenors, AddConvenor, CreateEvent, PublishEvent} from "./scenes"
+import {Home,Dashboard, Layout, AddCommiittees, Login, AllCommittees,Convenors, AddConvenor, CreateEvent, PublishEvent, EventDetails} from "./scenes"
 function App() { 
     const mode = useSelector((state) => state.mode);
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -17,6 +17,7 @@ function App() {
                 <CssBaseline/>
                 <Routes>
                     <Route path="/" element={<Home/>} />
+                    <Route path="/eventDetails/:eventId" element={<EventDetails/>} />
                     <Route  path="/admin" element={!isAuth ? <Login /> : <Navigate to="/dashboard" />}  />
                     <Route element={<Layout />} >
                         {/* admin Routes */}
