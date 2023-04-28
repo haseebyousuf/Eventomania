@@ -60,7 +60,7 @@ const EventDetails = () => {
                     <Grid item xs={12} sm={12} md={5} lg={4}>
                         <Box position="sticky" top="5rem">
                             {!location.state.isPast ? (
-                                <Register />
+                                <Register event={event} />
                             ) : (
                                 <Card
                                     sx={{
