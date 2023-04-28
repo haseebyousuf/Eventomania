@@ -21,3 +21,32 @@ export const createEvent  = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 }
+
+export const getUnpublishedEvents = async(req, res) =>{
+  try {
+    const events = await Event.find({ isPublished: "false" })
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+export const getPublishedEvents = async(req, res) =>{
+  try {
+    const events = await Event.find({ isPublished: "true" })
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+export const publishEvent = async(req, res) =>{
+  try {
+    const {id} = req.body;
+    const filter= {_id: id};
+    const update = {isPublished: "true"};
+    const publishedEvent = await Event.findOneAndUpdate(filter,update, {new:true});
+    res.status(201).json( publishedEvent);
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
