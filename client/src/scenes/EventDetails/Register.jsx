@@ -67,7 +67,7 @@ const Register = ({ event }) => {
                         )}
                         {tabIndex === 1 && (
                             <Box>
-                                <FacultyForm />
+                                <FacultyForm eventDetails={event} />
                             </Box>
                         )}
                     </Box>
