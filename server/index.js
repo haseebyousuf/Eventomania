@@ -14,6 +14,7 @@ import {fileURLToPath} from "url";
 import committeeRoutes from './routes/committee.js';
 import adminRoutes from './routes/admin.js';
 import eventRoutes from './routes/eventRoutes.js';
+
 import { createEvent } from './controllers/eventController.js';
 
 //data imports
@@ -56,7 +57,7 @@ app.post("/event/createEvent", upload.fields([
 // ROUTES
 app.use('/committee', committeeRoutes);
 app.use('/admin', adminRoutes);
-app.use('/event', eventRoutes);
+app.use('/events', eventRoutes);
 // MONGOOSE Setup
 
 const PORT = process.env.PORT || 9000;
