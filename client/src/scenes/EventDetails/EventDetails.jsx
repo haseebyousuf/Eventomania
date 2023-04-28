@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
     Box,
+    Card,
+    CardContent,
     Divider,
     Grid,
+    Typography,
     useMediaQuery,
-    // useTheme,
+    useTheme,
 } from "@mui/material";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import HomeNavbar from "../../components/HomeNavbar";
 import EventHeader from "./EventHeader";
@@ -25,8 +28,8 @@ const EventDetails = () => {
             setEvent(location.state.event);
         }
     }, []);
-    // const mode = useSelector((state) => state.mode);
-    // const theme = useTheme();
+    const mode = useSelector((state) => state.mode);
+    const theme = useTheme();
 
     const isNonMobile = useMediaQuery("(min-width: 600px)");
 
@@ -59,7 +62,37 @@ const EventDetails = () => {
                             {!location.state.isPast ? (
                                 <Register />
                             ) : (
-                                <Box> This Event Has Ended </Box>
+                                <Card
+                                    sx={{
+                                        padding: "0rem 2rem",
+                                        backgroundColor:
+                                            mode === "dark"
+                                                ? "transparent"
+                                                : theme.palette.background.alt,
+                                    }}
+                                >
+                                    <CardContent>
+                                        <Box
+                                            display="flex"
+                                            justifyContent="center"
+                                            alignItems="flex-start"
+                                            flexDirection="column"
+                                        >
+                                            <Typography
+                                                fontSize="1.8rem"
+                                                textDecoration="underline"
+                                                fontWeight="bold"
+                                                p="1rem 0rem 1rem 0rem"
+                                                // color={
+                                                //     theme.palette.secondary.main
+                                                // }
+                                                color="#d12121"
+                                            >
+                                                THIS EVENT HAS ENDED!
+                                            </Typography>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
                             )}
                         </Box>
                     </Grid>
