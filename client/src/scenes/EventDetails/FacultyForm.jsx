@@ -10,11 +10,12 @@ import {
     TextField,
 } from "@mui/material";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 const facultySchema = yup.object().shape({
     name: yup.string().required("Name is required"),
     employeeId: yup.string().required("Employee ID is required"),
-    designation: yup.string().required("Designation Number is required"),
+    designation: yup.string().required("Designation is required"),
     department: yup.string().required("Department is required"),
 });
 const initialValuesFaculty = {
@@ -45,6 +46,7 @@ const FacultyForm = ({ eventDetails }) => {
                 event,
                 type: "faculty",
             };
+            console.log(faculty);
             const savedFacultyResponse = await axios({
                 method: "post",
                 url: `${process.env.REACT_APP_BASE_URL}/user/registerFaculty`,
@@ -76,6 +78,12 @@ const FacultyForm = ({ eventDetails }) => {
     const SlideTransition = (props) => {
         return <Slide {...props} direction="left" />;
     };
+    const inputs = [
+        { label: "Name", name: "name" },
+        { label: "Employee ID", name: "employeeId" },
+        { label: "Designation", name: "designation" },
+        { label: "Department", name: "department" },
+    ];
     return (
         <Formik
             onSubmit={handleFormSubmit}
@@ -105,69 +113,35 @@ const FacultyForm = ({ eventDetails }) => {
                             {message}
                         </Alert>
                     </Snackbar>
-                    <TextField
-                        id="name"
-                        autoComplete="off"
-                        color="secondary"
-                        label="Name"
-                        value={values.name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.name ? errors.name : ""}
-                        error={touched.name && Boolean(errors.name)}
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                    />
-                    <TextField
-                        autoComplete="off"
-                        color="secondary"
-                        id="employeeId"
-                        label="Employee ID"
-                        value={values.employeeId}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.employeeId ? errors.employeeId : ""}
-                        error={touched.employeeId && Boolean(errors.employeeId)}
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                        inputProps={{
-                            style: { textTransform: "uppercase" },
-                        }}
-                    />
-                    <TextField
-                        id="designation"
-                        autoComplete="off"
-                        color="secondary"
-                        label="Designation"
-                        value={values.designation}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={
-                            touched.designation ? errors.designation : ""
-                        }
-                        error={
-                            touched.designation && Boolean(errors.designation)
-                        }
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                    />
-                    <TextField
-                        id="department"
-                        autoComplete="off"
-                        color="secondary"
-                        label="Department"
-                        value={values.department}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.department ? errors.department : ""}
-                        error={touched.department && Boolean(errors.department)}
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                    />
+
+                    {inputs.map((input, index) => (
+                        <TextField
+                            component={motion.div}
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.12 * index }}
+                            exit={{ y: 20, opacity: 0 }}
+                            key={input.name}
+                            id={input.name}
+                            autoComplete="off"
+                            color="secondary"
+                            label={input.label}
+                            value={values[input.name]}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            helperText={
+                                touched[input.name] ? errors[input.name] : ""
+                            }
+                            error={
+                                touched[input.name] &&
+                                Boolean(errors[input.name])
+                            }
+                            margin="dense"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    ))}
+
                     <CardActions
                         display="flex"
                         sx={{
