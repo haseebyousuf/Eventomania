@@ -6,7 +6,15 @@ const UserSchema = new mongoose.Schema(
             type: String,
             max: 50,
         },
-        regNo: {
+        employeeId: {
+          type: String,
+          min: 5,
+      },
+      designation: {
+        type: String,
+        min: 5,
+    },  
+      regNo: {
             type: String,
             min: 5,
         },
