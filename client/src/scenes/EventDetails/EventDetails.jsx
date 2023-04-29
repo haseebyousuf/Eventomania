@@ -17,6 +17,7 @@ import EventHeader from "./EventHeader";
 import EventDescription from "./EventDescription";
 import RecomendedAudiance from "./RecomendedAudiance";
 import Register from "./Register";
+import { motion } from "framer-motion";
 const EventDetails = () => {
     const navigate = useNavigate();
     const [event, setEvent] = useState(null);
@@ -63,6 +64,13 @@ const EventDetails = () => {
                                 <Register event={event} />
                             ) : (
                                 <Card
+                                    component={motion.div}
+                                    initial={{ x: 100, opacity: 0 }}
+                                    whileInView={{ x: 0, opacity: 1 }}
+                                    transition={{
+                                        duration: 0.3,
+                                        ease: "easeInOut",
+                                    }}
                                     sx={{
                                         padding: "0rem 2rem",
                                         backgroundColor:
