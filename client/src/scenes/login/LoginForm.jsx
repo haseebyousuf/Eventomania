@@ -44,15 +44,14 @@ const LoginForm = () => {
       const verifiedAdmin = await admin.data;
       onSubmitProps.resetForm();
       if (verifiedAdmin) {
-        console.log(verifiedAdmin);
-        setButtonDisabled(false);
-        dispatch(
-          setLogin({
-            user: verifiedAdmin.user,
-            token: verifiedAdmin.token,
-          })
-        );
-        navigate("/dashboard");
+          setButtonDisabled(false);
+          dispatch(
+              setLogin({
+                  user: verifiedAdmin.user,
+                  token: verifiedAdmin.token,
+              })
+          );
+          navigate("/dashboard");
       }
     } catch (error) {
       alert(error.response.data.msg);
