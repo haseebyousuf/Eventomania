@@ -14,11 +14,12 @@ import {fileURLToPath} from "url";
 import committeeRoutes from './routes/committee.js';
 import adminRoutes from './routes/admin.js';
 import eventRoutes from './routes/eventRoutes.js';
+import userRoutes from "./routes/userRoutes.js";
 
-import { createEvent } from './controllers/eventController.js';
+import { createEvent } from "./controllers/eventController.js";
 
 //data imports
-import Admin from './models/Admin.js';
+import Admin from "./models/Admin.js";
 
 // CONFIGURATION
 const __filename = fileURLToPath(import.meta.url);
@@ -28,36 +29,48 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
-app.use(morgan('common'));
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 //set directory of where we store files
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
-
 // FILE STORAGE CONFIGURATIONS
 const storage = multer.diskStorage({
-  destination: function (req, file, cb){
-    cb(null, "public/assets");
-  },
-  filename: function (req, file,cb){
-    cb(null, file.fieldname + '-' +uuidv4() + '-' + Date.now()+ path.extname(file.originalname));
-  }
+    destination: function (req, file, cb) {
+        cb(null, "public/assets");
+    },
+    filename: function (req, file, cb) {
+        cb(
+            null,
+            file.fieldname +
+                "-" +
+                uuidv4() +
+                "-" +
+                Date.now() +
+                path.extname(file.originalname)
+        );
+    },
 });
 
-const upload = multer({storage})
+const upload = multer({ storage });
 
 // ROUTES WITH FILE UPLOADS
-app.post("/event/createEvent", upload.fields([
-  {name:'banner', maxCount:1},
-  {name: 'order', maxCount:1},
-]), createEvent);
+app.post(
+    "/event/createEvent",
+    upload.fields([
+        { name: "banner", maxCount: 1 },
+        { name: "order", maxCount: 1 },
+    ]),
+    createEvent
+);
 // ROUTES
-app.use('/committee', committeeRoutes);
-app.use('/admin', adminRoutes);
-app.use('/events', eventRoutes);
+app.use("/committee", committeeRoutes);
+app.use("/admin", adminRoutes);
+app.use("/events", eventRoutes);
+app.use("/user", userRoutes);
 // MONGOOSE Setup
 
 const PORT = process.env.PORT || 9000;
