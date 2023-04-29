@@ -10,6 +10,7 @@ import {
     TextField,
 } from "@mui/material";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 const studentSchema = yup.object().shape({
     name: yup.string().required("Name is required"),
@@ -18,6 +19,13 @@ const studentSchema = yup.object().shape({
     course: yup.string().required("Course is required"),
     department: yup.string().required("Department is required"),
 });
+const inputs = [
+    { label: "Name", name: "name" },
+    { label: "Registration Number", name: "regNo" },
+    { label: "Semester", name: "semester" },
+    { label: "Course", name: "course" },
+    { label: "Department", name: "department" },
+];
 const initialValuesStudent = {
     name: "",
     regNo: "",
@@ -108,80 +116,33 @@ const StudentForm = ({ eventDetails }) => {
                         </Alert>
                     </Snackbar>
 
-                    <TextField
-                        id="name"
-                        autoComplete="off"
-                        color="secondary"
-                        label="Name"
-                        value={values.name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.name ? errors.name : ""}
-                        error={touched.name && Boolean(errors.name)}
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                    />
-
-                    <TextField
-                        autoComplete="off"
-                        color="secondary"
-                        id="regNo"
-                        label="Registration Number"
-                        value={values.regNo}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.regNo ? errors.regNo : ""}
-                        error={touched.regNo && Boolean(errors.regNo)}
-                        inputProps={{
-                            style: { textTransform: "uppercase" },
-                        }}
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                    />
-                    <TextField
-                        id="semester"
-                        autoComplete="off"
-                        color="secondary"
-                        label="Semester"
-                        value={values.semester}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.semester ? errors.semester : ""}
-                        error={touched.semester && Boolean(errors.semester)}
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                    />
-                    <TextField
-                        autoComplete="off"
-                        color="secondary"
-                        id="course"
-                        label="Course"
-                        value={values.course}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.course ? errors.course : ""}
-                        error={touched.course && Boolean(errors.course)}
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                    />
-                    <TextField
-                        id="department"
-                        autoComplete="off"
-                        color="secondary"
-                        label="Department"
-                        value={values.department}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        helperText={touched.department ? errors.department : ""}
-                        error={touched.department && Boolean(errors.department)}
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                    />
+                    {inputs.map((input, index) => (
+                        <TextField
+                            component={motion.div}
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.12 * index }}
+                            exit={{ y: 20, opacity: 0 }}
+                            key={input.name}
+                            id={input.name}
+                            autoComplete="off"
+                            color="secondary"
+                            label={input.label}
+                            value={values[input.name]}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            helperText={
+                                touched[input.name] ? errors[input.name] : ""
+                            }
+                            error={
+                                touched[input.name] &&
+                                Boolean(errors[input.name])
+                            }
+                            margin="dense"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    ))}
                     <CardActions
                         display="flex"
                         sx={{

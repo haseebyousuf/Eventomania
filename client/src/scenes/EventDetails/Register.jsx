@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import StudentForm from "./StudentForm";
 import FacultyForm from "./FacultyForm";
+import { motion } from "framer-motion";
 
 const Register = ({ event }) => {
     const [tabIndex, setTabIndex] = useState(0);
@@ -55,9 +56,33 @@ const Register = ({ event }) => {
                         indicatorColor="secondary"
                         textColor="secondary"
                     >
-                        <Tab label="Student" key="student" />
-                        <Tab label="Faculty" key="faculty" />
-                        <Tab label="Other" key="other" />
+                        <Tab
+                            component={motion.div}
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.1 }}
+                            exit={{ y: 20, opacity: 0 }}
+                            label="Student"
+                            key="student"
+                        />
+                        <Tab
+                            component={motion.div}
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                            exit={{ y: 20, opacity: 0 }}
+                            label="Faculty"
+                            key="faculty"
+                        />
+                        <Tab
+                            component={motion.div}
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            exit={{ y: 20, opacity: 0 }}
+                            label="Other"
+                            key="other"
+                        />
                     </Tabs>
                     <Box pt="0.5rem">
                         {tabIndex === 0 && (

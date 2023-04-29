@@ -46,7 +46,6 @@ const FacultyForm = ({ eventDetails }) => {
                 event,
                 type: "faculty",
             };
-            console.log(faculty);
             const savedFacultyResponse = await axios({
                 method: "post",
                 url: `${process.env.REACT_APP_BASE_URL}/user/registerFaculty`,
