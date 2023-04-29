@@ -13,7 +13,7 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 import moment from "moment";
-import { generatePath, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const EventCard = ({ event, isPast }) => {
