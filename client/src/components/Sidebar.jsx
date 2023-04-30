@@ -41,7 +41,7 @@ const adminNavItems = [
         icon: null,
     },
     {
-        text: "Publish Event",
+        text: "Approve Events",
         icon: <EventOutlined />,
     },
     {
@@ -99,7 +99,7 @@ const convenorNavItems = [
         icon: null,
     },
     {
-        text: "Committee Discreption",
+        text: "Committee Description",
         icon: <VisibilityOutlined />,
     },
     {
@@ -191,8 +191,9 @@ const Sidebar = ({
                                                 sx={{
                                                     m: "2.25rem 0 1rem 3rem",
                                                 }}
+                                                fontWeight="bold"
                                             >
-                                                {text}
+                                                {text.toUpperCase()}
                                             </Typography>
                                         );
                                     }
