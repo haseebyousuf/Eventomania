@@ -4,7 +4,7 @@ import { Box, Switch, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import EventActions from "./EventActions";
-const PublishEvent = () => {
+const ApproveEvents = () => {
     const theme = useTheme();
     const [data, setData] = useState({ events: null, isLoading: true });
 
@@ -175,4 +175,4 @@ const PublishEvent = () => {
     );
 };
 
-export default PublishEvent;
+export default ApproveEvents;

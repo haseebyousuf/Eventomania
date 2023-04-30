@@ -8,6 +8,6 @@ export {default as ViewCommittee} from "./viewCommittee/ViewCommittee";
 export {default as Convenors} from "./convenors/Convenors";
 export {default as AddConvenor} from "./addConvenor/AddConvenor";
 export {default as CreateEvent} from "./createEvent/CreateEvent";
-export {default as PublishEvent} from "./PublishEvent/PublishEvent";
+export {default as ApproveEvents} from "./ApproveEvents/ApproveEvents";
 export {default as EventDetails} from "./EventDetails/EventDetails";
 export {default as PastEvents} from "./PastEvents/PastEvents";
