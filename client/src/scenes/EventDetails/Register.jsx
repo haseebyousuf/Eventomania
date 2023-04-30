@@ -60,7 +60,7 @@ const Register = ({ event }) => {
                             component={motion.div}
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.1 }}
+                            transition={{ delay: 0 }}
                             exit={{ y: 20, opacity: 0 }}
                             label="Student"
                             key="student"
@@ -69,7 +69,7 @@ const Register = ({ event }) => {
                             component={motion.div}
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.2 }}
+                            transition={{ delay: 0.13 }}
                             exit={{ y: 20, opacity: 0 }}
                             label="Faculty"
                             key="faculty"
@@ -78,7 +78,7 @@ const Register = ({ event }) => {
                             component={motion.div}
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.3 }}
+                            transition={{ delay: 0.26 }}
                             exit={{ y: 20, opacity: 0 }}
                             label="Other"
                             key="other"
