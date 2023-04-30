@@ -118,7 +118,7 @@ const FacultyForm = ({ eventDetails }) => {
                             component={motion.div}
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.12 * index }}
+                            transition={{ delay: 0.13 * index }}
                             exit={{ y: 20, opacity: 0 }}
                             key={input.name}
                             id={input.name}
