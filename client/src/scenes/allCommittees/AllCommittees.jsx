@@ -8,17 +8,18 @@ const AllCommittees = () => {
   const theme = useTheme();
   const [data, setData] = useState({ committees: null, isLoading: true });
   useEffect(() => {
-    const getCommittees = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/committee/get-committees`
-        );
-        setData({ ...data, committees: response.data, isLoading: false });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCommittees();
+      const getCommittees = async () => {
+          try {
+              const response = await axios.get(
+                  `${process.env.REACT_APP_BASE_URL}/committee/get-committees`
+              );
+              setData({ ...data, committees: response.data, isLoading: false });
+          } catch (error) {
+              console.error(error);
+          }
+      };
+      getCommittees();
+      // eslint-disable-next-line
   }, []);
   const columns = [
       {
