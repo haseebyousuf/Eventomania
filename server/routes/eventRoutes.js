@@ -1,11 +1,13 @@
 import express from 'express';
-import {getUnpublishedEvents, publishEvent, getPublishedEvents} from "../controllers/eventController.js"
+import {getUnApprovedEvents, togglePublish,approveEvent, getPublishedEvents, getApprovedEvents} from "../controllers/eventController.js"
 
 const router = express.Router();
 
-router.get("/getUnpublishedEvents", getUnpublishedEvents)
-router.post("/publishEvent", publishEvent)
+router.get("/getUnApprovedEvents", getUnApprovedEvents)
+router.get("/getApprovedEvents", getApprovedEvents)
+router.post("/approveEvent", approveEvent)
 router.get("/getPublishedEvents", getPublishedEvents)
+router.post("/togglePublish", togglePublish)
 
 
 export default router;
