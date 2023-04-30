@@ -117,7 +117,7 @@ const AddConvenor = () => {
                     flexDirection="column"
                     display="flex"
                     justifyContent="center"
-                    alignItems="center"
+                    alignItems="flex-start"
                 >
                     <Typography
                         fontSize="1.5rem"
