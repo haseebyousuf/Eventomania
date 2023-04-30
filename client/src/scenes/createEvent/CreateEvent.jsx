@@ -25,7 +25,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import axios from "axios";
 // import { useNavigate } from "react-router-dom";
 
-const eventScheema = yup.object().shape({
+const eventSchema = yup.object().shape({
     name: yup.string().required("*Name Required!"),
     startDate: yup
         .date()
@@ -39,10 +39,10 @@ const eventScheema = yup.object().shape({
     description: yup.string().required("*Description is Required"),
     banner: yup.string().required("*banner required"),
     order: yup.string().required("*order file required"),
-    recomendedAudiance: yup.string(),
+    recommendedAudience: yup.string(),
 });
 
-const initailValuesEvent = {
+const initialValuesEvent = {
     name: "",
     startDate: null,
     endDate: null,
@@ -50,7 +50,7 @@ const initailValuesEvent = {
     description: "",
     banner: "",
     order: "",
-    recomendedAudiance: "",
+    recommendedAudience: "",
 };
 
 const CreateEvent = () => {
@@ -128,8 +128,8 @@ const CreateEvent = () => {
                 </Box>
                 <Formik
                     onSubmit={handleFormSubmit}
-                    initialValues={initailValuesEvent}
-                    validationSchema={eventScheema}
+                    initialValues={initialValuesEvent}
+                    validationSchema={eventSchema}
                 >
                     {({
                         values,
@@ -366,26 +366,26 @@ const CreateEvent = () => {
                                                         ? "100%"
                                                         : "18rem",
                                                 }}
-                                                id="recomendedAudiance"
-                                                name="recomendedAudiance"
+                                                id="recommendedAudience"
+                                                name="recommendedAudience"
                                                 autoComplete="off"
                                                 color="secondary"
-                                                label="Recomended Audiance"
+                                                label="Recommended Audience"
                                                 value={
-                                                    values.recomendedAudiance
+                                                    values.recommendedAudience
                                                 }
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 margin="normal"
                                                 helperText={
-                                                    touched.recomendedAudiance
-                                                        ? errors.recomendedAudiance
-                                                        : "Seperate Each by Comma (,)"
+                                                    touched.recommendedAudience
+                                                        ? errors.recommendedAudience
+                                                        : "Separate Each by Comma (,)"
                                                 }
                                                 error={
-                                                    touched.recomendedAudiance &&
+                                                    touched.recommendedAudience &&
                                                     Boolean(
-                                                        errors.recomendedAudiance
+                                                        errors.recommendedAudience
                                                     )
                                                 }
                                                 fullWidth
