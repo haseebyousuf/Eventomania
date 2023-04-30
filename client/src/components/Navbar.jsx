@@ -31,7 +31,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   const handleLogout = () => {
     dispatch(setLogout());
-    navigate("/admin");
+    navigate("/Login");
   };
 
   return (
