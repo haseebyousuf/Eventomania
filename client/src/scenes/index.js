@@ -1,4 +1,4 @@
-export {default as AddCommiittees} from "./addCommittees/AddCommiittees";
+export {default as AddCommittees} from "./addCommittees/AddCommittees";
 export {default as AllCommittees} from "./allCommittees/AllCommittees";
 export {default as Dashboard} from "./dashboard/Dashboard";
 export {default as Home} from "./home/Home";

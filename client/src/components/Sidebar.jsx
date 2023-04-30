@@ -135,7 +135,7 @@ const Sidebar = ({
 
     const handleLogout = () => {
         dispatch(setLogout());
-        navigate("/admin");
+        navigate("/Login");
     };
     return (
         <Box component="nav">
@@ -196,9 +196,7 @@ const Sidebar = ({
                                             </Typography>
                                         );
                                     }
-                                    const lcText = text
-                                        .replaceAll(" ", "-")
-                                        .toLocaleLowerCase();
+                                    const lcText = text.replaceAll(" ", "");
                                     return (
                                         <ListItem key={text} disablePadding>
                                             <ListItemButton
@@ -263,9 +261,7 @@ const Sidebar = ({
                                             </Typography>
                                         );
                                     }
-                                    const lcText = text
-                                        .replaceAll(" ", "-")
-                                        .toLocaleLowerCase();
+                                    const lcText = text.replaceAll(" ", "-");
                                     return (
                                         <ListItem key={text} disablePadding>
                                             <ListItemButton
