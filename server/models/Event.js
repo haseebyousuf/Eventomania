@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const EventScheema = new mongoose.Schema({
+const EventSchema = new mongoose.Schema({
   name:{
     type:String,
     required: true,
@@ -22,7 +22,7 @@ const EventScheema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  recomendedAudiance:{
+  recommendedAudience:{
     type: String,
     required: true,
   },
@@ -30,6 +30,8 @@ const EventScheema = new mongoose.Schema({
   bannerName: String,
   orderPath: String,
   orderName: String,
+  reportPath: String,
+  reportName: String,
   committee:[{
       id:{
         type:String,
@@ -49,9 +51,15 @@ const EventScheema = new mongoose.Schema({
   isPublished:{
     type: Boolean,
     default: "false",
+  },isApproved:{
+    type: Boolean,
+    default: "false",
+  },status:{
+    type: Boolean,
+    default: "false",
   }
 }, { timestamps: true });
 
-const Event = mongoose.model("Event", EventScheema);
+const Event = mongoose.model("Event", EventSchema);
 
 export default Event;
