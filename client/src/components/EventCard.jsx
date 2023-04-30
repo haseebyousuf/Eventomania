@@ -117,14 +117,8 @@ const EventCard = ({ event, isPast }) => {
             size="large"
             color="secondary"
             onClick={() => {
-              // navigate(
-              //   generatePath("/eventDetails/:eventId", {
-              //     eventId: event._id,
-              //     event,
-              //   })
-              // );
-              navigate(`/eventDetails/${event._id}`, {
-                state: { event, isPast },
+              navigate(`/EventDetails/${event._id}`, {
+                  state: { event, isPast },
               });
             }}
           >
