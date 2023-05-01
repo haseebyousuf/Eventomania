@@ -14,16 +14,16 @@ import {
     InputAdornment,
     IconButton,
     MenuItem,
+    Snackbar,
+    Alert,
+    Slide,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-// import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { FlexBetween } from "../../components/FlexBetween";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 
-const addConvenorScheema = yup.object().shape({
+const addConvenorSchema = yup.object().shape({
     name: yup.string().required("*Name Required"),
     password: yup
         .string()
@@ -47,7 +47,20 @@ const initialValuesConvenor = {
 };
 
 const AddConvenor = () => {
+    const theme = useTheme();
+    const mode = useSelector((state) => state.mode);
+    const isNonMobile = useMediaQuery("(min-width: 600px)");
+
+    // States
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState(null);
+
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
     const [data, setData] = useState({ committees: null, isLoading: true });
+
+    //useEffect to get committees
     useEffect(() => {
         axios
             .get(`${process.env.REACT_APP_BASE_URL}/committee/get-committees`)
@@ -61,14 +74,10 @@ const AddConvenor = () => {
             .catch((error) => {
                 console.log(error);
             });
+        // eslint-disable-next-line
     }, []);
-    const theme = useTheme();
-    const mode = useSelector((state) => state.mode);
 
-    // if (data) {
-    //   const committees = data.map((committee) => committee.convenor === "");
-    //   console.log(committees);
-    // }
+    //submit handler
     const handleFormSubmit = async (values, onSubmitProps) => {
         try {
             const { committee } = values;
@@ -82,36 +91,36 @@ const AddConvenor = () => {
             };
             const savedConvenorResponse = await axios({
                 method: "post",
-                url: "http://localhost:5001/admin/addConvenor",
+                url: `${process.env.REACT_APP_BASE_URL}/admin/addConvenor`,
                 headers: { "Content-Type": "application/json" },
                 data: JSON.stringify(convenor),
             });
             const savedConvenor = await savedConvenorResponse.data;
             onSubmitProps.resetForm();
             if (savedConvenor) {
-                alert("Added Successfully!");
-                // <Alert variant="outlined" severity="success">
-                //   <AlertTitle>Added</AlertTitle>
-                //   <strong>{savedCommittee.name}</strong> added successfully!
-                // </Alert>
+                setMessage("Convenor Added!");
+                setOpen(true);
+                setTimeout(() => {
+                    setOpen(false);
+                }, 3000);
             }
         } catch (error) {
-            alert("error");
-            // <Alert variant="outlined" severity="error">
-            //   <AlertTitle>Error</AlertTitle>
-            //   Failed to connect to server
-            // </Alert>;
+            alert("There is some error! Please Try Again.");
+            console.log(error);
         }
     };
-    const isNonMobile = useMediaQuery("(min-width: 600px)");
 
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
+    //transition for snackbar
+    const SlideTransition = (props) => {
+        return <Slide {...props} direction="down" />;
+    };
     return (
         <Box>
-            <Box width={isNonMobile ? "80%" : "90%"} m="2rem auto">
+            <Box
+                width={isNonMobile ? "80%" : "90%"}
+                m="2rem auto"
+                position="relative"
+            >
                 <Box
                     marginBottom="1rem"
                     flexDirection="column"
@@ -123,7 +132,6 @@ const AddConvenor = () => {
                         fontSize="1.5rem"
                         textDecoration="underline"
                         fontWeight="bold"
-                        // p="0.5rem 0 0 0"
                         color={theme.palette.secondary.main}
                     >
                         ADD CONVENOR
@@ -137,10 +145,24 @@ const AddConvenor = () => {
                         Convenor Details
                     </Typography>
                 </Box>
+                <Snackbar
+                    sx={{ position: "absolute" }}
+                    open={open}
+                    autoHideDuration={6000}
+                    TransitionComponent={SlideTransition}
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "center",
+                    }}
+                >
+                    <Alert variant="filled" severity="success">
+                        {message}
+                    </Alert>
+                </Snackbar>
                 <Formik
                     onSubmit={handleFormSubmit}
                     initialValues={initialValuesConvenor}
-                    validationSchema={addConvenorScheema}
+                    validationSchema={addConvenorSchema}
                 >
                     {({
                         values,
@@ -149,13 +171,10 @@ const AddConvenor = () => {
                         handleBlur,
                         handleChange,
                         handleSubmit,
-                        setFieldValue,
-                        resetForm,
                     }) => (
                         <form autoComplete="off" onSubmit={handleSubmit}>
                             <Box>
                                 <Card
-                                    raised
                                     sx={{
                                         backgroundColor:
                                             mode === "dark"
