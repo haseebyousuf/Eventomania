@@ -1,14 +1,14 @@
 import React from "react";
 import axios from "axios";
 import {
-  Box,
-  Card,
-  CardContent,
-  TextField,
-  Button,
-  Typography,
-  useTheme,
-  CardActions,
+    Box,
+    Card,
+    CardContent,
+    TextField,
+    Button,
+    Typography,
+    useTheme,
+    CardActions,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -16,168 +16,177 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "state";
 const loginSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("required"),
-  password: yup.string().required("No password provided."),
+    email: yup.string().email("invalid email").required("required"),
+    password: yup.string().required("No password provided."),
 });
 const initialValuesLogin = {
-  email: "",
-  password: "",
+    email: "",
+    password: "",
 };
 const LoginForm = () => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-  const mode = useSelector((state) => state.mode);
+    const navigate = useNavigate();
+    const mode = useSelector((state) => state.mode);
 
-  const theme = useTheme();
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+    const theme = useTheme();
+    const [buttonDisabled, setButtonDisabled] = React.useState(false);
 
-  const handleFormSubmit = async (values, onSubmitProps) => {
-    setButtonDisabled(true);
-    try {
-      const admin = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/admin/verify`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(values),
-      });
-      const verifiedAdmin = await admin.data;
-      onSubmitProps.resetForm();
-      if (verifiedAdmin) {
-          setButtonDisabled(false);
-          dispatch(
-              setLogin({
-                  user: verifiedAdmin.user,
-                  token: verifiedAdmin.token,
-              })
-          );
-          navigate("/dashboard");
-      }
-    } catch (error) {
-      alert(error.response.data.msg);
-      setButtonDisabled(false);
-    }
-  };
-  return (
-    <Formik
-      onSubmit={handleFormSubmit}
-      initialValues={initialValuesLogin}
-      validationSchema={loginSchema}
-    >
-      {({
-        values,
-        errors,
-        touched,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        setFieldValue,
-        resetForm,
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <Box>
-            <Card
-              sx={{
-                padding: "0rem 2rem",
-                backgroundColor:
-                  mode === "dark"
-                    ? "transparent"
-                    : theme.palette.background.alt,
-              }}
-            >
-              <CardContent>
-                <Box
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="flex-start"
-                  flexDirection="column"
-                  p="0.5rem"
-                >
-                  <Typography
-                    fontSize="1.8rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    p="1rem 0rem 1rem 0rem"
-                    color={theme.palette.secondary.main}
-                  >
-                    EVENTOMANIA
-                  </Typography>
-                  <Typography
-                    fontSize="1.5rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary}
-                  >
-                    Hello Admin 👋
-                  </Typography>
-                  <Typography
-                    fontSize="1rem"
-                    textDecoration="underline"
-                    color={theme.palette.secondary}
-                    paddingBottom="0.6rem"
-                  >
-                    Sign In to access your account
-                  </Typography>
+    const handleFormSubmit = async (values, onSubmitProps) => {
+        setButtonDisabled(true);
+        try {
+            const admin = await axios({
+                method: "post",
+                url: `${process.env.REACT_APP_BASE_URL}/admin/verify`,
+                headers: { "Content-Type": "application/json" },
+                data: JSON.stringify(values),
+            });
+            const verifiedAdmin = await admin.data;
+            onSubmitProps.resetForm();
+            if (verifiedAdmin) {
+                setButtonDisabled(false);
+                dispatch(
+                    setLogin({
+                        user: verifiedAdmin.user,
+                        token: verifiedAdmin.token,
+                    })
+                );
+                navigate("/Dashboard");
+            }
+        } catch (error) {
+            alert(error.response.data.msg);
+            setButtonDisabled(false);
+        }
+    };
+    return (
+        <Formik
+            onSubmit={handleFormSubmit}
+            initialValues={initialValuesLogin}
+            validationSchema={loginSchema}
+        >
+            {({
+                values,
+                errors,
+                touched,
+                handleBlur,
+                handleChange,
+                handleSubmit,
+                setFieldValue,
+                resetForm,
+            }) => (
+                <form onSubmit={handleSubmit}>
+                    <Box>
+                        <Card
+                            sx={{
+                                padding: "0rem 2rem",
+                                backgroundColor:
+                                    mode === "dark"
+                                        ? "transparent"
+                                        : theme.palette.background.alt,
+                            }}
+                        >
+                            <CardContent>
+                                <Box
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="flex-start"
+                                    flexDirection="column"
+                                    p="0.5rem"
+                                >
+                                    <Typography
+                                        fontSize="1.8rem"
+                                        textDecoration="underline"
+                                        fontWeight="bold"
+                                        p="1rem 0rem 1rem 0rem"
+                                        color={theme.palette.secondary.main}
+                                    >
+                                        EVENTOMANIA
+                                    </Typography>
+                                    <Typography
+                                        fontSize="1.5rem"
+                                        textDecoration="underline"
+                                        fontWeight="bold"
+                                        color={theme.palette.secondary}
+                                    >
+                                        Hello Admin 👋
+                                    </Typography>
+                                    <Typography
+                                        fontSize="1rem"
+                                        textDecoration="underline"
+                                        color={theme.palette.secondary}
+                                        paddingBottom="0.6rem"
+                                    >
+                                        Sign In to access your account
+                                    </Typography>
 
-                  {/* <AdminPanelSettingsOutlinedIcon fontSize="large" /> */}
-                </Box>
-                <TextField
-                  id="email"
-                  autoComplete="off"
-                  color="secondary"
-                  label="Email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  helperText={touched.email ? errors.email : ""}
-                  error={touched.email && Boolean(errors.email)}
-                  margin="dense"
-                  variant="outlined"
-                  fullWidth
-                />
-                <TextField
-                  autoComplete="off"
-                  type="password"
-                  color="secondary"
-                  id="password"
-                  label="Password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  helperText={touched.password ? errors.password : ""}
-                  error={touched.password && Boolean(errors.password)}
-                  margin="dense"
-                  variant="outlined"
-                  fullWidth
-                />
-              </CardContent>
-              <CardActions
-                display="flex"
-                sx={{
-                  marginBottom: "1rem",
-                  justifyContent: "center",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  type="submit"
-                  disabled={buttonDisabled}
-                  sx={{
-                    color: "black",
-                    fontWeight: "bold",
-                  }}
-                  size="large"
-                  color="secondary"
-                >
-                  Sign In
-                </Button>
-              </CardActions>
-            </Card>
-          </Box>
-        </form>
-      )}
-    </Formik>
-  );
+                                    {/* <AdminPanelSettingsOutlinedIcon fontSize="large" /> */}
+                                </Box>
+                                <TextField
+                                    id="email"
+                                    autoComplete="off"
+                                    color="secondary"
+                                    label="Email"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={
+                                        touched.email ? errors.email : ""
+                                    }
+                                    error={
+                                        touched.email && Boolean(errors.email)
+                                    }
+                                    margin="dense"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                                <TextField
+                                    autoComplete="off"
+                                    type="password"
+                                    color="secondary"
+                                    id="password"
+                                    label="Password"
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={
+                                        touched.password ? errors.password : ""
+                                    }
+                                    error={
+                                        touched.password &&
+                                        Boolean(errors.password)
+                                    }
+                                    margin="dense"
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </CardContent>
+                            <CardActions
+                                display="flex"
+                                sx={{
+                                    marginBottom: "1rem",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    type="submit"
+                                    disabled={buttonDisabled}
+                                    sx={{
+                                        color: "black",
+                                        fontWeight: "bold",
+                                    }}
+                                    size="large"
+                                    color="secondary"
+                                >
+                                    Sign In
+                                </Button>
+                            </CardActions>
+                        </Card>
+                    </Box>
+                </form>
+            )}
+        </Formik>
+    );
 };
 
 export default LoginForm;
