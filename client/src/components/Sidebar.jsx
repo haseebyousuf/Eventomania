@@ -263,7 +263,7 @@ const Sidebar = ({
                                             </Typography>
                                         );
                                     }
-                                    const lcText = text.replaceAll(" ", "-");
+                                    const lcText = text.replaceAll(" ", "");
                                     return (
                                         <ListItem key={text} disablePadding>
                                             <ListItemButton
