@@ -18,7 +18,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home/>} />
                     <Route path="/EventDetails/:eventId" element={<EventDetails/>} />
-                    <Route  path="/Login" element={!isAuth ? <Login /> : <Navigate to="/dashboard" />}  />
+                    <Route  path="/Login" element={!isAuth ? <Login /> : <Navigate to="/Dashboard" />}  />
                     <Route element={<Layout />} >
                         {/* admin Routes */}
                         <Route path="/Dashboard" element={isAuth ? <Dashboard /> : <Navigate to="/Login" />}  />  
