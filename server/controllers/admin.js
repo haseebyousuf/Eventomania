@@ -57,13 +57,29 @@ export const addConvenor = async(req,res) => {
     const { name,email, password, committeeId, committeeName,role, mobile } = req.body;
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-    const newAdmin = new Admin({email, password:passwordHash, name, role, committeeName, committeeId, mobile});
-    const savedAdmin = await newAdmin.save();
-    const filter= {_id: committeeId};
-    const update = {convenorName: savedAdmin.name, convenorId: savedAdmin._id};
+    const existingConvenor = await Admin.findOne({committeeId: committeeId});
+    if(existingConvenor){
+      const updatedConvenor = await Admin.findOneAndUpdate({ committeeId: committeeId },
+        { email, password: passwordHash, name, role, committeeName, committeeId, mobile },
+        { new: true }
+      );
+      const filter= {_id: committeeId};
+    const update = {convenorName: updatedConvenor.name, convenorId: updatedConvenor._id};
     const updatedCommittee = await Committee.findOneAndUpdate(filter,update, {new:true});
-    res.status(201).json( {savedAdmin,updatedCommittee});
+    res.status(201).json( {updatedConvenor,updatedCommittee});
+
+    }else{
+      const newConvenor = new Admin({email, password:passwordHash, name, role, committeeName, committeeId, mobile});
+      const savedConvenor = await newConvenor.save();
+      const filter= {_id: committeeId};
+      const update = {convenorName: savedConvenor.name, convenorId: savedConvenor._id};
+      const updatedCommittee = await Committee.findOneAndUpdate(filter,update, {new:true});
+      res.status(201).json( {savedConvenor,updatedCommittee}); 
+    }
+    
+    
+
   }catch(err){
-    res.status(500).json({ error: err });
+    res.status(500).json({ error: err.message });
   }
 }
