@@ -16,13 +16,14 @@ import {
   Zoom,
 } from "@mui/material";
 import {
-  EventRepeatOutlined,
-  EventOutlined,
-  VisibilityOutlined,
-  ControlPointOutlined,
-  ChevronLeft,
-  ChevronRightOutlined,
-  HomeOutlined,
+    EventRepeatOutlined,
+    EventOutlined,
+    VisibilityOutlined,
+    ControlPointOutlined,
+    ChevronLeft,
+    ChevronRightOutlined,
+    HomeOutlined,
+    Diversity3Outlined,
 } from "@mui/icons-material";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
@@ -54,7 +55,7 @@ const adminNavItems = [
     },
     {
         text: "View Committees",
-        icon: <VisibilityOutlined />,
+        icon: <Diversity3Outlined />,
     },
     {
         text: "Add Committees",
