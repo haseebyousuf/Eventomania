@@ -15,7 +15,8 @@ import { useSelector } from "react-redux";
 import HomeNavbar from "../../components/HomeNavbar";
 import EventHeader from "./EventHeader";
 import EventDescription from "./EventDescription";
-import RecomendedAudiance from "./RecomendedAudiance";
+import RecommendedAudience from "./RecommendedAudience";
+
 import Register from "./Register";
 import { motion } from "framer-motion";
 const EventDetails = () => {
@@ -56,7 +57,7 @@ const EventDetails = () => {
                             }}
                         />
                         <EventDescription description={event.description} />
-                        <RecomendedAudiance event={event} />
+                        <RecommendedAudience event={event} />
                     </Grid>
                     <Grid item xs={12} sm={12} md={5} lg={4}>
                         <Box position="sticky" top="5rem">
