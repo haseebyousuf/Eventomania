@@ -84,7 +84,7 @@ const PastEvents = () => {
             headerName: "Date",
             minWidth: 100,
             renderCell: (params) => {
-                return moment(params.row.startDate).format("MMMM DD YYYY");
+                return moment(params.row.startDate).format("MMMM Do YYYY");
             },
         },
         {
