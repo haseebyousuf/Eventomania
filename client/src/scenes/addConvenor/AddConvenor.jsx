@@ -22,6 +22,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 const addConvenorSchema = yup.object().shape({
     name: yup.string().required("*Name Required"),
@@ -190,6 +191,11 @@ const AddConvenor = () => {
                                         }}
                                     >
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 0.2 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             sx={{
                                                 width: "90%",
                                                 display: "flex",
@@ -243,6 +249,11 @@ const AddConvenor = () => {
                                             />
                                         </Box>
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 0.4 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             sx={{
                                                 width: "90%",
                                                 display: "flex",
@@ -336,6 +347,11 @@ const AddConvenor = () => {
                                             </TextField>
                                         </Box>
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 0.6 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             sx={{
                                                 width: "90%",
                                                 display: "flex",
