@@ -30,7 +30,7 @@ const EventActions = ({ params }) => {
             </Tooltip>
             <Tooltip title="Edit This Event">
                 <IconButton onClick={() => {}}>
-                    <Edit color="warning" />
+                    <Edit color="success" />
                 </IconButton>
             </Tooltip>
             <Tooltip title="Delete This Event">
