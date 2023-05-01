@@ -48,7 +48,7 @@ const Form = () => {
             const savedCommittee = await savedCommitteeResponse.data;
             onSubmitProps.resetForm();
             if (savedCommittee) {
-                setMessage("Registered Successfully!");
+                setMessage("Committee Added!");
                 setOpen(true);
                 setTimeout(() => {
                     setOpen(false);
