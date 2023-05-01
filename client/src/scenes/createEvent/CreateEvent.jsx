@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Box,
-  Typography,
-  useMediaQuery,
-  useTheme,
-  Card,
-  CardContent,
-  TextField,
-  Button,
-  CardActions,
+    Box,
+    Typography,
+    useMediaQuery,
+    useTheme,
+    Card,
+    CardContent,
+    TextField,
+    Button,
+    CardActions,
+    Snackbar,
+    Alert,
+    Slide,
 } from "@mui/material";
 import { CloudUploadOutlined } from "@mui/icons-material";
 import { useSelector } from "react-redux";
@@ -23,6 +26,7 @@ import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import axios from "axios";
+import { motion } from "framer-motion";
 // import { useNavigate } from "react-router-dom";
 
 const eventSchema = yup.object().shape({
@@ -56,8 +60,11 @@ const initialValuesEvent = {
 const CreateEvent = () => {
     const mode = useSelector((state) => state.mode);
     const user = useSelector((state) => state.user);
+    const isNonMobile = useMediaQuery("(min-width: 700px)");
     const theme = useTheme();
     const { palette } = useTheme();
+
+    const [open, setOpen] = useState(false);
 
     const handleFormSubmit = async (values, onSubmitProps) => {
         try {
@@ -75,44 +82,53 @@ const CreateEvent = () => {
 
             const savedEventResponse = await axios({
                 method: "post",
-                url: "http://localhost:5001/event/createEvent",
+                url: `${process.env.REACT_APP_BASE_URL}/event/createEvent`,
                 headers: { "Content-Type": "application/JSON" },
                 data: formData,
             });
             const savedEvent = await savedEventResponse.data;
             onSubmitProps.resetForm();
             if (savedEvent) {
-                alert("Added Successfully!");
-                // <Alert variant="outlined" severity="success">
-                //   <AlertTitle>Added</AlertTitle>
-                //   <strong>{savedCommittee.name}</strong> added successfully!
-                // </Alert>
+                setOpen(true);
+                setTimeout(() => {
+                    setOpen(false);
+                }, 3000);
             }
         } catch (error) {
-            console.log(error.response);
-            // <Alert variant="outlined" severity="error">
-            //   <AlertTitle>Error</AlertTitle>
-            //   Failed to connect to server
-            // </Alert>;
+            alert("There is some error! Please Try Again.");
         }
     };
-    const isNonMobile = useMediaQuery("(min-width: 700px)");
-
+    //transition for snackbar
+    const SlideTransition = (props) => {
+        return <Slide {...props} direction="down" />;
+    };
     return (
         <Box overflow="scroll">
             <Box width={isNonMobile ? "80%" : "90%"} m="2rem auto">
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    TransitionComponent={SlideTransition}
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "center",
+                    }}
+                >
+                    <Alert variant="filled" severity="success">
+                        Event Created Successfully!
+                    </Alert>
+                </Snackbar>
                 <Box
                     marginBottom="1rem"
                     flexDirection="column"
                     display="flex"
                     justifyContent="center"
-                    alignItems="center"
+                    alignItems="flex-start"
                 >
                     <Typography
                         fontSize="1.5rem"
                         textDecoration="underline"
                         fontWeight="bold"
-                        // p="0.5rem 0 0 0"
                         color={theme.palette.secondary.main}
                     >
                         CREATE EVENT
@@ -123,7 +139,7 @@ const CreateEvent = () => {
                         fontWeight="bold"
                         color={theme.palette.secondary.main}
                     >
-                        {/* Convenor Details */}
+                        Create a New Event
                     </Typography>
                 </Box>
                 <Formik
@@ -162,6 +178,11 @@ const CreateEvent = () => {
                                         }}
                                     >
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 0.2 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             sx={{
                                                 width: "100%",
                                                 display: "flex",
@@ -217,6 +238,11 @@ const CreateEvent = () => {
                                             />
                                         </Box>
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 0.4 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             sx={{
                                                 width: "100%",
                                                 display: "flex",
@@ -311,6 +337,11 @@ const CreateEvent = () => {
                                             </LocalizationProvider>
                                         </Box>
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 0.6 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             sx={{
                                                 width: "100%",
                                                 display: "flex",
@@ -351,6 +382,11 @@ const CreateEvent = () => {
                                             />
                                         </Box>
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 0.8 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             sx={{
                                                 width: "100%",
                                                 display: "flex",
@@ -393,6 +429,11 @@ const CreateEvent = () => {
                                             />
                                         </Box>
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 1 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             border={`1px solid ${palette.neutral.medium}`}
                                             borderRadius="5px"
                                             sx={{
@@ -511,6 +552,11 @@ const CreateEvent = () => {
                                                 )}
                                         </Box>
                                         <Box
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{ delay: 1.2 }}
+                                            exit={{ y: 20, opacity: 0 }}
                                             border={`1px solid ${palette.neutral.medium}`}
                                             borderRadius="5px"
                                             sx={{
