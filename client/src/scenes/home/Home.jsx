@@ -22,15 +22,15 @@ const Home = () => {
 
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     const [events, setEvents] = useState(null);
-    const [upcommingEvents, setUpcommingEvents] = useState(null);
+    const [upcomingEvents, setUpcomingEvents] = useState(null);
     const [pastEvents, setPastEvents] = useState(null);
     const [filteredPastEvents, setFilteredPastEvents] = useState(null);
-    const [filteredUpcommingEvents, setFilteredUpcommingEvents] =
+    const [filteredUpcomingEvents, setFilteredUpcomingEvents] =
         useState(null);
 
     const [committees, setCommittees] = useState(null);
     const [animateCard, setAnimateCard] = useState({ y: 0, opacity: 1 });
-    const [activeUpcommingFilter, setActiveUpcommingFilter] = useState("all");
+    const [activeUpcomingFilter, setActiveUpcomingFilter] = useState("all");
     const [activePastFilter, setActivePastFilter] = useState("all");
 
     useEffect(() => {
@@ -56,7 +56,7 @@ const Home = () => {
                     `${process.env.REACT_APP_BASE_URL}/events/getPublishedEvents`
                 );
                 setEvents(response.data);
-                setUpcommingEvents(
+                setUpcomingEvents(
                     response.data.filter((item) => {
                         if (
                             moment(item.startDate).isAfter(moment()) ||
@@ -78,7 +78,7 @@ const Home = () => {
                         moment(item.startDate).isBefore(moment())
                     )
                 );
-                setFilteredUpcommingEvents(
+                setFilteredUpcomingEvents(
                     response.data.filter(
                         (item) =>
                             moment(item.startDate).isAfter(moment()) ||
@@ -103,17 +103,17 @@ const Home = () => {
         getCommittees();
     }, []);
 
-    const handleUpcommingEventFilter = ({ target }) => {
-        setActiveUpcommingFilter(target.value);
+    const handleUpcomingEventFilter = ({ target }) => {
+        setActiveUpcomingFilter(target.value);
         setAnimateCard([{ y: 100, opacity: 0 }]);
 
         setTimeout(() => {
             setAnimateCard([{ y: 0, opacity: 1 }]);
             if (target.value === "all") {
-                setFilteredUpcommingEvents(upcommingEvents);
+                setFilteredUpcomingEvents(upcomingEvents);
             } else {
-                setFilteredUpcommingEvents(
-                    upcommingEvents.filter(
+                setFilteredUpcomingEvents(
+                    upcomingEvents.filter(
                         (event) => event.committee[0].name === target.value
                     )
                 );
@@ -154,7 +154,7 @@ const Home = () => {
                                 : "1rem 2rem 1rem 2rem",
                         }}
                     >
-                        <h1>Upcomming Events...</h1>
+                        <h1>Upcoming Events...</h1>
                         <Box
                             sx={{
                                 display: "flex",
@@ -167,15 +167,15 @@ const Home = () => {
                             <TextField
                                 margin="dense"
                                 color="secondary"
-                                name="upcommingFilter"
+                                name="upcomingFilter"
                                 variant="outlined"
                                 sx={{ width: isNonMobile ? "17rem" : "18rem" }}
                                 notched="true"
-                                value={activeUpcommingFilter}
+                                value={activeUpcomingFilter}
                                 id="committee"
                                 select
                                 label="Committee"
-                                onChange={handleUpcommingEventFilter}
+                                onChange={handleUpcomingEventFilter}
                             >
                                 <MenuItem value="all" selected>
                                     All
@@ -210,8 +210,8 @@ const Home = () => {
                                 paddingBottom: "2rem",
                             }}
                         >
-                            {events && filteredUpcommingEvents.length > 0 ? (
-                                filteredUpcommingEvents
+                            {events && filteredUpcomingEvents.length > 0 ? (
+                                filteredUpcomingEvents
                                     .sort(
                                         (a, b) =>
                                             moment(a.startDate) -
@@ -253,7 +253,7 @@ const Home = () => {
                                                     theme.palette.secondary.main
                                                 }
                                             >
-                                                NO UPCOMMING EVENTS!
+                                                NO UPCOMING EVENTS!
                                             </Typography>
                                         </Box>
                                     </CardContent>
