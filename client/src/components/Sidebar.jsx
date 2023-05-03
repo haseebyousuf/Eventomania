@@ -24,8 +24,9 @@ import {
     ChevronRightOutlined,
     HomeOutlined,
     Diversity3Outlined,
+    AssessmentOutlined,
+    LogoutOutlined,
 } from "@mui/icons-material";
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 import FlexBetween from "./FlexBetween";
 import Profile from "assets/profile.png";
@@ -48,6 +49,10 @@ const adminNavItems = [
     {
         text: "Past Events",
         icon: <EventRepeatOutlined />,
+    },
+    {
+        text: "Event Log",
+        icon: <AssessmentOutlined />,
     },
     {
         text: "Committees",
@@ -356,7 +361,7 @@ const Sidebar = ({
                                     aria-label="logout"
                                     onClick={handleLogout}
                                 >
-                                    <LogoutOutlinedIcon
+                                    <LogoutOutlined
                                         sx={{
                                             color: theme.palette.secondary[300],
                                             fontSize: "25px ",
