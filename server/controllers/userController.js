@@ -7,7 +7,7 @@ export const registerStudent = async (req, res) => {
           //check if student already registered for the given event
       const user = await User.find({
           regNo: regNo,
-          event: { $elemMatch: { name: event.name } },
+          event: { $elemMatch: { id: event.id } },
       });
       //return error if student already registered
       if (user.length > 0) {
@@ -36,7 +36,7 @@ export const registerFaculty = async (req, res) => {
           //check if faculty already registered for the given event
       const user = await User.find({
         employeeId: employeeId,
-          event: { $elemMatch: { name: event.name } },
+          event: { $elemMatch: { id: event.id } },
       });
       //return error if faculty already registered
       if (user.length > 0) {
