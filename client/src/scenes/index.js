@@ -11,3 +11,4 @@ export {default as CreateEvent} from "./CreateEvent/CreateEvent";
 export {default as ApproveEvents} from "./ApproveEvents/ApproveEvents";
 export {default as EventDetails} from "./EventDetails/EventDetails";
 export {default as PastEvents} from "./PastEvents/PastEvents";
+export {default as ConvenorPastEvents} from "./ConvenorPastEvents/ConvenorPastEvents";
