@@ -17,6 +17,8 @@ import eventRoutes from './routes/eventRoutes.js';
 import userRoutes from "./routes/userRoutes.js";
 
 import { createEvent } from "./controllers/eventController.js";
+import { uploadReport } from "./controllers/eventController.js";
+
 
 //data imports
 import Admin from "./models/Admin.js";
@@ -66,6 +68,8 @@ app.post(
     ]),
     createEvent
 );
+app.post("/event/uploadReport", upload.single("report"),uploadReport);
+
 // ROUTES
 app.use("/committee", committeeRoutes);
 app.use("/admin", adminRoutes);
