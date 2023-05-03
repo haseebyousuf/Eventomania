@@ -138,6 +138,13 @@ const FacultyForm = ({ eventDetails }) => {
                             margin="dense"
                             variant="outlined"
                             fullWidth
+                            inputProps={{
+                                style: {
+                                    textTransform:
+                                        input.name === "employeeId" &&
+                                        "uppercase",
+                                },
+                            }}
                         />
                     ))}
 
