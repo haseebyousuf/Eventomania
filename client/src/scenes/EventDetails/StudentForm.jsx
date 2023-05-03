@@ -141,6 +141,12 @@ const StudentForm = ({ eventDetails }) => {
                             margin="dense"
                             variant="outlined"
                             fullWidth
+                            inputProps={{
+                                style: {
+                                    textTransform:
+                                        input.name === "regNo" && "uppercase",
+                                },
+                            }}
                         />
                     ))}
                     <CardActions
