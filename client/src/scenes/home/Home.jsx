@@ -15,18 +15,20 @@ import React, { useEffect, useState } from "react";
 import HomeNavbar from "../../components/HomeNavbar";
 import moment from "moment";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setAllEvents } from "state";
+
 const Home = () => {
     const mode = useSelector((state) => state.mode);
     const theme = useTheme();
+    const dispatch = useDispatch();
 
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     const [events, setEvents] = useState(null);
     const [upcomingEvents, setUpcomingEvents] = useState(null);
     const [pastEvents, setPastEvents] = useState(null);
     const [filteredPastEvents, setFilteredPastEvents] = useState(null);
-    const [filteredUpcomingEvents, setFilteredUpcomingEvents] =
-        useState(null);
+    const [filteredUpcomingEvents, setFilteredUpcomingEvents] = useState(null);
 
     const [committees, setCommittees] = useState(null);
     const [animateCard, setAnimateCard] = useState({ y: 0, opacity: 1 });
@@ -34,6 +36,21 @@ const Home = () => {
     const [activePastFilter, setActivePastFilter] = useState("all");
 
     useEffect(() => {
+        const getAllEvents = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BASE_URL}/events/getEvents`
+                );
+                dispatch(
+                    setAllEvents({
+                        allEvents: response.data,
+                    })
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getAllEvents();
         const getCommittees = async () => {
             try {
                 const response = await axios.get(
