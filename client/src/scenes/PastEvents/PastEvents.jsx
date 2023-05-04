@@ -23,7 +23,10 @@ const PastEvents = () => {
             const response = await axios.get(
                 `${process.env.REACT_APP_BASE_URL}/events/getApprovedEvents`
             );
-            setData({ ...data, events: response.data, isLoading: false });
+            const sortedEvents = response.data.sort(
+                (a, b) => moment(b.startDate) - moment(a.startDate)
+            );
+            setData({ ...data, events: sortedEvents, isLoading: false });
         } catch (error) {
             console.error(error);
         }
