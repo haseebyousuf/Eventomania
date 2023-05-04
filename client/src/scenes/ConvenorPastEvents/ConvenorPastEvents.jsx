@@ -27,12 +27,12 @@ const ConvenorPastEvents = () => {
             const response = await axios.get(
                 `${process.env.REACT_APP_BASE_URL}/events/getApprovedEvents`
             );
-
+            const sortedEvents = response.data
+                .sort((a, b) => moment(b.startDate) - moment(a.startDate))
+                .filter((event) => event.committee[0].id === user.committeeId);
             setData({
                 ...data,
-                events: response.data.filter(
-                    (event) => event.committee[0].id === user.committeeId
-                ),
+                events: sortedEvents,
                 isLoading: false,
             });
         } catch (error) {
@@ -55,7 +55,7 @@ const ConvenorPastEvents = () => {
             headerName: "Organized By",
             minWidth: 150,
             renderCell: (params) => {
-                return params.row.committee[0].name;
+                return <p color="#fff">{params.row.committee[0].name}</p>;
             },
         },
         {
@@ -63,7 +63,7 @@ const ConvenorPastEvents = () => {
             headerName: "Created By",
             minWidth: 150,
             renderCell: (params) => {
-                return params.row.createdBy[0].name;
+                return JSON.stringify(params.row.createdBy[0].name);
             },
         },
         {
@@ -78,6 +78,7 @@ const ConvenorPastEvents = () => {
             field: "status",
             headerName: "Status",
             minWidth: 170,
+            disableExport: true,
             renderCell: (params) => {
                 return (
                     <Box color="success">
@@ -201,18 +202,17 @@ const ConvenorPastEvents = () => {
                 }}
             >
                 <DataGrid
-                    sx={{
-                        "@media print": {
-                            ".MuiDataGrid-main": {
-                                color: "rgba(0, 0, 0, 0.87)",
-                            },
-                        },
-                    }}
                     loading={data.isLoading || !data}
                     getRowId={(row) => row._id}
                     rows={data.events || []}
                     columns={columns}
                     components={{ Toolbar: DataGridCustomToolbar }}
+                    sx={{
+                        "@media print": {
+                            ".MuiDataGrid-main": { color: "#fff" },
+                            ".MuiDataGrid-cellContent": { color: "#fff" },
+                        },
+                    }}
                 ></DataGrid>
             </Box>
         </Box>
