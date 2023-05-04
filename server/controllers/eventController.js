@@ -42,6 +42,15 @@ export const uploadReport  = async (req, res) => {
   }
 }
 
+export const getEvents = async(req,res) => {
+  try{
+    const events= await Event.find();
+    res.status(200).json(events);
+
+  }catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 export const getUnApprovedEvents = async(req, res) =>{
   try {
     const events = await Event.find({ isApproved: "false" })
