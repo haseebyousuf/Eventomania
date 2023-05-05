@@ -20,13 +20,20 @@ const ConvenorPastEvents = () => {
     const user = useSelector((state) => state.user);
 
     const [data, setData] = useState({ events: null, isLoading: true });
+    const [users, setUsers] = useState(null);
+
     const [open, setOpen] = useState(false);
 
     const getEvents = async () => {
         try {
+            const userResponse = await axios.get(
+                `${process.env.REACT_APP_BASE_URL}/user/getUsers`
+            );
+            setUsers(userResponse.data);
             const response = await axios.get(
                 `${process.env.REACT_APP_BASE_URL}/events/getApprovedEvents`
             );
+
             const sortedEvents = response.data
                 .sort((a, b) => moment(b.startDate) - moment(a.startDate))
                 .filter((event) => event.committee[0].id === user.committeeId);
@@ -54,6 +61,7 @@ const ConvenorPastEvents = () => {
             field: "committee",
             headerName: "Organized By",
             minWidth: 150,
+            valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
                 return <p color="#fff">{params.row.committee[0].name}</p>;
             },
@@ -62,16 +70,41 @@ const ConvenorPastEvents = () => {
             field: "createdBy",
             headerName: "Created By",
             minWidth: 150,
+            valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
-                return JSON.stringify(params.row.createdBy[0].name);
+                return (
+                    <Typography variant="p">
+                        {params.row.createdBy[0].name}
+                    </Typography>
+                );
             },
         },
         {
             field: "startDate",
             headerName: "Date",
             minWidth: 120,
+            type: "date",
+            valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
             renderCell: (params) => {
                 return moment(params.row.startDate).format("MMMM Do YYYY");
+            },
+        },
+        {
+            field: "registrations",
+            headerName: "Registrations",
+
+            minWidth: 80,
+            renderCell: (params) => {
+                const total = users.filter(
+                    (user) => user.event[0].id === params.row._id
+                ).length;
+                console.log(total);
+                return Number(total);
+            },
+            type: "number",
+            valueFormatter: ({ value }) => {
+                console.log(value);
+                return value;
             },
         },
         {
@@ -123,7 +156,7 @@ const ConvenorPastEvents = () => {
             field: "actions",
             headerName: "Actions",
             type: "actions",
-            width: 190,
+            width: 100,
             renderCell: (params) => (
                 <EventActions setData={setData} data={data} {...{ params }} />
             ),
@@ -209,8 +242,24 @@ const ConvenorPastEvents = () => {
                     components={{ Toolbar: DataGridCustomToolbar }}
                     sx={{
                         "@media print": {
-                            ".MuiDataGrid-main": { color: "#fff" },
-                            ".MuiDataGrid-cellContent": { color: "#fff" },
+                            "& .MuiDataGrid-root": {
+                                border: "none",
+                                color: "#000",
+                            },
+                            "& .MuiDataGrid-cell": {
+                                color: "#000",
+                            },
+                            "& .MuiDataGrid-columnHeaders": {
+                                color: "#000",
+                                textAlign: "center",
+                                fontWeight: "bold",
+                            },
+                            "& .MuiDataGrid-main": {
+                                color: "#000",
+                            },
+                            "& 	.MuiDataGrid-overlay": {
+                                backgroundColor: `red !important`,
+                            },
                         },
                     }}
                 ></DataGrid>
