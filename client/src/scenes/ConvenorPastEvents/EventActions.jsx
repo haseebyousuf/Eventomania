@@ -1,5 +1,4 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
-import { Delete } from "@mui/icons-material";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import EventDialog from "components/EventDialog";
 import React from "react";
@@ -26,11 +25,6 @@ const EventActions = ({ params }) => {
             <Tooltip title="View Event Details">
                 <IconButton onClick={handleOpenDialog}>
                     <RemoveRedEyeOutlinedIcon color="success" />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete This Event">
-                <IconButton onClick={() => {}}>
-                    <Delete color="error" />
                 </IconButton>
             </Tooltip>
         </Box>
