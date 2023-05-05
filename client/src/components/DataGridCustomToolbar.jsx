@@ -16,7 +16,19 @@ const DataGridCustomToolbar = ({ searchInput, setSearchInput, setSearch }) => {
                 <FlexBetween>
                     <GridToolbarColumnsButton />
                     <GridToolbarDensitySelector />
-                    <GridToolbarExport />
+                    <GridToolbarExport
+                        printOptions={{
+                            hideFooter: false,
+                            hideToolbar: true,
+                            bodyClassName: "customPrint",
+                            fields: [
+                                "name",
+                                "committee",
+                                "startDate",
+                                "registrations",
+                            ],
+                        }}
+                    />
                 </FlexBetween>
                 {/* <TextField
                     label="Search..."
