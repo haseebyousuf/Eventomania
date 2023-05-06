@@ -10,11 +10,11 @@ import {
     Snackbar,
     Alert,
     Slide,
+    useMediaQuery,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
 import { useTheme } from "@emotion/react";
 const inputs = [
     { id: 1, label: "Committee Name", name: "name" },
@@ -30,7 +30,7 @@ const initialValuesCommittee = {
     description: "",
 };
 const Form = () => {
-    const mode = useSelector((state) => state.mode);
+    const isNonMobile = useMediaQuery("(min-width: 600px)");
     const theme = useTheme();
 
     const [open, setOpen] = useState(false);
@@ -94,46 +94,59 @@ const Form = () => {
                     <Box>
                         <Card
                             sx={{
-                                backgroundColor:
-                                    mode === "dark"
-                                        ? "transparent"
-                                        : theme.palette.background.alt,
+                                backgroundImage: "none",
+                                backgroundColor: theme.palette.background.alt,
+                                borderRadius: "0.55rem",
+                                marginTop: "20px",
                             }}
                         >
                             <CardContent>
-                                {inputs.map((input, index) => (
-                                    <TextField
-                                        component={motion.div}
-                                        initial={{ y: 20, opacity: 0 }}
-                                        animate={{ y: 0, opacity: 1 }}
-                                        transition={{ delay: 0.13 * input.id }}
-                                        exit={{ y: 20, opacity: 0 }}
-                                        key={input.id}
-                                        id={input.name}
-                                        autoComplete="off"
-                                        color="secondary"
-                                        label={input.label}
-                                        value={values[input.name]}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        multiline={
-                                            input.id === 2 ? true : false
-                                        }
-                                        minRows={3}
-                                        helperText={
-                                            touched[input.name]
-                                                ? errors[input.name]
-                                                : ""
-                                        }
-                                        error={
-                                            touched[input.name] &&
-                                            Boolean(errors[input.name])
-                                        }
-                                        margin="dense"
-                                        variant="outlined"
-                                        fullWidth
-                                    />
-                                ))}
+                                <Box
+                                    sx={{
+                                        width: isNonMobile ? "60%" : "90%",
+                                        margin: "auto",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    {inputs.map((input) => (
+                                        <TextField
+                                            component={motion.div}
+                                            initial={{ y: 20, opacity: 0 }}
+                                            animate={{ y: 0, opacity: 1 }}
+                                            transition={{
+                                                delay: 0.13 * input.id,
+                                            }}
+                                            exit={{ y: 20, opacity: 0 }}
+                                            key={input.id}
+                                            id={input.name}
+                                            autoComplete="off"
+                                            color="secondary"
+                                            label={input.label}
+                                            value={values[input.name]}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            multiline={
+                                                input.id === 2 ? true : false
+                                            }
+                                            minRows={3}
+                                            helperText={
+                                                touched[input.name]
+                                                    ? errors[input.name]
+                                                    : ""
+                                            }
+                                            error={
+                                                touched[input.name] &&
+                                                Boolean(errors[input.name])
+                                            }
+                                            margin="dense"
+                                            variant="outlined"
+                                            fullWidth
+                                        />
+                                    ))}
+                                </Box>
                             </CardContent>
                             <CardActions
                                 display="flex"
