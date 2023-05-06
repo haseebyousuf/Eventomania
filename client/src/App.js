@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
-import {Home,Dashboard, Layout, AddCommittees , Login, AllCommittees,Convenors, AddConvenor, CreateEvent, ApproveEvents, EventDetails, PastEvents, ConvenorPastEvents, AdminEventLog} from "./scenes"
+import {Home,Dashboard, Layout, AddCommittees , Login, AllCommittees,Convenors, AddConvenor, CreateEvent, ApproveEvents, EventDetails, PastEvents, ConvenorPastEvents, AdminEventLog, AudienceDetails} from "./scenes"
 function App() { 
     const mode = useSelector((state) => state.mode);
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -28,6 +28,8 @@ function App() {
                         <Route path="/AddCommittees" element={isAuth && user.role === "admin" ? <AddCommittees /> : <Navigate to="/Login" />}  />
                         <Route path="/ViewCommittees" element={isAuth && user.role === "admin" ? <AllCommittees /> : <Navigate to="/Login" />}  />
                         <Route path="/Convenors" element={isAuth && user.role === "admin"  ? <Convenors /> : <Navigate to="/Login" />}  />
+                        <Route path="/Registrations/:eventId" element={isAuth && (user.role === "admin" || user.role === "convenor" || user.role === "member")  ? <AudienceDetails /> : <Navigate to="/Login" />}  />
+
                         <Route path="/AddConvenors" element={isAuth && user.role === "admin" ? <AddConvenor /> : <Navigate to="/Login" />}  />
                         {/* convenor routes */}
                         <Route path="/CreateEvent" element={isAuth && user.role === "convenor" ? <CreateEvent /> : <Navigate to="/Login" />}  />
