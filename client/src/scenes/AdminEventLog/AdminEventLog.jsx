@@ -12,6 +12,7 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
+import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
@@ -107,29 +108,7 @@ const AdminEventLog = () => {
 
     return (
         <Box m="1rem 2.5rem" position="relative">
-            <Box
-                flexDirection="column"
-                display="flex"
-                justifyContent="center"
-                alignItems="flex-center"
-            >
-                <Typography
-                    fontSize="1.5rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    EVENT LOGS
-                </Typography>
-                <Typography
-                    fontSize="1rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    Generate Event Reports
-                </Typography>
-            </Box>
+            <Header title="EVENT LOGS" subtitle="Generate Event Reports." />
             <Box
                 mt="20px"
                 pb="20px"
