@@ -29,7 +29,7 @@ const EventActions = ({ users, data, params }) => {
             <Tooltip title="Download Report">
                 <IconButton onClick={() => {}}>
                     <a
-                        href={`${process.env.REACT_APP_BASE_URL}/assets/${params.row.orderName}`}
+                        href={`${process.env.REACT_APP_BASE_URL}/assets/${params.row.reportName}`}
                         target="_blank"
                         rel="noreferrer"
                     >
