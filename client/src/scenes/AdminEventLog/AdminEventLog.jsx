@@ -3,16 +3,25 @@ import axios from "axios";
 import {
     Alert,
     Box,
+    Button,
+    IconButton,
     Slide,
     Snackbar,
     Switch,
+    Tooltip,
     Typography,
     useTheme,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
+import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import EventActions from "./EventActions";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { useNavigate } from "react-router-dom";
 const AdminEventLog = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
+
     const [users, setUsers] = useState(null);
     const [data, setData] = useState({ events: null, isLoading: true });
 
@@ -42,19 +51,18 @@ const AdminEventLog = () => {
 
         // eslint-disable-next-line
     }, []);
-    console.log(users);
-    console.log(data.events);
     const columns = [
         {
             field: "name",
             headerName: "Event Name",
             resizable: true,
-            minWidth: 200,
+            minWidth: 250,
         },
         {
             field: "committee",
             headerName: "Organized By",
-            minWidth: 150,
+            valueFormatter: ({ value }) => value[0].name,
+            minWidth: 250,
             renderCell: (params) => {
                 return params.row.committee[0].name;
             },
@@ -62,49 +70,38 @@ const AdminEventLog = () => {
         {
             field: "startDate",
             headerName: "Date",
-            minWidth: 100,
+            valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+
+            minWidth: 150,
             renderCell: (params) => {
                 return moment(params.row.startDate).format("MMMM Do YYYY");
             },
         },
         {
             field: "registrations",
-            headerName: "Total Registrations",
-            minWidth: 150,
+            headerName: "Registrations",
+            type: "number",
+            minWidth: 120,
+            valueGetter: (params) => {
+                return users.filter(
+                    (user) => user.event[0].id === params.row._id
+                ).length;
+            },
             renderCell: (params) => {
                 return users.filter(
                     (user) => user.event[0].id === params.row._id
                 ).length;
             },
         },
+
         {
-            field: "students",
-            headerName: "Students",
-            minWidth: 150,
-            renderCell: (params) => {
-                return users.filter(
-                    (user) =>
-                        user.event[0].id === params.row._id &&
-                        user.type === "student"
-                ).length;
-            },
-        },
-        {
-            field: "faculty",
-            headerName: "Faculty",
-            minWidth: 150,
-            renderCell: (params) => {
-                return users.filter(
-                    (user) =>
-                        user.event[0].id === params.row._id &&
-                        user.type === "faculty"
-                ).length;
-            },
-        },
-        {
-            field: "report",
-            headerName: "Report",
-            minWidth: 150,
+            field: "actions",
+            headerName: "Actions",
+            type: "actions",
+            minWidth: 250,
+            renderCell: (params) => (
+                <EventActions data={data} users={users} {...{ params }} />
+            ),
         },
     ];
 
@@ -167,6 +164,29 @@ const AdminEventLog = () => {
                     getRowId={(row) => row._id}
                     rows={data.events || []}
                     columns={columns}
+                    components={{ Toolbar: DataGridCustomToolbar }}
+                    sx={{
+                        "@media print": {
+                            "& .MuiDataGrid-root": {
+                                border: "none",
+                                color: "#000",
+                            },
+                            "& .MuiDataGrid-cell": {
+                                color: "#000",
+                            },
+                            "& .MuiDataGrid-columnHeaders": {
+                                color: "#000",
+                                textAlign: "center",
+                                fontWeight: "bold",
+                            },
+                            "& .MuiDataGrid-main": {
+                                color: "#000",
+                            },
+                            "& 	.MuiDataGrid-overlay": {
+                                backgroundColor: `red !important`,
+                            },
+                        },
+                    }}
                 ></DataGrid>
             </Box>
         </Box>
