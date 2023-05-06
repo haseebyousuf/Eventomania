@@ -7,14 +7,14 @@ const UserSchema = new mongoose.Schema(
             max: 50,
         },
         employeeId: {
-          type: String,
-          min: 5,
-      },
-      designation: {
-        type: String,
-        min: 5,
-    },  
-      regNo: {
+            type: String,
+            min: 5,
+        },
+        designation: {
+            type: String,
+            min: 5,
+        },  
+        regNo: {
             type: String,
             min: 5,
         },
