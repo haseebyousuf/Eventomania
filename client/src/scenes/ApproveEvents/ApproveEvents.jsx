@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Switch, Typography, useTheme } from "@mui/material";
+import { Box, Switch, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import EventActions from "./EventActions";
+import Header from "components/Header";
+import { motion } from "framer-motion";
 const ApproveEvents = () => {
     const theme = useTheme();
     const [data, setData] = useState({ events: null, isLoading: true });
@@ -111,30 +113,17 @@ const ApproveEvents = () => {
     ];
 
     return (
-        <Box m="1rem 2.5rem">
-            <Box
-                flexDirection="column"
-                display="flex"
-                justifyContent="center"
-                alignItems="flex-center"
-            >
-                <Typography
-                    fontSize="1.5rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    APPROVE EVENTS
-                </Typography>
-                <Typography
-                    fontSize="1rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    List of Unapproved Events
-                </Typography>
-            </Box>
+        <Box
+            m="1rem 2.5rem"
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, ease: "easeInOut" }}
+        >
+            <Header
+                title="APPROVE EVENTS"
+                subtitle="List of Unapproved Events."
+            />
             <Box
                 mt="20px"
                 pb="20px"
