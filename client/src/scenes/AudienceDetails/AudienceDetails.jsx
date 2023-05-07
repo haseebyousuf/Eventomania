@@ -10,6 +10,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import { useLocation, useNavigate } from "react-router-dom";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import { motion } from "framer-motion";
 
 const AudienceDetails = () => {
     const theme = useTheme();
@@ -82,7 +83,13 @@ const AudienceDetails = () => {
         },
     ];
     return (
-        <Box m="1rem 2.5rem">
+        <Box
+            m="1rem 2.5rem"
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, ease: "easeInOut" }}
+        >
             <Box
                 flexDirection="column"
                 display="flex"
