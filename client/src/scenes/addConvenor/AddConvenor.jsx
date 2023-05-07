@@ -3,8 +3,6 @@ import axios from "axios";
 
 import {
     Box,
-    Typography,
-    useMediaQuery,
     useTheme,
     Card,
     CardContent,
@@ -21,8 +19,8 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import Header from "components/Header";
 
 const addConvenorSchema = yup.object().shape({
     name: yup.string().required("*Name Required"),
@@ -49,9 +47,6 @@ const initialValuesConvenor = {
 
 const AddConvenor = () => {
     const theme = useTheme();
-    const mode = useSelector((state) => state.mode);
-    const isNonMobile = useMediaQuery("(min-width: 600px)");
-
     // States
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState(null);
@@ -118,34 +113,17 @@ const AddConvenor = () => {
     return (
         <Box>
             <Box
-                width={isNonMobile ? "80%" : "90%"}
-                m="2rem auto"
+                m="1rem 2.5rem"
                 position="relative"
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1, ease: "easeInOut" }}
             >
-                <Box
-                    marginBottom="1rem"
-                    flexDirection="column"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="flex-start"
-                >
-                    <Typography
-                        fontSize="1.5rem"
-                        textDecoration="underline"
-                        fontWeight="bold"
-                        color={theme.palette.secondary.main}
-                    >
-                        ADD CONVENOR
-                    </Typography>
-                    <Typography
-                        fontSize="1rem"
-                        textDecoration="underline"
-                        fontWeight="bold"
-                        color={theme.palette.secondary.main}
-                    >
-                        Convenor Details
-                    </Typography>
-                </Box>
+                <Header
+                    title="ADD CONVENOR"
+                    subtitle="Add New Convenor Details."
+                />
                 <Snackbar
                     sx={{ position: "absolute" }}
                     open={open}
@@ -177,10 +155,10 @@ const AddConvenor = () => {
                             <Box>
                                 <Card
                                     sx={{
+                                        backgroundImage: "none",
                                         backgroundColor:
-                                            mode === "dark"
-                                                ? "transparent"
-                                                : theme.palette.background.alt,
+                                            theme.palette.background.alt,
+                                        marginTop: "20px",
                                     }}
                                 >
                                     <CardContent
