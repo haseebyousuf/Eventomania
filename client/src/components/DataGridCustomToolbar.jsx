@@ -6,51 +6,37 @@ import {
     GridToolbarContainer,
     GridToolbarExport,
     GridToolbarColumnsButton,
+    GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
 import FlexBetween from "./FlexBetween";
+import { Button } from "@mui/material";
+import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 
-const DataGridCustomToolbar = ({ searchInput, setSearchInput, setSearch }) => {
+const DataGridCustomToolbar = ({ csvOptions, showExport, data }) => {
     return (
         <GridToolbarContainer>
-            <FlexBetween width="100%">
+            <FlexBetween width="100%" sx={{ flexWrap: "wrap" }}>
                 <FlexBetween>
                     <GridToolbarColumnsButton />
                     <GridToolbarDensitySelector />
-                    <GridToolbarExport
-                        printOptions={{
-                            hideFooter: false,
-                            hideToolbar: true,
-                            bodyClassName: "customPrint",
-                            fields: [
-                                "name",
-                                "committee",
-                                "startDate",
-                                "registrations",
-                            ],
-                        }}
-                    />
+                    {showExport && (
+                        <>
+                            <GridToolbarExport
+                                csvOptions={csvOptions}
+                                printOptions={{ disableToolbarButton: true }}
+                            />
+                            <Button
+                                onClick={() => alert("Print")}
+                                variant="text"
+                                startIcon={<PrintOutlinedIcon />}
+                            >
+                                PDF
+                            </Button>
+                        </>
+                    )}
                 </FlexBetween>
-                {/* <TextField
-                    label="Search..."
-                    sx={{ mb: "0.5rem", width: "15rem" }}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    value={searchInput}
-                    variant="standard"
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={() => {
-                                        setSearch(searchInput);
-                                        setSearchInput("");
-                                    }}
-                                >
-                                    <Search />
-                                </IconButton>
-                            </InputAdornment>
-                        ),
-                    }}
-                /> */}
+
+                <GridToolbarQuickFilter />
             </FlexBetween>
         </GridToolbarContainer>
     );
