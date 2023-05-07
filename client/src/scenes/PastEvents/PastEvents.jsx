@@ -12,6 +12,9 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import EventActions from "./EventActions";
+import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import Header from "components/Header";
+import { motion } from "framer-motion";
 const PastEvents = () => {
     const theme = useTheme();
     const [data, setData] = useState({ events: null, isLoading: true });
@@ -60,6 +63,7 @@ const PastEvents = () => {
         getEvents();
         // eslint-disable-next-line
     }, []);
+    const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
     const columns = [
         {
             field: "name",
@@ -70,6 +74,8 @@ const PastEvents = () => {
             field: "committee",
             headerName: "Organized By",
             minWidth: 150,
+            valueGetter: (params) => params.value[0].name,
+            valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
                 return params.row.committee[0].name;
             },
@@ -78,6 +84,8 @@ const PastEvents = () => {
             field: "createdBy",
             headerName: "Created By",
             minWidth: 150,
+            valueGetter: (params) => params.value[0].name,
+            valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
                 return params.row.createdBy[0].name;
             },
@@ -86,14 +94,18 @@ const PastEvents = () => {
             field: "startDate",
             headerName: "Date",
             minWidth: 100,
+            valueGetter: (params) => params.row.startDate,
+            valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
             renderCell: (params) => {
                 return moment(params.row.startDate).format("MMMM Do YYYY");
             },
+            sortComparator: dayInMonthComparator,
         },
         {
             field: "isPublished",
             headerName: "Status",
             minWidth: 140,
+            valueGetter: (params) => params.row.status,
             renderCell: (params) => {
                 return (
                     <Box color="success">
@@ -152,7 +164,14 @@ const PastEvents = () => {
     };
 
     return (
-        <Box m="1rem 2.5rem" position="relative">
+        <Box
+            m="1rem 2.5rem"
+            position="relative"
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, ease: "easeInOut" }}
+        >
             <Snackbar
                 sx={{ position: "absolute" }}
                 open={open}
@@ -167,29 +186,7 @@ const PastEvents = () => {
                     {message}
                 </Alert>
             </Snackbar>
-            <Box
-                flexDirection="column"
-                display="flex"
-                justifyContent="center"
-                alignItems="flex-center"
-            >
-                <Typography
-                    fontSize="1.5rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    PAST EVENTS
-                </Typography>
-                <Typography
-                    fontSize="1rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    List of All Past Events
-                </Typography>
-            </Box>
+            <Header title="PAST EVENTS" subtitle="List of All Past Events." />
             <Box
                 mt="20px"
                 pb="20px"
@@ -224,6 +221,10 @@ const PastEvents = () => {
                     getRowId={(row) => row._id}
                     rows={data.events || []}
                     columns={columns}
+                    components={{ Toolbar: DataGridCustomToolbar }}
+                    componentsProps={{
+                        toolbar: { showExport: false, data },
+                    }}
                 ></DataGrid>
             </Box>
         </Box>
