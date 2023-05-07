@@ -1,27 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-    Alert,
-    Box,
-    Button,
-    IconButton,
-    Slide,
-    Snackbar,
-    Switch,
-    Tooltip,
-    Typography,
-    useTheme,
-} from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import EventActions from "./EventActions";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 const AdminEventLog = () => {
     const theme = useTheme();
-    const navigate = useNavigate();
 
     const [users, setUsers] = useState(null);
     const [data, setData] = useState({ events: null, isLoading: true });
@@ -52,6 +39,8 @@ const AdminEventLog = () => {
 
         // eslint-disable-next-line
     }, []);
+    const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+
     const columns = [
         {
             field: "name",
@@ -62,6 +51,7 @@ const AdminEventLog = () => {
         {
             field: "committee",
             headerName: "Organized By",
+            valueGetter: (params) => params.value[0].name,
             valueFormatter: ({ value }) => value[0].name,
             minWidth: 250,
             renderCell: (params) => {
@@ -71,12 +61,13 @@ const AdminEventLog = () => {
         {
             field: "startDate",
             headerName: "Date",
+            valueGetter: (params) => params.row.startDate,
             valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
-
             minWidth: 150,
             renderCell: (params) => {
                 return moment(params.row.startDate).format("MMMM Do YYYY");
             },
+            sortComparator: dayInMonthComparator,
         },
         {
             field: "registrations",
@@ -105,9 +96,17 @@ const AdminEventLog = () => {
             ),
         },
     ];
+    const csvOptions = { fileName: "event-log" };
 
     return (
-        <Box m="1rem 2.5rem" position="relative">
+        <Box
+            m="1rem 2.5rem"
+            position="relative"
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, ease: "easeInOut" }}
+        >
             <Header title="EVENT LOGS" subtitle="Generate Event Reports." />
             <Box
                 mt="20px"
@@ -144,27 +143,8 @@ const AdminEventLog = () => {
                     rows={data.events || []}
                     columns={columns}
                     components={{ Toolbar: DataGridCustomToolbar }}
-                    sx={{
-                        "@media print": {
-                            "& .MuiDataGrid-root": {
-                                border: "none",
-                                color: "#000",
-                            },
-                            "& .MuiDataGrid-cell": {
-                                color: "#000",
-                            },
-                            "& .MuiDataGrid-columnHeaders": {
-                                color: "#000",
-                                textAlign: "center",
-                                fontWeight: "bold",
-                            },
-                            "& .MuiDataGrid-main": {
-                                color: "#000",
-                            },
-                            "& 	.MuiDataGrid-overlay": {
-                                backgroundColor: `red !important`,
-                            },
-                        },
+                    componentsProps={{
+                        toolbar: { csvOptions, showExport: true, data },
                     }}
                 ></DataGrid>
             </Box>
