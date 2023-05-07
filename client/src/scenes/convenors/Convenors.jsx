@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Actions from "./Actions";
 import moment from "moment";
+import Header from "components/Header";
+import { motion } from "framer-motion";
 
 const Convenors = () => {
     const theme = useTheme();
@@ -70,30 +72,16 @@ const Convenors = () => {
     ];
 
     return (
-        <Box m="1rem 2.5rem">
-            <Box
-                flexDirection="column"
-                display="flex"
-                justifyContent="center"
-                alignItems="flex-start"
-            >
-                <Typography
-                    fontSize="1.5rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    CONVENORS
-                </Typography>
-                <Typography
-                    fontSize="1rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    List of All Convenors
-                </Typography>
-            </Box>
+        <Box
+            m="1rem 2.5rem"
+            position="relative"
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, ease: "easeInOut" }}
+        >
+            <Header title="CONVENORS" subtitle="List of All Convenors." />
+
             <Box
                 mt="20px"
                 pb="20px"
