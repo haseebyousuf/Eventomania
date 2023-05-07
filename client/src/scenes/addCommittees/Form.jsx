@@ -96,11 +96,10 @@ const Form = () => {
                             sx={{
                                 backgroundImage: "none",
                                 backgroundColor: theme.palette.background.alt,
-                                borderRadius: "0.55rem",
                                 marginTop: "20px",
                             }}
                         >
-                            <CardContent>
+                            <CardContent mt="20px">
                                 <Box
                                     sx={{
                                         width: isNonMobile ? "60%" : "90%",
@@ -117,7 +116,7 @@ const Form = () => {
                                             initial={{ y: 20, opacity: 0 }}
                                             animate={{ y: 0, opacity: 1 }}
                                             transition={{
-                                                delay: 0.13 * input.id,
+                                                delay: 0.15 * input.id,
                                             }}
                                             exit={{ y: 20, opacity: 0 }}
                                             key={input.id}
