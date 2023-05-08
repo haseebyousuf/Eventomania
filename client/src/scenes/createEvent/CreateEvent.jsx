@@ -59,7 +59,6 @@ const initialValuesEvent = {
 };
 
 const CreateEvent = () => {
-    const mode = useSelector((state) => state.mode);
     const user = useSelector((state) => state.user);
     const isNonMobile = useMediaQuery("(min-width: 700px)");
     const theme = useTheme();
@@ -146,20 +145,20 @@ const CreateEvent = () => {
                             <Box>
                                 <Card
                                     sx={{
+                                        backgroundImage: "none",
                                         backgroundColor:
-                                            mode === "dark"
-                                                ? "transparent"
-                                                : theme.palette.background.alt,
+                                            theme.palette.background.alt,
+                                        marginTop: "20px",
                                     }}
                                 >
                                     <CardContent
+                                        mt="20px"
                                         sx={{
+                                            width: isNonMobile ? "70%" : "95%",
                                             display: "flex",
+                                            margin: "auto",
                                             justifyContent: "center",
                                             flexWrap: "wrap",
-                                            padding: isNonMobile
-                                                ? "2rem 5rem"
-                                                : "1rem 1rem",
                                         }}
                                     >
                                         <Box
@@ -229,7 +228,9 @@ const CreateEvent = () => {
                                             transition={{ delay: 0.4 }}
                                             exit={{ y: 20, opacity: 0 }}
                                             sx={{
-                                                width: "100%",
+                                                width: isNonMobile
+                                                    ? "100%"
+                                                    : "auto",
                                                 display: "flex",
                                                 justifyContent: isNonMobile
                                                     ? "space-between"
@@ -249,7 +250,6 @@ const CreateEvent = () => {
                                                         label="Start Date & Time"
                                                         name="startDate"
                                                         id="startDate"
-                                                        sx={{ width: "18rem" }}
                                                         value={values.startDate}
                                                         onChange={(value) => {
                                                             setFieldValue(
@@ -272,8 +272,13 @@ const CreateEvent = () => {
                                                                 helperText:
                                                                     touched.startDate
                                                                         ? errors.startDate
-                                                                        : "",
+                                                                        : "Enter when event will start",
                                                             },
+                                                        }}
+                                                        sx={{
+                                                            width: isNonMobile
+                                                                ? "18rem"
+                                                                : "15rem",
                                                         }}
                                                     />
                                                 </DemoContainer>
@@ -291,7 +296,6 @@ const CreateEvent = () => {
                                                         label="End Date & Time"
                                                         name="endDate"
                                                         id="endDate"
-                                                        sx={{ width: "18rem" }}
                                                         value={values.endDate}
                                                         onChange={(value) => {
                                                             setFieldValue(
@@ -316,6 +320,11 @@ const CreateEvent = () => {
                                                                         ? errors.endDate
                                                                         : "Enter when event will end",
                                                             },
+                                                        }}
+                                                        sx={{
+                                                            width: isNonMobile
+                                                                ? "18rem"
+                                                                : "16rem",
                                                         }}
                                                     />
                                                 </DemoContainer>
