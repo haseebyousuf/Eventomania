@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-    Box,
-    Button,
-    IconButton,
-    Tooltip,
-    Typography,
-    useTheme,
-} from "@mui/material";
+import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useLocation, useNavigate } from "react-router-dom";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import { motion } from "framer-motion";
+import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 
 const AudienceDetails = () => {
     const theme = useTheme();
@@ -29,33 +23,39 @@ const AudienceDetails = () => {
                 isLoading: false,
             });
         }
+        // eslint-disable-next-line
     }, []);
     const columns = [
         {
             field: "name",
             headerName: "Name",
             minWidth: 150,
+            flex: 1,
         },
         {
             field: "email",
             headerName: "Email",
             minWidth: 130,
+            flex: 1,
         },
         {
             field: "phoneNo",
             headerName: "Mobile",
             minWidth: 130,
+            flex: 1,
         },
 
         {
             field: "type",
             headerName: "Type",
             minWidth: 100,
+            flex: 0.5,
         },
         {
             field: "uniqueId",
             headerName: "Reg. No. / Employee ID",
             minWidth: 160,
+            flex: 1,
             renderCell: (params) => {
                 return params.row.regNo || params.row.employeeId;
             },
@@ -64,6 +64,7 @@ const AudienceDetails = () => {
             field: "course",
             headerName: "Course",
             minWidth: 100,
+            flex: 0.5,
             renderCell: (params) => {
                 return params.row.course ? params.row.course : "-";
             },
@@ -72,6 +73,7 @@ const AudienceDetails = () => {
             field: "semester",
             headerName: "Semester",
             minWidth: 80,
+            flex: 0.4,
             renderCell: (params) => {
                 return params.row.semester ? params.row.semester : "-";
             },
@@ -80,8 +82,13 @@ const AudienceDetails = () => {
             field: "department",
             headerName: "Department",
             minWidth: 150,
+            flex: 0.5,
         },
     ];
+    const csvOptions = {
+        fileName: `audience-${location.state && location.state.eventDetails}`,
+    };
+
     return (
         <Box
             m="1rem 2.5rem"
@@ -90,12 +97,7 @@ const AudienceDetails = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, ease: "easeInOut" }}
         >
-            <Box
-                flexDirection="column"
-                display="flex"
-                justifyContent="center"
-                alignItems="flex-start"
-            >
+            <Box>
                 <Box
                     width="100%"
                     display="flex"
@@ -103,11 +105,10 @@ const AudienceDetails = () => {
                     alignItems="center"
                 >
                     <Typography
-                        fontSize="1.5rem"
-                        textDecoration="underline"
+                        variant="h2"
+                        color={theme.palette.secondary[100]}
                         fontWeight="bold"
-                        color={theme.palette.secondary.main}
-                        textTransform="uppercase"
+                        sx={{ mb: "5px" }}
                     >
                         {location.state && location.state.eventDetails}
                     </Typography>
@@ -124,12 +125,12 @@ const AudienceDetails = () => {
                 </Box>
 
                 <Typography
-                    fontSize="1rem"
-                    textDecoration="underline"
+                    sx={{ mb: "5px" }}
+                    variant="h5"
                     fontWeight="bold"
-                    color={theme.palette.secondary.main}
+                    color={theme.palette.secondary[300]}
                 >
-                    Audience Details
+                    Audience Details.
                 </Typography>
             </Box>
             <Box
@@ -166,6 +167,10 @@ const AudienceDetails = () => {
                     getRowId={(row) => row._id}
                     rows={data.audience || []}
                     columns={columns}
+                    components={{ Toolbar: DataGridCustomToolbar }}
+                    componentsProps={{
+                        toolbar: { csvOptions, showExport: true, data },
+                    }}
                 />
             </Box>
         </Box>
