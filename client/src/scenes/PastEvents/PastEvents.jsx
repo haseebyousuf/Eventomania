@@ -69,11 +69,13 @@ const PastEvents = () => {
             field: "name",
             headerName: "Event Name",
             minWidth: 200,
+            flex: 1,
         },
         {
             field: "committee",
             headerName: "Organized By",
             minWidth: 150,
+            flex: 1,
             valueGetter: (params) => params.value[0].name,
             valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
@@ -84,6 +86,7 @@ const PastEvents = () => {
             field: "createdBy",
             headerName: "Created By",
             minWidth: 150,
+            flex: 1,
             valueGetter: (params) => params.value[0].name,
             valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
@@ -94,6 +97,7 @@ const PastEvents = () => {
             field: "startDate",
             headerName: "Date",
             minWidth: 100,
+            flex: 0.5,
             valueGetter: (params) => params.row.startDate,
             valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
             renderCell: (params) => {
@@ -105,6 +109,7 @@ const PastEvents = () => {
             field: "isPublished",
             headerName: "Status",
             minWidth: 140,
+            flex: 0.3,
             valueGetter: (params) => params.row.status,
             renderCell: (params) => {
                 return (
