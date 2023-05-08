@@ -6,6 +6,7 @@ import Actions from "./Actions";
 import moment from "moment";
 import Header from "components/Header";
 import { motion } from "framer-motion";
+import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 
 const Convenors = () => {
     const theme = useTheme();
@@ -116,6 +117,10 @@ const Convenors = () => {
                     getRowId={(row) => row._id}
                     rows={data.convenors || []}
                     columns={columns}
+                    components={{ Toolbar: DataGridCustomToolbar }}
+                    componentsProps={{
+                        toolbar: { showExport: false, data },
+                    }}
                 />
             </Box>
         </Box>
