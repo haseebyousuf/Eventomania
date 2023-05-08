@@ -105,7 +105,14 @@ const CreateEvent = () => {
     };
     return (
         <Box overflow="scroll">
-            <Box width={isNonMobile ? "80%" : "90%"} m="2rem auto">
+            <Box
+                m="1rem 2.5rem"
+                position="relative"
+                component={motion.div}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1, ease: "easeInOut" }}
+            >
                 <Snackbar
                     open={open}
                     autoHideDuration={6000}
@@ -119,30 +126,6 @@ const CreateEvent = () => {
                         Event Created Successfully!
                     </Alert>
                 </Snackbar>
-                {/* <Box
-                    marginBottom="1rem"
-                    flexDirection="column"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="flex-start"
-                >
-                    <Typography
-                        fontSize="1.5rem"
-                        textDecoration="underline"
-                        fontWeight="bold"
-                        color={theme.palette.secondary.main}
-                    >
-                        CREATE EVENT
-                    </Typography>
-                    <Typography
-                        fontSize="1rem"
-                        textDecoration="underline"
-                        fontWeight="bold"
-                        color={theme.palette.secondary.main}
-                    >
-                        Create a New Event
-                    </Typography>
-                </Box> */}
                 <Header title="CREATE EVENT" subtitle="Create a New Event." />
                 <Formik
                     onSubmit={handleFormSubmit}
