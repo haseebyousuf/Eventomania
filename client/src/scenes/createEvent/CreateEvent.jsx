@@ -27,6 +27,7 @@ import FlexBetween from "components/FlexBetween";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import axios from "axios";
 import { motion } from "framer-motion";
+import Header from "components/Header";
 // import { useNavigate } from "react-router-dom";
 
 const eventSchema = yup.object().shape({
@@ -118,7 +119,7 @@ const CreateEvent = () => {
                         Event Created Successfully!
                     </Alert>
                 </Snackbar>
-                <Box
+                {/* <Box
                     marginBottom="1rem"
                     flexDirection="column"
                     display="flex"
@@ -141,7 +142,8 @@ const CreateEvent = () => {
                     >
                         Create a New Event
                     </Typography>
-                </Box>
+                </Box> */}
+                <Header title="CREATE EVENT" subtitle="Create a New Event." />
                 <Formik
                     onSubmit={handleFormSubmit}
                     initialValues={initialValuesEvent}
