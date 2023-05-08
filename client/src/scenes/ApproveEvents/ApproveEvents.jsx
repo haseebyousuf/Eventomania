@@ -6,6 +6,7 @@ import moment from "moment";
 import EventActions from "./EventActions";
 import Header from "components/Header";
 import { motion } from "framer-motion";
+import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 const ApproveEvents = () => {
     const theme = useTheme();
     const [data, setData] = useState({ events: null, isLoading: true });
@@ -42,16 +43,21 @@ const ApproveEvents = () => {
         getEvents();
         // eslint-disable-next-line
     }, []);
+    const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
     const columns = [
         {
             field: "name",
             headerName: "Event Name",
             minWidth: 150,
+            flex: 1,
         },
         {
             field: "committee",
             headerName: "Organized By",
             minWidth: 150,
+            flex: 1,
+            valueGetter: (params) => params.value[0].name,
+            valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
                 return params.row.committee[0].name;
             },
@@ -60,6 +66,9 @@ const ApproveEvents = () => {
             field: "createdBy",
             headerName: "Created By",
             minWidth: 150,
+            flex: 1,
+            valueGetter: (params) => params.value[0].name,
+            valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
                 return params.row.createdBy[0].name;
             },
@@ -69,26 +78,35 @@ const ApproveEvents = () => {
             field: "venue",
             headerName: "Venue",
             minWidth: 180,
+            flex: 1,
         },
         {
             field: "startDate",
             headerName: "Starts On",
             minWidth: 160,
+            flex: 0.5,
+            valueGetter: (params) => params.row.startDate,
+            valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
             renderCell: (params) => {
                 return moment(params.row.startDate).format(
                     "MMMM Do YYYY, h:mm A"
                 );
             },
+            sortComparator: dayInMonthComparator,
         },
         {
             field: "endDate",
             headerName: "Ends On",
             minWidth: 160,
+            flex: 0.5,
+            valueGetter: (params) => params.row.startDate,
+            valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
             renderCell: (params) => {
                 return moment(params.row.endDate).format(
                     "MMMM Do YYYY, h:mm A"
                 );
             },
+            sortComparator: dayInMonthComparator,
         },
         {
             field: "actions",
@@ -158,6 +176,10 @@ const ApproveEvents = () => {
                     getRowId={(row) => row._id}
                     rows={data.events || []}
                     columns={columns}
+                    components={{ Toolbar: DataGridCustomToolbar }}
+                    componentsProps={{
+                        toolbar: { showExport: false, data },
+                    }}
                 />
             </Box>
         </Box>
