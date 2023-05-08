@@ -47,13 +47,15 @@ const AdminEventLog = () => {
             headerName: "Event Name",
             resizable: true,
             minWidth: 250,
+            flex: 1,
         },
         {
             field: "committee",
             headerName: "Organized By",
+            minWidth: 250,
+            flex: 0.6,
             valueGetter: (params) => params.value[0].name,
             valueFormatter: ({ value }) => value[0].name,
-            minWidth: 250,
             renderCell: (params) => {
                 return params.row.committee[0].name;
             },
@@ -61,9 +63,10 @@ const AdminEventLog = () => {
         {
             field: "startDate",
             headerName: "Date",
+            minWidth: 150,
+            flex: 0.3,
             valueGetter: (params) => params.row.startDate,
             valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
-            minWidth: 150,
             renderCell: (params) => {
                 return moment(params.row.startDate).format("MMMM Do YYYY");
             },
@@ -74,6 +77,7 @@ const AdminEventLog = () => {
             headerName: "Registrations",
             type: "number",
             minWidth: 120,
+            flex: 0.3,
             valueGetter: (params) => {
                 return users.filter(
                     (user) => user.event[0].id === params.row._id
