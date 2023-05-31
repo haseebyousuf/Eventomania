@@ -101,6 +101,10 @@ const convenorNavItems = [
         icon: <EventRepeatOutlined />,
     },
     {
+        text: "Event Log",
+        icon: <AssessmentOutlined />,
+    },
+    {
         text: "Committees",
         icon: null,
     },
