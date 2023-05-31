@@ -55,7 +55,6 @@ const AdminEventLog = () => {
             minWidth: 250,
             flex: 0.6,
             valueGetter: (params) => params.value[0].name,
-            valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
                 return params.row.committee[0].name;
             },
