@@ -13,4 +13,5 @@ export {default as EventDetails} from "./EventDetails/EventDetails";
 export {default as PastEvents} from "./PastEvents/PastEvents";
 export {default as ConvenorPastEvents} from "./ConvenorPastEvents/ConvenorPastEvents";
 export {default as AdminEventLog} from "./AdminEventLog/AdminEventLog";
+export {default as ConvenorEventLog} from "./ConvenorEventLog/ConvenorEventLog";
 export {default as AudienceDetails} from "./AudienceDetails/AudienceDetails";
