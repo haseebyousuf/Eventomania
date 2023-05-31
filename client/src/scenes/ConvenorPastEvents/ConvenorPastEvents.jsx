@@ -56,11 +56,13 @@ const ConvenorPastEvents = () => {
             field: "name",
             headerName: "Event Name",
             minWidth: 200,
+            flex: 1,
         },
         {
             field: "committee",
             headerName: "Organized By",
             minWidth: 150,
+            flex: 1,
             valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
                 return <p color="#fff">{params.row.committee[0].name}</p>;
@@ -70,6 +72,7 @@ const ConvenorPastEvents = () => {
             field: "createdBy",
             headerName: "Created By",
             minWidth: 150,
+            flex: 1,
             valueFormatter: ({ value }) => value[0].name,
             renderCell: (params) => {
                 return (
@@ -84,6 +87,7 @@ const ConvenorPastEvents = () => {
             headerName: "Date",
             minWidth: 120,
             type: "date",
+            flex: 0.5,
             valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
             renderCell: (params) => {
                 return moment(params.row.startDate).format("MMMM Do YYYY");
@@ -92,8 +96,8 @@ const ConvenorPastEvents = () => {
         {
             field: "registrations",
             headerName: "Registrations",
-
             minWidth: 80,
+            flex: 0.5,
             renderCell: (params) => {
                 const total = users.filter(
                     (user) => user.event[0].id === params.row._id
