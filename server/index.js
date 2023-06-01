@@ -15,6 +15,7 @@ import committeeRoutes from './routes/committee.js';
 import adminRoutes from './routes/admin.js';
 import eventRoutes from './routes/eventRoutes.js';
 import userRoutes from "./routes/userRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js"
 
 import { createEvent } from "./controllers/eventController.js";
 import { uploadReport } from "./controllers/eventController.js";
@@ -75,6 +76,7 @@ app.use("/committee", committeeRoutes);
 app.use("/admin", adminRoutes);
 app.use("/events", eventRoutes);
 app.use("/user", userRoutes);
+app.use("/dashboard", dashboardRoutes);
 // MONGOOSE Setup
 
 const PORT = process.env.PORT || 9000;
