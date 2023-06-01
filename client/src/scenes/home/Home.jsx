@@ -118,6 +118,7 @@ const Home = () => {
         };
         getEvents();
         getCommittees();
+        // eslint-disable-next-line
     }, []);
 
     const handleUpcomingEventFilter = ({ target }) => {
