@@ -29,6 +29,7 @@ const EventDetails = () => {
         } else {
             setEvent(location.state.event);
         }
+        // eslint-disable-next-line
     }, []);
     const mode = useSelector((state) => state.mode);
     const theme = useTheme();
