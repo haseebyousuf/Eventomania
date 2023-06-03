@@ -12,33 +12,49 @@ import {
 import axios from "axios";
 import { motion } from "framer-motion";
 
+
 const studentSchema = yup.object().shape({
     name: yup.string().required("Name is required"),
     regNo: yup.string().required("Registration Number is required"),
-    semester: yup.string().required("Semester is required"),
-    course: yup.string().required("Course is required"),
-    department: yup.string().required("Department is required"),
+    courseSemesterDept: yup
+        .string()
+        .matches(new RegExp(/^.+-.+-.+$/), "Please use Hyphens (-)")
+        .required("Required Field"),
+    mobileNo: yup
+        .string()
+        .matches(
+            new RegExp(/^(\+91[-\s]?)?[0]?(91)?[6789]\d{9}$/),
+            "That doesn't look like a valid phone number"
+        )
+        .required("Mobile is required"),
+    email: yup
+        .string()
+        .email("That doesn't look like an email")
+        .required("Email is required"),
 });
 const inputs = [
     { label: "Name", name: "name" },
     { label: "Registration Number", name: "regNo" },
-    { label: "Semester", name: "semester" },
-    { label: "Course", name: "course" },
-    { label: "Department", name: "department" },
+    { label: "Mobile Number", name: "mobileNo" },
+    { label: "Email", name: "email" },
+    { label: "Course - Department - Semester", name: "courseSemesterDept" },
 ];
 const initialValuesStudent = {
     name: "",
     regNo: "",
-    semester: "",
-    course: "",
+    mobileNo: "",
+    email: "",
+    courseSemesterDept: "",
     department: "",
 };
 const StudentForm = ({ eventDetails }) => {
     // STATES
     const [buttonDisabled, setButtonDisabled] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState(null);
-    const [severity, setSeverity] = useState(null);
+    const [snackbarData, setSnackbarData] = useState({
+        open: false,
+        message: "",
+        severity: "success",
+    });
     // FUNCTION TO SUBMIT FORM
     const handleFormSubmit = async (values, onSubmitProps) => {
         setButtonDisabled(true);
@@ -47,10 +63,14 @@ const StudentForm = ({ eventDetails }) => {
             id: eventDetails._id,
         };
         try {
-            const { regNo } = values;
-
+            const { regNo, courseSemesterDept } = values;
+            const [course, department, semester] =
+                courseSemesterDept.split("-");
             const student = {
                 ...values,
+                course,
+                semester,
+                department,
                 regNo: regNo.toUpperCase(),
                 event,
                 type: "student",
@@ -65,20 +85,32 @@ const StudentForm = ({ eventDetails }) => {
             onSubmitProps.resetForm();
             if (savedStudent) {
                 setButtonDisabled(false);
-                setSeverity("success");
-                setMessage("Registered Successfully!");
-                setOpen(true);
+                setSnackbarData({
+                    ...snackbarData,
+                    open: true,
+                    message: "Registered Successfully!",
+                    severity: "success",
+                });
                 setTimeout(() => {
-                    setOpen(false);
+                    setSnackbarData({
+                        ...snackbarData,
+                        open: false,
+                    });
                 }, 6000);
             }
         } catch (error) {
-            setSeverity("error");
-            setMessage(error.response.data.msg);
-            setOpen(true);
             setButtonDisabled(false);
+            setSnackbarData({
+                ...snackbarData,
+                open: true,
+                message: error.response.data.msg,
+                severity: "error",
+            });
             setTimeout(() => {
-                setOpen(false);
+                setSnackbarData({
+                    ...snackbarData,
+                    open: false,
+                });
             }, 6000);
         }
     };
@@ -103,7 +135,7 @@ const StudentForm = ({ eventDetails }) => {
                 <form onSubmit={handleSubmit}>
                     <Snackbar
                         sx={{ position: "absolute" }}
-                        open={open}
+                        open={snackbarData.open}
                         autoHideDuration={6000}
                         TransitionComponent={SlideTransition}
                         anchorOrigin={{
@@ -111,8 +143,11 @@ const StudentForm = ({ eventDetails }) => {
                             horizontal: "right",
                         }}
                     >
-                        <Alert variant="filled" severity={severity}>
-                            {message}
+                        <Alert
+                            variant="filled"
+                            severity={snackbarData.severity}
+                        >
+                            {snackbarData.message}
                         </Alert>
                     </Snackbar>
 
@@ -132,7 +167,12 @@ const StudentForm = ({ eventDetails }) => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             helperText={
-                                touched[input.name] ? errors[input.name] : ""
+                                touched[input.name]
+                                    ? errors[input.name]
+                                    : input.name === "courseSemesterDept" &&
+                                      !touched[input.name]
+                                    ? "e.g. IG-IT-10th"
+                                    : ""
                             }
                             error={
                                 touched[input.name] &&
@@ -152,7 +192,7 @@ const StudentForm = ({ eventDetails }) => {
                     <CardActions
                         display="flex"
                         sx={{
-                            paddingBottom: "1rem",
+                            paddingBottom: "0.2rem",
                             justifyContent: "center",
                         }}
                     >
