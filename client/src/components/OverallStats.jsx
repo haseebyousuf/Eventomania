@@ -1,28 +1,11 @@
 import { useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
-import axios from "axios";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Rings } from "react-loader-spinner";
 
-const OverallStats = () => {
+const OverallStats = ({ data }) => {
     const theme = useTheme();
-    const [data, setData] = useState(null);
-    useEffect(() => {
-        const getEvents = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BASE_URL}/events/eventsPerMonth`
-                );
-
-                setData(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        getEvents();
-    }, []);
-
     const totalEventsLine = useMemo(() => {
         if (data) {
             return [
