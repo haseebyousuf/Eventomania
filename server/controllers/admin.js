@@ -83,3 +83,17 @@ export const addConvenor = async(req,res) => {
     res.status(500).json({ error: err.message });
   }
 }
+
+export const addMember = async(req,res) => {
+  try{
+    const { name,email, password, committeeId, committeeName,role, mobile } = req.body;
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+    const newMember = new Admin({email, password:passwordHash, name, role, committeeName, committeeId, mobile});
+    const savedMember = await newMember.save();
+    res.status(201).json( {savedMember});     
+
+  }catch(err){
+    res.status(500).json({ error: err.message });
+  }
+}
