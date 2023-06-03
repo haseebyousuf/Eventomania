@@ -1,6 +1,6 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
-import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
+import GroupsIcon from "@mui/icons-material/Groups";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -23,7 +23,7 @@ const EventActions = ({ users, data, params }) => {
                         });
                     }}
                 >
-                    <GroupsOutlinedIcon color="success" />
+                    <GroupsIcon color="success" />
                 </IconButton>
             </Tooltip>
             <Tooltip title="Download Report">
@@ -34,7 +34,7 @@ const EventActions = ({ users, data, params }) => {
                         rel="noreferrer"
                     >
                         {" "}
-                        <DownloadForOfflineOutlinedIcon color="info" />
+                        <DownloadForOfflineIcon color="info" />
                     </a>
                 </IconButton>
             </Tooltip>
