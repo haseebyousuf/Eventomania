@@ -8,7 +8,6 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import StudentForm from "./StudentForm";
 import FacultyForm from "./FacultyForm";
 import { motion } from "framer-motion";
@@ -19,18 +18,17 @@ const Register = ({ event }) => {
     const handleTabChange = (event, newTabIndex) => {
         setTabIndex(newTabIndex);
     };
-    const mode = useSelector((state) => state.mode);
 
     const theme = useTheme();
     return (
         <Box>
             <Card
+                borderRadius="5rem"
                 sx={{
                     padding: "0rem 2rem",
-                    backgroundColor:
-                        mode === "dark"
-                            ? "transparent"
-                            : theme.palette.background.alt,
+                    borderRadius: "0.55rem",
+                    backgroundImage: "none",
+                    backgroundColor: theme.palette.background.alt,
                 }}
             >
                 <CardContent>
@@ -44,7 +42,7 @@ const Register = ({ event }) => {
                             fontSize="1.8rem"
                             textDecoration="underline"
                             fontWeight="bold"
-                            p="1rem 0rem 1rem 0rem"
+                            p="0.3rem 0rem 1rem 0rem"
                             color={theme.palette.secondary.main}
                         >
                             REGISTER NOW!
@@ -97,26 +95,6 @@ const Register = ({ event }) => {
                         )}
                     </Box>
                 </CardContent>
-                {/* <CardActions
-          display="flex"
-          sx={{
-            paddingBottom: "1rem",
-            justifyContent: "center",
-          }}
-        >
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{
-              color: "black",
-              fontWeight: "bold",
-            }}
-            size="large"
-            color="secondary"
-          >
-            Register
-          </Button>
-        </CardActions> */}
             </Card>
         </Box>
     );
