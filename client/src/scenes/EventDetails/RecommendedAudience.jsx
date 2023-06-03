@@ -7,10 +7,8 @@ import {
     useTheme,
 } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
 
 const RecommendedAudience = ({ event }) => {
-    const mode = useSelector((state) => state.mode);
     const theme = useTheme();
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     return (
@@ -51,10 +49,10 @@ const RecommendedAudience = ({ event }) => {
                             <Card
                                 key={e}
                                 sx={{
+                                    borderRadius: "0.55rem",
+                                    backgroundImage: "none",
                                     backgroundColor:
-                                        mode === "dark"
-                                            ? "transparent"
-                                            : theme.palette.background.alt,
+                                        theme.palette.background.alt,
                                 }}
                             >
                                 <CardContent
