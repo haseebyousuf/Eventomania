@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
-import HomeNavbar from "../../components/HomeNavbar";
+import HomeNavbar from "../HomeNavbar";
 import EventHeader from "./EventHeader";
 import EventDescription from "./EventDescription";
 import RecommendedAudience from "./RecommendedAudience";

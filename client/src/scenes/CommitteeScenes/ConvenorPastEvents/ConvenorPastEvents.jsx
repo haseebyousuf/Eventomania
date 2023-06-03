@@ -14,7 +14,7 @@ import moment from "moment";
 import EventActions from "./EventActions";
 import { useSelector } from "react-redux";
 import UploadReport from "components/UploadReport";
-import DataGridCustomToolbar from "../../components/DataGridCustomToolbar";
+import DataGridCustomToolbar from "../../../components/DataGridCustomToolbar";
 const ConvenorPastEvents = () => {
     const theme = useTheme();
     const user = useSelector((state) => state.user);

@@ -4,12 +4,16 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
-import {Home,Dashboard, Layout, AddCommittees , Login, AllCommittees,Convenors, AddConvenor, CreateEvent, ApproveEvents, EventDetails, PastEvents, ConvenorPastEvents, AdminEventLog, AudienceDetails, ConvenorEventLog, CommitteeDashboard} from "./scenes"
+import {Home,Dashboard, Layout, AddCommittees , Login, AllCommittees,Convenors, AddConvenor, CreateEvent, ApproveEvents, EventDetails, PastEvents, ConvenorPastEvents, AdminEventLog, AudienceDetails, ConvenorEventLog, CommitteeDashboard, AddMember} from "./scenes"
 function App() { 
     const mode = useSelector((state) => state.mode);
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
     const isAuth = Boolean(useSelector((state) => state.token));
     const user = useSelector((state)=> state.user);
+    const admin = isAuth && user.role === 'admin';
+    const member = isAuth && user.role === 'member';
+    const convenor = isAuth && user.role === 'convenor';
+    console.log(admin,member,convenor);
   return (
     <div className="app">
         <BrowserRouter>
@@ -21,18 +25,19 @@ function App() {
                     <Route  path="/Login" element={!isAuth ? <Login /> : <Navigate to="/Dashboard" />}  />
                     <Route element={<Layout />} >
                         {/* admin Routes */}
-                        <Route path="/Dashboard" element={isAuth && user.role === "admin" ? <Dashboard /> : isAuth && user.role === ("convenor" || "member")? <CommitteeDashboard />: <Navigate to="/Login" />}  />
-                        <Route path="/ApproveEvents" element={isAuth && user.role === "admin" ? <ApproveEvents /> : <Navigate to="/Login" />}  />
-                        <Route path="/PastEvents" element={isAuth && user.role === "admin" ? <PastEvents /> : isAuth && user.role === "convenor"? <ConvenorPastEvents />: <Navigate to="/Login" />}  />
-                        <Route path="/EventLog" element={isAuth && user.role === "admin" ? <AdminEventLog /> : isAuth && user.role === "convenor"? <ConvenorEventLog />: <Navigate to="/Login" />}  />
-                        <Route path="/AddCommittees" element={isAuth && user.role === "admin" ? <AddCommittees /> : <Navigate to="/Login" />}  />
-                        <Route path="/ViewCommittees" element={isAuth && user.role === "admin" ? <AllCommittees /> : <Navigate to="/Login" />}  />
-                        <Route path="/Convenors" element={isAuth && user.role === "admin"  ? <Convenors /> : <Navigate to="/Login" />}  />
+                        <Route path="/Dashboard" element={admin ? <Dashboard /> : convenor ? <CommitteeDashboard />: member ? <CommitteeDashboard /> : <Navigate to="/Login" />}  />
+                        <Route path="/ApproveEvents" element={admin ? <ApproveEvents /> : <Navigate to="/Login" />}  />
+                        <Route path="/PastEvents" element={admin ? <PastEvents /> : convenor? <ConvenorPastEvents />: member ? <ConvenorPastEvents /> : <Navigate to="/Login" />}  />
+                        <Route path="/EventLog" element={admin ? <AdminEventLog /> : convenor? <ConvenorEventLog />: member ? <ConvenorEventLog /> : <Navigate to="/Login" />}  />
+                        <Route path="/AddCommittees" element={admin ? <AddCommittees /> : <Navigate to="/Login" />}  />
+                        <Route path="/ViewCommittees" element={admin ? <AllCommittees /> : <Navigate to="/Login" />}  />
+                        <Route path="/Convenors" element={admin  ? <Convenors /> : <Navigate to="/Login" />}  />
                         <Route path="/Registrations/:eventId" element={isAuth && (user.role === "admin" || user.role === "convenor" || user.role === "member")  ? <AudienceDetails /> : <Navigate to="/Login" />}  />
 
-                        <Route path="/AddConvenors" element={isAuth && user.role === "admin" ? <AddConvenor /> : <Navigate to="/Login" />}  />
+                        <Route path="/AddConvenors" element={admin ? <AddConvenor /> : <Navigate to="/Login" />}  />
+                        <Route path="/AddMember" element={admin ? <AddMember /> : <Navigate to="/Login" />}  />
                         {/* convenor routes */}
-                        <Route path="/CreateEvent" element={isAuth && user.role === "convenor" ? <CreateEvent /> : <Navigate to="/Login" />}  />
+                        <Route path="/CreateEvent" element={convenor ? <CreateEvent /> : member ? <CreateEvent />: <Navigate to="/Login" />}  />
 
                     </Route> 
                 </Routes>
