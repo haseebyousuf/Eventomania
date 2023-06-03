@@ -56,6 +56,7 @@ const AudienceDetails = () => {
             headerName: "Reg. No. / Employee ID",
             minWidth: 160,
             flex: 1,
+            valueGetter: (params) => params.row.regNo || params.row.employeeId,
             renderCell: (params) => {
                 return params.row.regNo || params.row.employeeId;
             },
