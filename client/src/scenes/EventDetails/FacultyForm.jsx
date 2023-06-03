@@ -15,21 +15,34 @@ import { motion } from "framer-motion";
 const facultySchema = yup.object().shape({
     name: yup.string().required("Name is required"),
     employeeId: yup.string().required("Employee ID is required"),
-    designation: yup.string().required("Designation is required"),
     department: yup.string().required("Department is required"),
+    mobileNo: yup
+        .string()
+        .matches(
+            new RegExp(/^(\+91[-\s]?)?[0]?(91)?[6789]\d{9}$/),
+            "That doesn't look like a valid phone number"
+        )
+        .required("Mobile is required"),
+    email: yup
+        .string()
+        .email("That doesn't look like an email")
+        .required("Email is required"),
 });
 const initialValuesFaculty = {
     name: "",
     employeeId: "",
-    designation: "",
+    mobileNo: "",
+    email: "",
     department: "",
 };
 const FacultyForm = ({ eventDetails }) => {
     // STATES
     const [buttonDisabled, setButtonDisabled] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState(null);
-    const [severity, setSeverity] = useState(null);
+    const [snackbarData, setSnackbarData] = useState({
+        open: false,
+        message: "",
+        severity: "success",
+    });
     // FUNCTION TO SUBMIT FORM
     const handleFormSubmit = async (values, onSubmitProps) => {
         setButtonDisabled(true);
@@ -56,20 +69,32 @@ const FacultyForm = ({ eventDetails }) => {
             onSubmitProps.resetForm();
             if (savedFaculty) {
                 setButtonDisabled(false);
-                setSeverity("success");
-                setMessage("Registered Successfully!");
-                setOpen(true);
+                setSnackbarData({
+                    ...snackbarData,
+                    open: true,
+                    message: "Registered Successfully!",
+                    severity: "success",
+                });
                 setTimeout(() => {
-                    setOpen(false);
+                    setSnackbarData({
+                        ...snackbarData,
+                        open: false,
+                    });
                 }, 6000);
             }
         } catch (error) {
-            setSeverity("error");
-            setMessage(error.response.data.msg);
-            setOpen(true);
             setButtonDisabled(false);
+            setSnackbarData({
+                ...snackbarData,
+                open: true,
+                message: error.response.data.msg,
+                severity: "error",
+            });
             setTimeout(() => {
-                setOpen(false);
+                setSnackbarData({
+                    ...snackbarData,
+                    open: false,
+                });
             }, 6000);
         }
     };
@@ -80,7 +105,8 @@ const FacultyForm = ({ eventDetails }) => {
     const inputs = [
         { label: "Name", name: "name" },
         { label: "Employee ID", name: "employeeId" },
-        { label: "Designation", name: "designation" },
+        { label: "Mobile Number", name: "mobileNo" },
+        { label: "Email", name: "email" },
         { label: "Department", name: "department" },
     ];
     return (
@@ -100,7 +126,7 @@ const FacultyForm = ({ eventDetails }) => {
                 <form onSubmit={handleSubmit}>
                     <Snackbar
                         sx={{ position: "absolute" }}
-                        open={open}
+                        open={snackbarData.open}
                         autoHideDuration={6000}
                         TransitionComponent={SlideTransition}
                         anchorOrigin={{
@@ -108,8 +134,11 @@ const FacultyForm = ({ eventDetails }) => {
                             horizontal: "right",
                         }}
                     >
-                        <Alert variant="filled" severity={severity}>
-                            {message}
+                        <Alert
+                            variant="filled"
+                            severity={snackbarData.severity}
+                        >
+                            {snackbarData.message}
                         </Alert>
                     </Snackbar>
 
@@ -151,7 +180,7 @@ const FacultyForm = ({ eventDetails }) => {
                     <CardActions
                         display="flex"
                         sx={{
-                            paddingBottom: "1rem",
+                            paddingBottom: "0.2rem",
                             justifyContent: "center",
                         }}
                     >
