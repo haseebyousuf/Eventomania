@@ -82,6 +82,10 @@ const adminNavItems = [
         text: "Members",
         icon: <ControlPointOutlined />,
     },
+    {
+        text: "Add Member",
+        icon: <ControlPointOutlined />,
+    },
 ];
 const convenorNavItems = [
     {
@@ -123,6 +127,37 @@ const convenorNavItems = [
     {
         text: "Add Members",
         icon: <ControlPointOutlined />,
+    },
+];
+const memberNavItems = [
+    {
+        text: "Dashboard",
+        icon: <HomeOutlined />,
+    },
+    {
+        text: "Events",
+        icon: null,
+    },
+    {
+        text: "Create Event",
+        icon: <EventOutlined />,
+    },
+    {
+        text: "Past Events",
+        icon: <EventRepeatOutlined />,
+    },
+    {
+        text: "Event Log",
+        icon: <AssessmentOutlined />,
+    },
+
+    {
+        text: "Management",
+        icon: null,
+    },
+    {
+        text: "Members",
+        icon: <VisibilityOutlined />,
     },
 ];
 const Sidebar = ({
@@ -260,6 +295,70 @@ const Sidebar = ({
                                 })}
                             {user.role === "convenor" &&
                                 convenorNavItems.map(({ text, icon }) => {
+                                    if (!icon) {
+                                        return (
+                                            <Typography
+                                                key={text}
+                                                sx={{
+                                                    m: "2.25rem 0 1rem 3rem",
+                                                }}
+                                            >
+                                                {text}
+                                            </Typography>
+                                        );
+                                    }
+                                    const lcText = text.replaceAll(" ", "");
+                                    return (
+                                        <ListItem key={text} disablePadding>
+                                            <ListItemButton
+                                                onClick={() => {
+                                                    navigate(`/${lcText}`);
+                                                    setActive(lcText);
+                                                    if (!isNonMobile) {
+                                                        setIsSidebarOpen(
+                                                            !isSidebarOpen
+                                                        );
+                                                    }
+                                                }}
+                                                sx={{
+                                                    backgroundColor:
+                                                        active === lcText
+                                                            ? theme.palette
+                                                                  .secondary[300]
+                                                            : "transparent",
+                                                    color:
+                                                        active === lcText
+                                                            ? theme.palette
+                                                                  .primary[600]
+                                                            : theme.palette
+                                                                  .secondary[100],
+                                                }}
+                                            >
+                                                <ListItemIcon
+                                                    sx={{
+                                                        ml: "1rem",
+                                                        color:
+                                                            active === lcText
+                                                                ? theme.palette
+                                                                      .primary[600]
+                                                                : theme.palette
+                                                                      .secondary[200],
+                                                    }}
+                                                >
+                                                    {icon}
+                                                </ListItemIcon>
+                                                <ListItemText primary={text} />
+                                                {active === lcText && (
+                                                    <ChevronRightOutlined
+                                                        sx={{ ml: "auto" }}
+                                                    />
+                                                )}
+                                            </ListItemButton>
+                                        </ListItem>
+                                    );
+                                })}
+                            {user.role === "member" &&
+                                memberNavItems.map(({ text, icon }) => {
                                     if (!icon) {
                                         return (
                                             <Typography
