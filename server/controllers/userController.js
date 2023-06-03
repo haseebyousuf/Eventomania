@@ -2,11 +2,14 @@ import User from "../models/User.js";
 
 export const registerStudent = async (req, res) => {
   try {
-      const { name, regNo, semester, course, department, event, type } =
+      const { name, mobileNo, email, regNo, semester, course, department, event, type } =
           req.body;
           //check if student already registered for the given event
       const user = await User.find({
-          regNo: regNo,
+        $or: [
+          { regNo: regNo },
+          { email: email }
+        ],
           event: { $elemMatch: { id: event.id } },
       });
       //return error if student already registered
@@ -17,6 +20,8 @@ export const registerStudent = async (req, res) => {
       const newUser = new User({
           name,
           regNo,
+          phoneNo: mobileNo,
+          email,
           semester,
           course,
           department,
@@ -31,11 +36,14 @@ export const registerStudent = async (req, res) => {
 };
 export const registerFaculty = async (req, res) => {
   try {
-      const { name, employeeId, designation, department, event, type } =
+      const { name,mobileNo, email, employeeId, designation, department, event, type } =
           req.body;
           //check if faculty already registered for the given event
       const user = await User.find({
-        employeeId: employeeId,
+        $or: [
+          { employeeId: employeeId },
+          { email: email }
+        ],
           event: { $elemMatch: { id: event.id } },
       });
       //return error if faculty already registered
@@ -46,6 +54,8 @@ export const registerFaculty = async (req, res) => {
       const newUser = new User({
           name,
           employeeId,
+          phoneNo: mobileNo,
+          email,
           designation,
           department,
           event,
