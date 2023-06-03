@@ -7,7 +7,7 @@ import {
   ChevronRight,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { setMode } from "state";
 import {
   AppBar,
@@ -46,7 +46,6 @@ const navItems = [
 const Navbar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const mode = useSelector((state) => state.mode);
 
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -54,17 +53,17 @@ const Navbar = () => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (isNonMobile) {
-      setIsSidebarOpen(false);
-    }
+      if (isNonMobile) {
+          setIsSidebarOpen(false);
+      }
   }, [isNonMobile]);
 
   return (
       <AppBar
           sx={{
               position: "sticky",
-              backgroundColor:
-                  mode === "dark" ? "#2d3355" : theme.palette.background.alt,
+              backgroundImage: "none",
+              backgroundColor: theme.palette.background.alt,
               boxShadow: "0 2px 0px rgba(0 0 0 / 0.1)",
               // borderBottom: "2px",
               // BorderBottomColor: "red",
