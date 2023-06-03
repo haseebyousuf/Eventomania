@@ -11,7 +11,6 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TodayIcon from "@mui/icons-material/Today";
 import moment from "moment";
 import React from "react";
-import { useSelector } from "react-redux";
 
 const EventHeader = ({
     name,
@@ -21,12 +20,10 @@ const EventHeader = ({
     venue,
     organizedBy,
 }) => {
-    const mode = useSelector((state) => state.mode);
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor:
-            mode === "dark" ? "transparent" : theme.palette.background.alt,
-        // ...theme.typography.body2,
+        backgroundImage: "none",
+        backgroundColor: theme.palette.background.alt,
         padding: theme.spacing(1),
         textAlign: "center",
         color: theme.palette.text.secondary,
