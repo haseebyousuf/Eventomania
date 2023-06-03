@@ -101,90 +101,19 @@ export const togglePublish = async(req, res) =>{
     res.status(500).json({ error: error.message });
   }
 }
-// Function to get events per month
-export const eventsPerMonth = async (req, res) => {
-  try {
-    const currentYear = moment().year(); // Get the current year
-    const currentMonth = moment().month(); // Get the current month (0-11)
 
-    const events = await Event.find({ isApproved: true }).exec();
-
-    // Create an object to store the count of events per month
-    const eventsCountByMonth = {};
-    for (const event of events) {
-      const startDate = moment(event.startDate);
-      if (
-        startDate.year() === currentYear &&
-        startDate.month() <= currentMonth
-      ) {
-        const monthName = startDate.format('MMM');
-        if (eventsCountByMonth[monthName]) {
-          eventsCountByMonth[monthName]++;
-        } else {
-          eventsCountByMonth[monthName] = 1;
-        }
-      }
+export const deleteEvent = async(req, res) => {
+  try{
+    const {eventId} = req.body;
+    const deletedEvent = await Event.deleteOne({_id: eventId})
+    if(deletedEvent){
+      console.log(deletedEvent)
+      res.status(201).json( {msg: "Deleted Successfully"});
+    }else{
+    res.status(500).json({ error: error.message });
     }
 
-    // Generate an array of month names up to the current month
-    const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
-
-    // Format data for Nivo line chart
-    const formattedData = allMonths.map(month => ({
-      x: month,
-      y: eventsCountByMonth[month] || 0
-    }));
-
-    res.status(201).json(formattedData);
-  } catch (error) {
-    console.log('Error:', error); // Log the error for debugging
-    res.status(500).json({ error: 'An error occurred while fetching events per month.' });
+  }catch (error) {
+    res.status(500).json({ error: error.message });
   }
-};
-
-
-export const eventsPerMonthByCommittee = async (req, res) => {
-  try {
-    const currentYear = moment().year(); // Get the current year
-    const currentMonth = moment().month(); // Get the current month (0-11)
-    const committeeId = req.body.committeeId; // Get the committee ID from the request body
-
-    const events = await Event.find({
-      isApproved: true,
-      'committee.id': committeeId
-    }).exec();
-
-    // Create an object to store the count of events per month
-    const eventsCountByMonth = {};
-    for (const event of events) {
-      const startDate = moment(event.startDate);
-      if (
-        startDate.year() === currentYear &&
-        startDate.month() <= currentMonth
-      ) {
-        const monthName = startDate.format('MMM');
-        if (eventsCountByMonth[monthName]) {
-          eventsCountByMonth[monthName]++;
-        } else {
-          eventsCountByMonth[monthName] = 1;
-        }
-      }
-    }
-
-    // Generate an array of month names up to the current month
-    const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
-
-    // Format data for Nivo line chart
-    const formattedData = allMonths.map(month => ({
-      x: month,
-      y: eventsCountByMonth[month] || 0
-    }));
-
-    res.status(201).json(formattedData);
-  } catch (error) {
-    console.log('Error:', error); // Log the error for debugging
-    res
-      .status(500)
-      .json({ error: 'An error occurred while fetching events per month for the committee.' });
-  }
-};
+}
