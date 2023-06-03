@@ -13,7 +13,7 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 const loginSchema = yup.object().shape({
     email: yup.string().email("invalid email").required("required"),
@@ -27,7 +27,6 @@ const LoginForm = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-    const mode = useSelector((state) => state.mode);
 
     const theme = useTheme();
     const [buttonDisabled, setButtonDisabled] = React.useState(false);
@@ -78,11 +77,9 @@ const LoginForm = () => {
                     <Box>
                         <Card
                             sx={{
-                                padding: "0rem 2rem",
-                                backgroundColor:
-                                    mode === "dark"
-                                        ? "transparent"
-                                        : theme.palette.background.alt,
+                                padding: "0rem 1.8rem",
+                                backgroundImage: "none",
+                                backgroundColor: theme.palette.background.alt,
                             }}
                         >
                             <CardContent>
