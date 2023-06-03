@@ -18,8 +18,12 @@ import { motion } from "framer-motion";
 const PastEvents = () => {
     const theme = useTheme();
     const [data, setData] = useState({ events: null, isLoading: true });
-    const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState(null);
+    const [users, setUsers] = useState(null);
+    const [snackbarData, setSnackbarData] = useState({
+        open: false,
+        message: "",
+        severity: "success",
+    });
 
     const getEvents = async () => {
         try {
@@ -30,6 +34,10 @@ const PastEvents = () => {
                 (a, b) => moment(b.startDate) - moment(a.startDate)
             );
             setData({ ...data, events: sortedEvents, isLoading: false });
+            const userResponse = await axios.get(
+                `${process.env.REACT_APP_BASE_URL}/user/getUsers`
+            );
+            setUsers(userResponse.data);
         } catch (error) {
             console.error(error);
         }
@@ -47,12 +55,23 @@ const PastEvents = () => {
             const savedCommittee = await savedCommitteeResponse.data;
             if (savedCommittee) {
                 getEvents();
-                setMessage(
-                    isPublished ? "Event Unpublished" : "Event Published"
-                );
-                setOpen(true);
+                setSnackbarData({
+                    ...snackbarData,
+                    open: true,
+                    message: isPublished
+                        ? "Event Unpublished"
+                        : "Event Published",
+                    severity: "success",
+                });
+                // setMessage(
+                //     isPublished ? "Event Unpublished" : "Event Published"
+                // );
+                // setOpen(true);
                 setTimeout(() => {
-                    setOpen(false);
+                    setSnackbarData({
+                        ...snackbarData,
+                        open: false,
+                    });
                 }, 4000);
             }
         } catch (error) {
@@ -160,7 +179,15 @@ const PastEvents = () => {
             type: "actions",
             width: 190,
             renderCell: (params) => (
-                <EventActions setData={setData} data={data} {...{ params }} />
+                <EventActions
+                    users={users}
+                    getEvents={getEvents}
+                    snackbarData={snackbarData}
+                    setSnackbarData={setSnackbarData}
+                    setData={setData}
+                    data={data}
+                    {...{ params }}
+                />
             ),
         },
     ];
@@ -179,7 +206,7 @@ const PastEvents = () => {
         >
             <Snackbar
                 sx={{ position: "absolute" }}
-                open={open}
+                open={snackbarData.open}
                 autoHideDuration={4000}
                 TransitionComponent={SlideTransition}
                 anchorOrigin={{
@@ -187,8 +214,8 @@ const PastEvents = () => {
                     horizontal: "center",
                 }}
             >
-                <Alert variant="filled" severity="success">
-                    {message}
+                <Alert variant="filled" severity={snackbarData.severity}>
+                    {snackbarData.message}
                 </Alert>
             </Snackbar>
             <Header title="PAST EVENTS" subtitle="List of All Past Events." />
