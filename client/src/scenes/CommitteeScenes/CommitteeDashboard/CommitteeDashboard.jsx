@@ -13,6 +13,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import BreakdownChart from "components/BreakdownChart";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 const CommitteeDashboard = () => {
     const user = useSelector((state) => state.user);
     const [data, setData] = useState(null);
@@ -78,7 +79,13 @@ const CommitteeDashboard = () => {
     return (
         <>
             {data && (
-                <Box m="1.5rem 2.5rem">
+                <Box
+                    m="1.5rem 2.5rem"
+                    component={motion.div}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3, ease: "easeInOut" }}
+                >
                     <Header
                         title="DASHBOARD"
                         subtitle="Welcome to your dashboard"

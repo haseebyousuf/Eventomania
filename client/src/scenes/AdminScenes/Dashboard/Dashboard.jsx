@@ -12,6 +12,7 @@ import OverallStats from "components/OverallStats";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import BreakdownChart from "components/BreakdownChart";
+import { motion } from "framer-motion";
 const Dashboard = () => {
     const [data, setData] = useState(null);
     const theme = useTheme();
@@ -71,7 +72,13 @@ const Dashboard = () => {
     return (
         <>
             {data && (
-                <Box m="1.5rem 2.5rem">
+                <Box
+                    m="1.5rem 2.5rem"
+                    component={motion.div}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3, ease: "easeInOut" }}
+                >
                     <Header
                         title="DASHBOARD"
                         subtitle="Welcome to your dashboard"

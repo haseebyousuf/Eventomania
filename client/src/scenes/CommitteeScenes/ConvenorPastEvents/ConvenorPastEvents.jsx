@@ -15,6 +15,8 @@ import EventActions from "./EventActions";
 import { useSelector } from "react-redux";
 import UploadReport from "components/UploadReport";
 import DataGridCustomToolbar from "../../../components/DataGridCustomToolbar";
+import { motion } from "framer-motion";
+import Header from "components/Header";
 const ConvenorPastEvents = () => {
     const theme = useTheme();
     const user = useSelector((state) => state.user);
@@ -171,7 +173,14 @@ const ConvenorPastEvents = () => {
     };
 
     return (
-        <Box m="1rem 2.5rem" position="relative">
+        <Box
+            m="1rem 2.5rem"
+            position="relative"
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, ease: "easeInOut" }}
+        >
             <Snackbar
                 sx={{ position: "absolute" }}
                 open={open}
@@ -186,29 +195,7 @@ const ConvenorPastEvents = () => {
                     Report Uploaded Successfully
                 </Alert>
             </Snackbar>
-            <Box
-                flexDirection="column"
-                display="flex"
-                justifyContent="center"
-                alignItems="flex-center"
-            >
-                <Typography
-                    fontSize="1.5rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    PAST EVENTS
-                </Typography>
-                <Typography
-                    fontSize="1rem"
-                    textDecoration="underline"
-                    fontWeight="bold"
-                    color={theme.palette.secondary.main}
-                >
-                    List of All Past Events
-                </Typography>
-            </Box>
+            <Header title="PAST EVENTS" subtitle="List of All Past Events." />
             <Box
                 mt="20px"
                 pb="20px"
