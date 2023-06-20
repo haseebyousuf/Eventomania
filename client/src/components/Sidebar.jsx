@@ -18,15 +18,19 @@ import {
 import {
     EventRepeatOutlined,
     EventOutlined,
-    VisibilityOutlined,
-    ControlPointOutlined,
     ChevronLeft,
     ChevronRightOutlined,
     HomeOutlined,
-    Diversity3Outlined,
     AssessmentOutlined,
     LogoutOutlined,
 } from "@mui/icons-material";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import Diversity2Icon from "@mui/icons-material/Diversity2";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import PasswordIcon from "@mui/icons-material/Password";
+import PersonIcon from "@mui/icons-material/Person";
 
 import FlexBetween from "./FlexBetween";
 import Profile from "assets/profile.png";
@@ -60,11 +64,11 @@ const adminNavItems = [
     },
     {
         text: "View Committees",
-        icon: <Diversity3Outlined />,
+        icon: <Diversity2Icon />,
     },
     {
         text: "Add Committees",
-        icon: <ControlPointOutlined />,
+        icon: <GroupAddIcon />,
     },
     {
         text: "Management",
@@ -72,19 +76,31 @@ const adminNavItems = [
     },
     {
         text: "Convenors",
-        icon: <VisibilityOutlined />,
+        icon: <SupervisorAccountIcon />,
     },
     {
         text: "Add Convenors",
-        icon: <VisibilityOutlined />,
+        icon: <ManageAccountsIcon />,
     },
     {
         text: "Members",
-        icon: <ControlPointOutlined />,
+        icon: <SupervisorAccountIcon />,
     },
     {
         text: "Add Member",
-        icon: <ControlPointOutlined />,
+        icon: <PersonAddAlt1Icon />,
+    },
+    {
+        text: "Account",
+        icon: null,
+    },
+    {
+        text: "Update Profile",
+        icon: <PersonIcon />,
+    },
+    {
+        text: "Change Password",
+        icon: <PasswordIcon />,
     },
 ];
 const convenorNavItems = [
@@ -108,25 +124,37 @@ const convenorNavItems = [
         text: "Event Log",
         icon: <AssessmentOutlined />,
     },
-    {
-        text: "Committees",
-        icon: null,
-    },
-    {
-        text: "Committee Description",
-        icon: <VisibilityOutlined />,
-    },
+    // {
+    //     text: "Committees",
+    //     icon: null,
+    // },
+    // {
+    //     text: "Committee Description",
+    //     icon: <Diversity2Icon />,
+    // },
     {
         text: "Management",
         icon: null,
     },
     {
         text: "Members",
-        icon: <VisibilityOutlined />,
+        icon: <SupervisorAccountIcon />,
     },
     {
-        text: "Add Members",
-        icon: <ControlPointOutlined />,
+        text: "Add Member",
+        icon: <PersonAddAlt1Icon />,
+    },
+    {
+        text: "Account",
+        icon: null,
+    },
+    {
+        text: "Update Profile",
+        icon: <PersonIcon />,
+    },
+    {
+        text: "Change Password",
+        icon: <PasswordIcon />,
     },
 ];
 const memberNavItems = [
@@ -157,7 +185,19 @@ const memberNavItems = [
     },
     {
         text: "Members",
-        icon: <VisibilityOutlined />,
+        icon: <SupervisorAccountIcon />,
+    },
+    {
+        text: "Account",
+        icon: null,
+    },
+    {
+        text: "Update Profile",
+        icon: <PersonIcon />,
+    },
+    {
+        text: "Change Password",
+        icon: <PasswordIcon />,
     },
 ];
 const Sidebar = ({
@@ -427,8 +467,8 @@ const Sidebar = ({
                         <Divider />
                         <FlexBetween
                             textTransform="none"
-                            gap="1.1rem"
-                            m="1.5rem 2rem 0 1rem"
+                            gap="0.5rem"
+                            m="1.5rem 0.5rem 0 0.5rem"
                         >
                             <Box
                                 component="img"
@@ -442,7 +482,7 @@ const Sidebar = ({
                             <Box textAlign="left">
                                 <Typography
                                     fontWeight="bold"
-                                    fontSize="0.9rem"
+                                    fontSize="0.8rem"
                                     sx={{ color: theme.palette.secondary[100] }}
                                 >
                                     {user.name}
