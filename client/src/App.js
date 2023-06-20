@@ -4,7 +4,8 @@ import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
-import {Home,Dashboard, Layout, AddCommittees , Login, AllCommittees,Convenors, AddConvenor, CreateEvent, ApproveEvents, EventDetails, PastEvents, ConvenorPastEvents, AdminEventLog, AudienceDetails, ConvenorEventLog, CommitteeDashboard, AddMember} from "./scenes"
+import {Home,Dashboard, Layout, AddCommittees , Login, AllCommittees,Convenors, AddConvenor,CreateEvent, ApproveEvents, EventDetails, PastEvents, ConvenorPastEvents, AdminEventLog, AudienceDetails, ConvenorEventLog, CommitteeDashboard, AddMember, AddCommitteeMember, Members, CommitteeMembers} from "./scenes"
+
 function App() { 
     const mode = useSelector((state) => state.mode);
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -32,10 +33,12 @@ function App() {
                         <Route path="/AddCommittees" element={admin ? <AddCommittees /> : <Navigate to="/Login" />}  />
                         <Route path="/ViewCommittees" element={admin ? <AllCommittees /> : <Navigate to="/Login" />}  />
                         <Route path="/Convenors" element={admin  ? <Convenors /> : <Navigate to="/Login" />}  />
+                        <Route path="/Members" element={admin ? <Members /> : convenor ? <CommitteeMembers />: member ? <CommitteeMembers /> : <Navigate to="/Login" />}  />
+
                         <Route path="/Registrations/:eventId" element={isAuth && (user.role === "admin" || user.role === "convenor" || user.role === "member")  ? <AudienceDetails /> : <Navigate to="/Login" />}  />
 
                         <Route path="/AddConvenors" element={admin ? <AddConvenor /> : <Navigate to="/Login" />}  />
-                        <Route path="/AddMember" element={admin ? <AddMember /> : <Navigate to="/Login" />}  />
+                        <Route path="/AddMember" element={admin ? <AddMember /> : convenor ? <AddCommitteeMember /> :<Navigate to="/Login" />}  />
                         {/* convenor routes */}
                         <Route path="/CreateEvent" element={convenor ? <CreateEvent /> : member ? <CreateEvent />: <Navigate to="/Login" />}  />
 
