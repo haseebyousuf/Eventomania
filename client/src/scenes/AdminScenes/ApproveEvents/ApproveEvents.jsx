@@ -39,9 +39,8 @@ const ApproveEvents = () => {
         getEvents();
     };
     useEffect(() => {
-        console.log("hello world");
-        getEvents();
-        // eslint-disable-next-line
+      getEvents();
+      // eslint-disable-next-line
     }, []);
     const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
     const columns = [
