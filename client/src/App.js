@@ -13,8 +13,7 @@ function App() {
     const user = useSelector((state)=> state.user);
     const admin = isAuth && user.role === 'admin';
     const member = isAuth && user.role === 'member';
-    const convenor = isAuth && user.role === 'convenor';
-    console.log(admin,member,convenor);
+    const convenor = isAuth && user.role === "convenor";
   return (
     <div className="app">
         <BrowserRouter>
