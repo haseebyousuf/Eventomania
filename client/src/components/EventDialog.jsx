@@ -2,23 +2,23 @@ import {
   AppBar,
   Box,
   Dialog,
-  Divider,
+  Grid,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
   Slide,
   Toolbar,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import { useSelector } from "react-redux";
-import moment from "moment";
+import EventHeader from "./EventDetails/EventHeader";
+import EventDescription from "./EventDetails/EventDescription";
+import RecommendedAudience from "./EventDetails/RecommendedAudience";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 const EventDialog = ({
   openDialog,
@@ -28,6 +28,8 @@ const EventDialog = ({
 }) => {
   const theme = useTheme();
   const mode = useSelector((state) => state.mode);
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+
   return (
     <div>
       <Dialog
@@ -50,203 +52,52 @@ const EventDialog = ({
           }}
         >
           <Toolbar>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h3" component="div">
+            <Typography sx={{ ml: 2, flex: 1 }} variant='h3' component='div'>
               Event Details
             </Typography>
             <IconButton
-              edge="end"
-              color="inherit"
+              edge='end'
+              color='inherit'
               onClick={handleCloseDialog}
-              aria-label="close"
+              aria-label='close'
             >
               <CloseIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
         <Box
-          display="flex"
-          justifyContent="center"
+          padding='1rem'
           sx={{
-            backgroundColor: theme.palette.primary.light,
+            backgroundColor: theme.palette.background.default,
+            margin: "auto",
           }}
         >
-          <img
-            src={`${process.env.REACT_APP_BASE_URL}/assets/${params.row.bannerName}`}
-            alt="banner"
-            height={340}
-            width={600}
-          />
+          {params && (
+            <Grid
+              width='100%'
+              margin='auto'
+              container
+              spacing={isNonMobile && 2}
+            >
+              <Grid item xs={12} sm={12} md={7} lg={7}>
+                <EventHeader
+                  name={params.row.name}
+                  banner={params.row.bannerName}
+                  startDate={params.row.startDate}
+                  endDate={params.row.endDate}
+                  venue={params.row.venue}
+                  organizedBy={params.row.committee[0].name}
+                  createdBy={params.row.createdBy[0].name}
+                  dialog={true}
+                />
+              </Grid>
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <EventDescription description={params.row.description} />
+                <RecommendedAudience event={params.row} />
+              </Grid>
+            </Grid>
+          )}
         </Box>
-        <List
-          sx={{
-            backgroundColor: theme.palette.primary.light,
-            color: theme.palette.secondary[100],
-          }}
-        >
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                fontSize: 15,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-                color: theme.palette.secondary.main,
-              }}
-              secondaryTypographyProps={{
-                fontSize: 14,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-              }}
-              primary="Event Name"
-              secondary={params.row.name}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                fontSize: 15,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-                color: theme.palette.secondary.main,
-              }}
-              secondaryTypographyProps={{
-                fontSize: 14,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-              }}
-              primary="Venue"
-              secondary={params.row.venue}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                fontSize: 15,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-                color: theme.palette.secondary.main,
-              }}
-              secondaryTypographyProps={{
-                fontSize: 14,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-              }}
-              primary="Description"
-              secondary={params.row.description}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                fontSize: 15,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-                color: theme.palette.secondary.main,
-              }}
-              secondaryTypographyProps={{
-                fontSize: 14,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-              }}
-              primary="Starts On"
-              secondary={moment(params.row.startDate).format(
-                "MMMM Do YYYY, h:mm A"
-              )}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                fontSize: 15,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-                color: theme.palette.secondary.main,
-              }}
-              secondaryTypographyProps={{
-                fontSize: 14,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-              }}
-              primary="Ends On"
-              secondary={moment(params.row.endDate).format(
-                "MMMM Do YYYY, h:mm A"
-              )}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                fontSize: 15,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-                color: theme.palette.secondary.main,
-              }}
-              secondaryTypographyProps={{
-                fontSize: 14,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-              }}
-              primary="Recomended Audiance"
-              secondary={params.row.recomendedAudiance}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                fontSize: 15,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-                color: theme.palette.secondary.main,
-              }}
-              secondaryTypographyProps={{
-                fontSize: 14,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-              }}
-              primary="Organized By"
-              secondary={params.row.committee[0].name}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                fontSize: 15,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-                color: theme.palette.secondary.main,
-              }}
-              secondaryTypographyProps={{
-                fontSize: 14,
-                fontWeight: "medium",
-                lineHeight: "20px",
-                mb: "2px",
-              }}
-              primary="Created By"
-              secondary={params.row.createdBy[0].name}
-            />
-          </ListItem>
-        </List>
       </Dialog>
     </div>
   );
