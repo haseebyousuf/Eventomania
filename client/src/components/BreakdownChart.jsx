@@ -17,18 +17,17 @@ const BreakdownChart = ({ data }) => {
     ];
     const [pieData, setPieData] = useState(null);
     useEffect(() => {
-        setPieData(
-            data.map((event, i) => ({
-                id: event.label,
-                label: event.label,
-                value: event.value,
-                color: colors[i],
-            }))
-        );
+      setPieData(
+        data.map((event, i) => ({
+          id: event.label,
+          label: event.label,
+          value: event.value,
+          color: colors[i],
+        }))
+      );
 
-        // eslint-disable-next-line
+      // eslint-disable-next-line
     }, []);
-    console.log("first", data);
 
     return (
         <Box
