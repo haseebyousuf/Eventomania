@@ -12,23 +12,25 @@ export const addCommittee = async(req,res) => {
   }
 }
 
-export const getCommittes = async(req, res) =>{
+export const getCommittees = async (req, res) => {
   try {
     const committees = await Committee.find();
-    // const convenorIds = committees.map((committee) => committee._id);
-    // console.log(convenorIds);
-    
-    // const convenorIds = committees.forEach(committee => {
-    //   const convenorId = committee.convenor;
-    //   return convenorId;
-    // });
-    // // const convenorId = committees.convenor;
-    // // console.log(committees);
-    // // const convenor = await Admin.findById(convenorId);
-    // // if (!convenor) return res.status(400).json({ msg: "Convenor does not exist. " });
-    // // const convenorName = convenor.name;
     res.status(200).json(committees);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
+
+export const deleteCommittee = async (req, res) => {
+  try {
+    const { committeeId } = req.body;
+    const deletedCommittee = await Committee.deleteOne({ _id: committeeId });
+    if (deletedCommittee) {
+      res.status(201).json({ msg: "Deleted Successfully" });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
