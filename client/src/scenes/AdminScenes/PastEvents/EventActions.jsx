@@ -24,7 +24,9 @@ const EventActions = ({
     setOpenDialog(true);
   };
   const handleDelete = async (id) => {
-    const choice = window.confirm("Want to delete Past Event?");
+    const choice = window.confirm(
+      "Are you sure you want to delete this event?"
+    );
     if (choice) {
       try {
         const response = await axios({
@@ -41,7 +43,7 @@ const EventActions = ({
             ...snackbarData,
             open: true,
             message: "Event Deleted Successfully",
-            severity: "error",
+            severity: "success",
           });
           setTimeout(() => {
             setSnackbarData({
@@ -54,7 +56,7 @@ const EventActions = ({
         setSnackbarData({
           ...snackbarData,
           open: true,
-          message: "There was an error deleting the event",
+          message: "There was an error deleting the Event",
           severity: "error",
         });
         setTimeout(() => {
