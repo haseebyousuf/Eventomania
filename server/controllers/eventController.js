@@ -1,119 +1,156 @@
 import Event from "../models/Event.js";
-import moment from "moment";
+import User from "../models/User.js";
+import fs from "fs";
 
-export const createEvent  = async (req, res) => {
+export const createEvent = async (req, res) => {
   try {
     //get files from req.files
-    const {banner, order} = req.files;
+    const { banner, order } = req.files;
     const bannerName = banner[0].filename;
     const bannerPath = banner[0].path;
     const orderName = order[0].filename;
     const orderPath = order[0].path;
     //get rest of event details form req.body
-    const{ name, venue, startDate, endDate, description, recommendedAudience, committee, createdBy} = req.body;
+    const {
+      name,
+      venue,
+      startDate,
+      endDate,
+      description,
+      recommendedAudience,
+      committee,
+      createdBy,
+    } = req.body;
     //parse committee and creator details
     const parsedCommittee = JSON.parse(committee);
     const parsedCreator = JSON.parse(createdBy);
     //save data to db
-    const newEvent = new Event({name, venue, startDate, endDate, description, recommendedAudience,bannerName,bannerPath, orderName,orderPath, committee:parsedCommittee, createdBy: parsedCreator});
+    const newEvent = new Event({
+      name,
+      venue,
+      startDate,
+      endDate,
+      description,
+      recommendedAudience,
+      bannerName,
+      bannerPath,
+      orderName,
+      orderPath,
+      committee: parsedCommittee,
+      createdBy: parsedCreator,
+    });
     const savedEvent = await newEvent.save();
     //send success response
     res.status(201).json(savedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-export const uploadReport  = async (req, res) => {
+};
+export const uploadReport = async (req, res) => {
   try {
     //get file from req.file
-    console.log("req.file",req.file);
+    console.log("req.file", req.file);
     const report = req.file;
-    console.log("report",report);
+    console.log("report", report);
     const reportName = report.filename;
-    const reportPath = report.path;    
+    const reportPath = report.path;
     //get id of event  form req.body
-    const{ id} = req.body;
+    const { id } = req.body;
     //update event
-    const filter= {_id: id};
-    const update = {reportName, reportPath, status:true};
-    const updatedEvent = await Event.findOneAndUpdate(filter,update, {new:true});
+    const filter = { _id: id };
+    const update = { reportName, reportPath, status: true };
+    const updatedEvent = await Event.findOneAndUpdate(filter, update, {
+      new: true,
+    });
     //send success response
     res.status(201).json(updatedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
-export const getEvents = async(req,res) => {
-  try{
-    const events= await Event.find();
-    res.status(200).json(events);
-
-  }catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-export const getUnApprovedEvents = async(req, res) =>{
+export const getEvents = async (req, res) => {
   try {
-    const events = await Event.find({ isApproved: "false" })
+    const events = await Event.find();
     res.status(200).json(events);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-export const getPublishedEvents = async(req, res) =>{
+};
+export const getUnApprovedEvents = async (req, res) => {
   try {
-    const events = await Event.find({ isPublished: "true" })
+    const events = await Event.find({ isApproved: "false" });
     res.status(200).json(events);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-export const getApprovedEvents = async(req, res) =>{
+};
+export const getPublishedEvents = async (req, res) => {
   try {
-    const events = await Event.find({ isApproved: "true" })
+    const events = await Event.find({ isPublished: "true" });
     res.status(200).json(events);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-export const approveEvent = async(req, res) =>{
+};
+export const getApprovedEvents = async (req, res) => {
   try {
-    const {id} = req.body;
-    const filter= {_id: id};
-    const update = {isPublished: "true", isApproved: "true"};
-    const publishedEvent = await Event.findOneAndUpdate(filter,update, {new:true});
-    res.status(201).json( publishedEvent);
-
+    const events = await Event.find({ isApproved: "true" });
+    res.status(200).json(events);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-export const togglePublish = async(req, res) =>{
+};
+export const approveEvent = async (req, res) => {
   try {
-    const {id, isPublished} = req.body;
-    const filter= {_id: id};
-    const update = {isPublished: !isPublished};
-    const updatedEvent = await Event.findOneAndUpdate(filter,update, {new:true});
-    res.status(201).json( updatedEvent);
-
+    const { id } = req.body;
+    const filter = { _id: id };
+    const update = { isPublished: "true", isApproved: "true" };
+    const publishedEvent = await Event.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+    res.status(201).json(publishedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-
-export const deleteEvent = async(req, res) => {
-  try{
-    const {eventId} = req.body;
-    const deletedEvent = await Event.deleteOne({_id: eventId})
-    if(deletedEvent){
-      console.log(deletedEvent)
-      res.status(201).json( {msg: "Deleted Successfully"});
-    }else{
+};
+export const togglePublish = async (req, res) => {
+  try {
+    const { id, isPublished } = req.body;
+    const filter = { _id: id };
+    const update = { isPublished: !isPublished };
+    const updatedEvent = await Event.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+    res.status(201).json(updatedEvent);
+  } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteEvent = async (req, res) => {
+  try {
+    const { eventId } = req.body;
+    // Fetch the event before deleting it to access the file paths
+    const event = await Event.findById(eventId);
+    const deletedEvent = await Event.deleteOne({ _id: eventId });
+    if (deletedEvent) {
+      // Delete associated files from local storage
+      if (event.bannerPath) {
+        fs.unlinkSync(event.bannerPath);
+      }
+      if (event.orderPath) {
+        fs.unlinkSync(event.orderPath);
+      }
+      if (event.reportPath) {
+        fs.unlinkSync(event.reportPath);
+      }
+      await User.deleteMany({ "event.id": eventId });
+      res.status(201).json({ msg: "Deleted Successfully" });
+    } else {
+      res.status(500).json({ error: error.message });
     }
-
-  }catch (error) {
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
