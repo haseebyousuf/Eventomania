@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
-import { useSelector } from "react-redux";
 import EventHeader from "./EventDetails/EventHeader";
 import EventDescription from "./EventDetails/EventDescription";
 import RecommendedAudience from "./EventDetails/RecommendedAudience";
@@ -27,7 +26,6 @@ const EventDialog = ({
   handleClickOpen,
 }) => {
   const theme = useTheme();
-  const mode = useSelector((state) => state.mode);
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   return (
@@ -45,10 +43,8 @@ const EventDialog = ({
         <AppBar
           sx={{
             position: "sticky",
-            backgroundColor:
-              mode === "dark"
-                ? theme.palette.background.alt
-                : theme.palette.background.alt,
+            backgroundImage: "none",
+            backgroundColor: theme.palette.background.alt,
           }}
         >
           <Toolbar>
