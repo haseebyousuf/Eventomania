@@ -71,31 +71,29 @@ const Home = () => {
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          height: "100vh",
-        }}
-      >
-        <HomeNavbar />
-        <EventContainer
-          title='UPCOMING EVENTS'
-          filteredEvents={filteredUpcomingEvents}
-          setFilteredEvents={setFilteredUpcomingEvents}
-          events={upcomingEvents}
-          committees={committees}
-          isPast={false}
-        />
-        <EventContainer
-          title='PAST EVENTS'
-          filteredEvents={filteredPastEvents}
-          setFilteredEvents={setFilteredPastEvents}
-          events={pastEvents}
-          committees={committees}
-          isPast={true}
-        />
-      </Box>
-    </>
+    <Box
+      sx={{
+        height: "100vh",
+      }}
+    >
+      <HomeNavbar />
+      <EventContainer
+        title='UPCOMING EVENTS'
+        filteredEvents={filteredUpcomingEvents}
+        setFilteredEvents={setFilteredUpcomingEvents}
+        events={upcomingEvents}
+        committees={committees}
+        isPast={false}
+      />
+      <EventContainer
+        title='PAST EVENTS'
+        filteredEvents={filteredPastEvents}
+        setFilteredEvents={setFilteredPastEvents}
+        events={pastEvents}
+        committees={committees}
+        isPast={true}
+      />
+    </Box>
   );
 };
 
