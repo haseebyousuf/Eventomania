@@ -1,28 +1,65 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import React from "react";
+import { Delete } from "@mui/icons-material";
+import axios from "axios";
 
-const Actions = ({ params }) => {
-    return (
-        <Box>
-            <Tooltip title="View Convenor Details">
-                <IconButton onClick={() => {}}>
-                    <RemoveRedEyeOutlinedIcon color="info" />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Edit This Convenor">
-                <IconButton onClick={() => {}}>
-                    <Edit color="success" />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete This Convenor">
-                <IconButton onClick={() => {}}>
-                    <Delete color="error" />
-                </IconButton>
-            </Tooltip>
-        </Box>
+const Actions = ({ getMembers, snackbarData, setSnackbarData, params }) => {
+  const handleDelete = async (id) => {
+    const choice = window.confirm(
+      "Are you sure you want to delete this Member?"
     );
+    if (choice) {
+      try {
+        const response = await axios({
+          method: "post",
+          url: `${process.env.REACT_APP_BASE_URL}/admin/deleteMember`,
+          headers: { "Content-Type": "application/json" },
+          data: JSON.stringify({ memberId: id }),
+        });
+        const responseData = await response.data;
+        if (responseData) {
+          getMembers();
+          setSnackbarData({
+            ...snackbarData,
+            open: true,
+            message: "Member Deleted Successfully",
+            severity: "success",
+          });
+          setTimeout(() => {
+            setSnackbarData({
+              ...snackbarData,
+              open: false,
+            });
+          }, 4000);
+        }
+      } catch (error) {
+        setSnackbarData({
+          ...snackbarData,
+          open: true,
+          message: "There was an error deleting the Member",
+          severity: "error",
+        });
+        setTimeout(() => {
+          setSnackbarData({
+            ...snackbarData,
+            open: false,
+          });
+        }, 4000);
+      }
+    }
+  };
+  return (
+    <Box>
+      <Tooltip title='Delete This Member'>
+        <IconButton
+          onClick={() => {
+            handleDelete(params.id);
+          }}
+        >
+          <Delete color='error' />
+        </IconButton>
+      </Tooltip>
+    </Box>
+  );
 };
 
 export default Actions;
