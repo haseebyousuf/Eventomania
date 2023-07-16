@@ -42,62 +42,59 @@ const AdminEventLog = () => {
     const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
 
     const columns = [
-        {
-            field: "name",
-            headerName: "Event Name",
-            resizable: true,
-            minWidth: 250,
-            flex: 1,
+      {
+        field: "name",
+        headerName: "Event Name",
+        minWidth: 250,
+        flex: 1,
+      },
+      {
+        field: "committee",
+        headerName: "Organized By",
+        minWidth: 250,
+        flex: 0.6,
+        valueGetter: (params) => params.value[0].name,
+        renderCell: (params) => {
+          return params.row.committee[0].name;
         },
-        {
-            field: "committee",
-            headerName: "Organized By",
-            minWidth: 250,
-            flex: 0.6,
-            valueGetter: (params) => params.value[0].name,
-            renderCell: (params) => {
-                return params.row.committee[0].name;
-            },
+      },
+      {
+        field: "startDate",
+        headerName: "Date",
+        minWidth: 150,
+        flex: 0.3,
+        valueGetter: (params) => params.row.startDate,
+        valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+        renderCell: (params) => {
+          return moment(params.row.startDate).format("MMMM Do YYYY");
         },
-        {
-            field: "startDate",
-            headerName: "Date",
-            minWidth: 150,
-            flex: 0.3,
-            valueGetter: (params) => params.row.startDate,
-            valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
-            renderCell: (params) => {
-                return moment(params.row.startDate).format("MMMM Do YYYY");
-            },
-            sortComparator: dayInMonthComparator,
+        sortComparator: dayInMonthComparator,
+      },
+      {
+        field: "registrations",
+        headerName: "Registrations",
+        type: "number",
+        minWidth: 120,
+        flex: 0.3,
+        valueGetter: (params) => {
+          return users.filter((user) => user.event[0].id === params.row._id)
+            .length;
         },
-        {
-            field: "registrations",
-            headerName: "Registrations",
-            type: "number",
-            minWidth: 120,
-            flex: 0.3,
-            valueGetter: (params) => {
-                return users.filter(
-                    (user) => user.event[0].id === params.row._id
-                ).length;
-            },
-            renderCell: (params) => {
-                return users.filter(
-                    (user) => user.event[0].id === params.row._id
-                ).length;
-            },
+        renderCell: (params) => {
+          return users.filter((user) => user.event[0].id === params.row._id)
+            .length;
         },
+      },
 
-        {
-            field: "actions",
-            headerName: "Actions",
-            type: "actions",
-            minWidth: 250,
-            renderCell: (params) => (
-                <EventActions data={data} users={users} {...{ params }} />
-            ),
-        },
+      {
+        field: "actions",
+        headerName: "Actions",
+        type: "actions",
+        minWidth: 250,
+        renderCell: (params) => (
+          <EventActions data={data} users={users} {...{ params }} />
+        ),
+      },
     ];
     const csvOptions = { fileName: "event-log" };
 
