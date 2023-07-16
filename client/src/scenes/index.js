@@ -19,3 +19,4 @@ export {default as ConvenorPastEvents} from "./CommitteeScenes/ConvenorPastEvent
 export {default as AdminEventLog} from "./AdminScenes/AdminEventLog/AdminEventLog";
 export {default as ConvenorEventLog} from "./CommitteeScenes/ConvenorEventLog/ConvenorEventLog";
 export {default as AudienceDetails} from "../components/AudienceDetails/AudienceDetails";
+export { default as ChangePassword } from "./ChangePassword";
