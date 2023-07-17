@@ -10,6 +10,7 @@ import {
   getCommitteeMembers,
   deleteConvenor,
   deleteMember,
+  changePassword,
 } from "../controllers/admin.js";
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.get("/getMembers", getMembers);
 router.post("/committeeMembers", getCommitteeMembers);
 router.post("/addMember", addMember);
 router.post("/deleteMember", deleteMember);
+router.post("/changePassword", changePassword);
 
 // router.get("/verifyToken", verifyToken)
 
