@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 import { useTheme } from "@emotion/react";
 import Header from "components/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 const inputs = [
   { id: 1, label: "Current Password", name: "currentPassword" },
@@ -52,9 +53,14 @@ const initialValuesPassword = {
   cNewPassword: "",
 };
 const ConfirmPassword = () => {
-  const isNonMobile = useMediaQuery("(min-width: 600px)");
-  const theme = useTheme();
   const [showPassword, setShowPassword] = useState([false, false, false]);
+  const [snackbarData, setSnackbarData] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  //handlers
   const handleClickShowPassword = (index) => {
     setShowPassword((prevState) => {
       const updatedState = [...prevState];
@@ -65,31 +71,53 @@ const ConfirmPassword = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState(null);
-
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
-      const savedCommitteeResponse = await axios({
+      values.userId = user._id;
+      const changePasswordResponse = await axios({
         method: "post",
-
-        url: `${process.env.REACT_APP_BASE_URL}/committee/add-committee`,
+        url: `${process.env.REACT_APP_BASE_URL}/admin/changePassword`,
         headers: { "Content-Type": "application/json" },
         data: JSON.stringify(values),
       });
-      const savedCommittee = await savedCommitteeResponse.data;
+      const response = await changePasswordResponse.data;
       onSubmitProps.resetForm();
-      if (savedCommittee) {
-        setMessage("Committee Added!");
-        setOpen(true);
+      if (response) {
+        setSnackbarData({
+          ...snackbarData,
+          open: true,
+          message: "Password Changed Successfully",
+          severity: "success",
+        });
         setTimeout(() => {
-          setOpen(false);
-        }, 3000);
+          setSnackbarData({
+            ...snackbarData,
+            open: false,
+          });
+        }, 4000);
       }
     } catch (error) {
-      alert("There is some error! Please Try Again.");
+      setSnackbarData({
+        ...snackbarData,
+        open: true,
+        message: error.response.data.msg,
+        severity: "error",
+      });
+      setTimeout(() => {
+        setSnackbarData({
+          ...snackbarData,
+          open: false,
+        });
+      }, 4000);
     }
   };
+  
+  //imports
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+  const theme = useTheme();
+  const user = useSelector((state) => state.user);
+
+  //Animation Component
   const SlideTransition = (props) => {
     return <Slide {...props} direction='down' />;
   };
@@ -103,6 +131,20 @@ const ConfirmPassword = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1, ease: "easeInOut" }}
       >
+        <Snackbar
+            sx={{ position: "absolute" }}
+            open={snackbarData.open}
+            autoHideDuration={4000}
+            TransitionComponent={SlideTransition}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            <Alert variant='filled' severity={snackbarData.severity}>
+              {snackbarData.message}
+            </Alert>
+          </Snackbar>
         <Header title='CHANGE PASSWORD' subtitle='Enter Details' />
 
         <Formik
@@ -119,20 +161,7 @@ const ConfirmPassword = () => {
             handleSubmit,
           }) => (
             <form onSubmit={handleSubmit}>
-              <Snackbar
-                sx={{ position: "absolute" }}
-                open={open}
-                autoHideDuration={6000}
-                TransitionComponent={SlideTransition}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <Alert variant='filled' severity='success'>
-                  {message}
-                </Alert>
-              </Snackbar>
+              
               <Box>
                 <Card
                   sx={{
