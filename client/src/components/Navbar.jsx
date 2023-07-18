@@ -22,6 +22,7 @@ import FlexBetween from "components/FlexBetween";
 import { setMode } from "state";
 import { setLogout } from "state";
 import Profile from "assets/profile.png";
+import { toast } from "react-toastify";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
@@ -31,6 +32,17 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   const handleLogout = () => {
     dispatch(setLogout());
+    toast("You have been logged out!", {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      type: "error",
+      theme: "colored",
+    });
     navigate("/Login");
   };
 
@@ -62,7 +74,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           </FlexBetween> */}
           {/* </FlexBetween> */}
           {/* RIGHT SIDE */}
-          <FlexBetween gap="1rem">
+          <FlexBetween gap='1rem'>
             <IconButton onClick={() => dispatch(setMode())}>
               {theme.palette.mode === "dark" ? (
                 <DarkModeOutlined sx={{ fontSize: "25px" }} />
@@ -71,26 +83,26 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
               )}
             </IconButton>
             <Box>
-              <FlexBetween textTransform="none" gap="1rem">
+              <FlexBetween textTransform='none' gap='1rem'>
                 <Box
-                  component="img"
-                  alt="profile"
+                  component='img'
+                  alt='profile'
                   src={Profile}
-                  height="32px"
-                  width="32px"
-                  borderRadius="50%"
+                  height='32px'
+                  width='32px'
+                  borderRadius='50%'
                   sx={{ objectFit: "cover" }}
                 />
-                <Box textAlign="left">
+                <Box textAlign='left'>
                   <Typography
-                    fontWeight="bold"
-                    fontSize="0.9rem"
+                    fontWeight='bold'
+                    fontSize='0.9rem'
                     sx={{ color: theme.palette.secondary[100] }}
                   >
                     {user.name}
                   </Typography>
                   <Typography
-                    fontSize="0.8rem"
+                    fontSize='0.8rem'
                     sx={{ color: theme.palette.secondary[200] }}
                   >
                     {user.role}
@@ -98,11 +110,11 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </Box>
                 <Tooltip
                   TransitionComponent={Zoom}
-                  title="logout"
+                  title='logout'
                   arrow
                   sx={{ fontSize: "bold" }}
                 >
-                  <IconButton aria-label="logout" onClick={handleLogout}>
+                  <IconButton aria-label='logout' onClick={handleLogout}>
                     <LogoutOutlinedIcon
                       sx={{
                         color: theme.palette.secondary[300],

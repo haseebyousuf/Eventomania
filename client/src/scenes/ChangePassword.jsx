@@ -7,9 +7,6 @@ import {
   TextField,
   Button,
   CardActions,
-  Snackbar,
-  Alert,
-  Slide,
   useMediaQuery,
   InputAdornment,
   IconButton,
@@ -21,6 +18,7 @@ import { useTheme } from "@emotion/react";
 import Header from "components/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const inputs = [
   { id: 1, label: "Current Password", name: "currentPassword" },
@@ -54,11 +52,6 @@ const initialValuesPassword = {
 };
 const ConfirmPassword = () => {
   const [showPassword, setShowPassword] = useState([false, false, false]);
-  const [snackbarData, setSnackbarData] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
 
   //handlers
   const handleClickShowPassword = (index) => {
@@ -83,44 +76,38 @@ const ConfirmPassword = () => {
       const response = await changePasswordResponse.data;
       onSubmitProps.resetForm();
       if (response) {
-        setSnackbarData({
-          ...snackbarData,
-          open: true,
-          message: "Password Changed Successfully",
-          severity: "success",
+        toast("Password Changed Successfully", {
+          type: "success",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
         });
-        setTimeout(() => {
-          setSnackbarData({
-            ...snackbarData,
-            open: false,
-          });
-        }, 4000);
       }
     } catch (error) {
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: error.response.data.msg,
-        severity: "error",
+      toast(error.response.data.msg, {
+        type: "error",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
       });
-      setTimeout(() => {
-        setSnackbarData({
-          ...snackbarData,
-          open: false,
-        });
-      }, 4000);
     }
   };
-  
-  //imports
+
+  //hooks
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const theme = useTheme();
   const user = useSelector((state) => state.user);
 
-  //Animation Component
-  const SlideTransition = (props) => {
-    return <Slide {...props} direction='down' />;
-  };
   return (
     <Box>
       <Box
@@ -131,20 +118,6 @@ const ConfirmPassword = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.1, ease: "easeInOut" }}
       >
-        <Snackbar
-            sx={{ position: "absolute" }}
-            open={snackbarData.open}
-            autoHideDuration={4000}
-            TransitionComponent={SlideTransition}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-          >
-            <Alert variant='filled' severity={snackbarData.severity}>
-              {snackbarData.message}
-            </Alert>
-          </Snackbar>
         <Header title='CHANGE PASSWORD' subtitle='Enter Details' />
 
         <Formik
@@ -161,7 +134,6 @@ const ConfirmPassword = () => {
             handleSubmit,
           }) => (
             <form onSubmit={handleSubmit}>
-              
               <Box>
                 <Card
                   sx={{

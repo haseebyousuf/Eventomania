@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, useTheme, Slide, Snackbar, Alert } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Actions from "./Actions";
 import moment from "moment";
@@ -11,11 +11,7 @@ import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 const Convenors = () => {
   const theme = useTheme();
   const [data, setData] = useState({ convenors: null, isLoading: true });
-  const [snackbarData, setSnackbarData] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
+
   useEffect(() => {
     getConvenors();
     // eslint-disable-next-line
@@ -76,8 +72,6 @@ const Convenors = () => {
       renderCell: (params) => (
         <Actions
           getConvenors={getConvenors}
-          snackbarData={snackbarData}
-          setSnackbarData={setSnackbarData}
           setData={setData}
           data={data}
           {...{ params }}
@@ -85,9 +79,7 @@ const Convenors = () => {
       ),
     },
   ];
-  const SlideTransition = (props) => {
-    return <Slide {...props} direction='down' />;
-  };
+
   return (
     <Box
       m='1rem 2.5rem'
@@ -97,20 +89,6 @@ const Convenors = () => {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.3, ease: "easeInOut" }}
     >
-      <Snackbar
-        sx={{ position: "absolute" }}
-        open={snackbarData.open}
-        autoHideDuration={4000}
-        TransitionComponent={SlideTransition}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <Alert variant='filled' severity={snackbarData.severity}>
-          {snackbarData.message}
-        </Alert>
-      </Snackbar>
       <Header title='CONVENORS' subtitle='List of All Convenors.' />
 
       <Box

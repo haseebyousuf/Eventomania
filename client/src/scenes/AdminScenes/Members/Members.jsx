@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Alert, Box, Snackbar, Slide, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Actions from "./Actions";
 import moment from "moment";
 import Header from "components/Header";
 import { motion } from "framer-motion";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import { toast } from "react-toastify";
 
 const Members = () => {
   const theme = useTheme();
   const [data, setData] = useState({ members: null, isLoading: true });
-  const [snackbarData, setSnackbarData] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
+
   useEffect(() => {
     getMembers();
     // eslint-disable-next-line
@@ -31,7 +28,17 @@ const Members = () => {
         isLoading: false,
       });
     } catch (error) {
-      console.error(error);
+      toast("There was some error! Please Try again.", {
+        type: "error",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
   const columns = [
@@ -76,8 +83,6 @@ const Members = () => {
       renderCell: (params) => (
         <Actions
           getMembers={getMembers}
-          snackbarData={snackbarData}
-          setSnackbarData={setSnackbarData}
           setData={setData}
           data={data}
           {...{ params }}
@@ -85,9 +90,6 @@ const Members = () => {
       ),
     },
   ];
-  const SlideTransition = (props) => {
-    return <Slide {...props} direction='down' />;
-  };
   return (
     <Box
       m='1rem 2.5rem'
@@ -97,20 +99,6 @@ const Members = () => {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.3, ease: "easeInOut" }}
     >
-      <Snackbar
-        sx={{ position: "absolute" }}
-        open={snackbarData.open}
-        autoHideDuration={4000}
-        TransitionComponent={SlideTransition}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <Alert variant='filled' severity={snackbarData.severity}>
-          {snackbarData.message}
-        </Alert>
-      </Snackbar>
       <Header title='MEMBERS' subtitle='List of All Members.' />
 
       <Box

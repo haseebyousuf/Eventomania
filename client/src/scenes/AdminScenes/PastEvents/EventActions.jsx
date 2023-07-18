@@ -6,14 +6,9 @@ import EventDialog from "components/EventDialog";
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const EventActions = ({
-  getEvents,
-  snackbarData,
-  users,
-  setSnackbarData,
-  params,
-}) => {
+const EventActions = ({ getEvents, users, params }) => {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -39,32 +34,30 @@ const EventActions = ({
         const responseData = await response.data;
         if (responseData) {
           getEvents();
-          setSnackbarData({
-            ...snackbarData,
-            open: true,
-            message: "Event Deleted Successfully",
-            severity: "success",
+          toast("Event Deleted Successfully.", {
+            type: "error",
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
-          setTimeout(() => {
-            setSnackbarData({
-              ...snackbarData,
-              open: false,
-            });
-          }, 4000);
         }
       } catch (error) {
-        setSnackbarData({
-          ...snackbarData,
-          open: true,
-          message: "There was an error deleting the Event",
-          severity: "error",
+        toast("There was an error deleting the Event", {
+          type: "error",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
         });
-        setTimeout(() => {
-          setSnackbarData({
-            ...snackbarData,
-            open: false,
-          });
-        }, 4000);
       }
     }
   };

@@ -4,8 +4,9 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import EventDialog from "components/EventDialog";
 import React from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const EventActions = ({ getEvents, snackbarData, setSnackbarData, params }) => {
+const EventActions = ({ getEvents, params }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleCloseDialog = () => {
@@ -20,7 +21,6 @@ const EventActions = ({ getEvents, snackbarData, setSnackbarData, params }) => {
       try {
         const response = await axios({
           method: "post",
-
           url: `${process.env.REACT_APP_BASE_URL}/events/deleteEvent`,
           headers: { "Content-Type": "application/json" },
           data: JSON.stringify({ eventId: id }),
@@ -28,32 +28,30 @@ const EventActions = ({ getEvents, snackbarData, setSnackbarData, params }) => {
         const responseData = await response.data;
         if (responseData) {
           getEvents();
-          setSnackbarData({
-            ...snackbarData,
-            open: true,
-            message: "Event Deleted Successfully",
-            severity: "error",
+          toast("Event Deleted Successfully", {
+            type: "error",
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
-          setTimeout(() => {
-            setSnackbarData({
-              ...snackbarData,
-              open: false,
-            });
-          }, 4000);
         }
       } catch (error) {
-        setSnackbarData({
-          ...snackbarData,
-          open: true,
-          message: "There was an error deleting the event",
-          severity: "error",
+        toast("There was an error deleting the event.", {
+          type: "error",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
         });
-        setTimeout(() => {
-          setSnackbarData({
-            ...snackbarData,
-            open: false,
-          });
-        }, 4000);
       }
     }
   };

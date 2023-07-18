@@ -1,8 +1,9 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const Actions = ({ getCommittees, snackbarData, setSnackbarData, params }) => {
+const Actions = ({ getCommittees, params }) => {
   const handleDelete = async (id) => {
     const choice = window.confirm(
       "Are you sure you want to delete this committee?"
@@ -18,32 +19,30 @@ const Actions = ({ getCommittees, snackbarData, setSnackbarData, params }) => {
         const responseData = await response.data;
         if (responseData) {
           getCommittees();
-          setSnackbarData({
-            ...snackbarData,
-            open: true,
-            message: "Committee Deleted Successfully",
-            severity: "success",
+          toast("Committee Deleted Successfully", {
+            type: "error",
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
-          setTimeout(() => {
-            setSnackbarData({
-              ...snackbarData,
-              open: false,
-            });
-          }, 4000);
         }
       } catch (error) {
-        setSnackbarData({
-          ...snackbarData,
-          open: true,
-          message: "There was an error deleting the Committee",
-          severity: "error",
+        toast("There was some error! Please Try again.", {
+          type: "error",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
         });
-        setTimeout(() => {
-          setSnackbarData({
-            ...snackbarData,
-            open: false,
-          });
-        }, 4000);
       }
     }
   };

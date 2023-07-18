@@ -2,25 +2,23 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import {
-    Box,
-    useTheme,
-    Card,
-    CardContent,
-    TextField,
-    Button,
-    CardActions,
-    InputAdornment,
-    IconButton,
-    MenuItem,
-    Snackbar,
-    Alert,
-    Slide,
+  Box,
+  useTheme,
+  Card,
+  CardContent,
+  TextField,
+  Button,
+  CardActions,
+  InputAdornment,
+  IconButton,
+  MenuItem,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import Header from "components/Header";
+import { toast } from "react-toastify";
 
 const AddMemberSchema = yup.object().shape({
   memberName: yup.string().required("*Name Required"),
@@ -57,12 +55,6 @@ const initialValuesMember = {
 const AddMember = () => {
   const theme = useTheme();
   // States
-  const [snackbarData, setSnackbarData] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
-
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
@@ -80,7 +72,17 @@ const AddMember = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
+        toast("There was some error! Please Try again.", {
+          type: "error",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
     // eslint-disable-next-line
   }, []);
@@ -107,39 +109,33 @@ const AddMember = () => {
       const savedMember = await savedMemberResponse.data;
       onSubmitProps.resetForm();
       if (savedMember) {
-        setSnackbarData({
-          ...snackbarData,
-          open: true,
-          message: "Member Added Successfully",
-          severity: "success",
+        toast("Member Added Successfully", {
+          type: "success",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
         });
-        setTimeout(() => {
-          setSnackbarData({
-            ...snackbarData,
-            open: false,
-          });
-        }, 4000);
       }
     } catch (error) {
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: error.response.data.msg,
-        severity: "error",
+      toast(error.response.data.msg, {
+        type: "error",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
       });
-      setTimeout(() => {
-        setSnackbarData({
-          ...snackbarData,
-          open: false,
-        });
-      }, 4000);
     }
   };
 
-  //transition for snackbar
-  const SlideTransition = (props) => {
-    return <Slide {...props} direction='down' />;
-  };
   return (
     <Box>
       <Box
@@ -151,20 +147,6 @@ const AddMember = () => {
         transition={{ delay: 0.1, ease: "easeInOut" }}
       >
         <Header title='ADD Member' subtitle='Add New Member Details.' />
-        <Snackbar
-          sx={{ position: "absolute" }}
-          open={snackbarData.open}
-          autoHideDuration={4000}
-          TransitionComponent={SlideTransition}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-        >
-          <Alert variant='filled' severity={snackbarData.severity}>
-            {snackbarData.message}
-          </Alert>
-        </Snackbar>
         <Formik
           onSubmit={handleFormSubmit}
           initialValues={initialValuesMember}

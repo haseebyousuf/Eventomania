@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Alert, Box, Slide, Snackbar, Switch, useTheme } from "@mui/material";
+import { Box, Switch, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import EventActions from "./EventActions";
 import Header from "components/Header";
 import { motion } from "framer-motion";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import { toast } from "react-toastify";
 const ApproveEvents = () => {
   const theme = useTheme();
   const [data, setData] = useState({ events: null, isLoading: true });
-  const [snackbarData, setSnackbarData] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
 
   const getEvents = async () => {
     try {
@@ -23,7 +19,17 @@ const ApproveEvents = () => {
       );
       setData({ ...data, events: response.data, isLoading: false });
     } catch (error) {
-      console.error(error);
+      toast("There was some error! Please Try again.", {
+        type: "error",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
   const handleApproveEvent = async (id) => {
@@ -36,32 +42,30 @@ const ApproveEvents = () => {
       });
       const publishedEvent = await publishedEventResponse.data;
       if (publishedEvent) {
-        setSnackbarData({
-          ...snackbarData,
-          open: true,
-          message: "Event Approved Successfully",
-          severity: "success",
+        toast("Event Approved.", {
+          type: "success",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
         });
-        setTimeout(() => {
-          setSnackbarData({
-            ...snackbarData,
-            open: false,
-          });
-        }, 4000);
       }
     } catch (error) {
-      setSnackbarData({
-        ...snackbarData,
-        open: true,
-        message: "There is some error!",
-        severity: "error",
+      toast("There was some error! Please Try again.", {
+        type: "error",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
       });
-      setTimeout(() => {
-        setSnackbarData({
-          ...snackbarData,
-          open: false,
-        });
-      }, 4000);
     }
     getEvents();
   };
@@ -138,8 +142,6 @@ const ApproveEvents = () => {
       renderCell: (params) => (
         <EventActions
           getEvents={getEvents}
-          snackbarData={snackbarData}
-          setSnackbarData={setSnackbarData}
           setData={setData}
           data={data}
           {...{ params }}
@@ -160,9 +162,7 @@ const ApproveEvents = () => {
       ),
     },
   ];
-  const SlideTransition = (props) => {
-    return <Slide {...props} direction='down' />;
-  };
+
   return (
     <Box
       m='1rem 2.5rem'
@@ -171,20 +171,6 @@ const ApproveEvents = () => {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.3, ease: "easeInOut" }}
     >
-      <Snackbar
-        sx={{ position: "absolute" }}
-        open={snackbarData.open}
-        autoHideDuration={4000}
-        TransitionComponent={SlideTransition}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <Alert variant='filled' severity={snackbarData.severity}>
-          {snackbarData.message}
-        </Alert>
-      </Snackbar>
       <Header title='APPROVE EVENTS' subtitle='List of Unapproved Events.' />
       <Box
         mt='20px'

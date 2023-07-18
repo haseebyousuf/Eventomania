@@ -1,8 +1,9 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const Actions = ({ getMembers, snackbarData, setSnackbarData, params }) => {
+const Actions = ({ getMembers, params }) => {
   const handleDelete = async (id) => {
     const choice = window.confirm(
       "Are you sure you want to delete this Member?"
@@ -18,32 +19,30 @@ const Actions = ({ getMembers, snackbarData, setSnackbarData, params }) => {
         const responseData = await response.data;
         if (responseData) {
           getMembers();
-          setSnackbarData({
-            ...snackbarData,
-            open: true,
-            message: "Member Deleted Successfully",
-            severity: "success",
+          toast("Member Deleted Successfully.", {
+            type: "error",
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
           });
-          setTimeout(() => {
-            setSnackbarData({
-              ...snackbarData,
-              open: false,
-            });
-          }, 4000);
         }
       } catch (error) {
-        setSnackbarData({
-          ...snackbarData,
-          open: true,
-          message: "There was an error deleting the Member",
-          severity: "error",
+        toast("There was an error deleting the Member.", {
+          type: "error",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
         });
-        setTimeout(() => {
-          setSnackbarData({
-            ...snackbarData,
-            open: false,
-          });
-        }, 4000);
       }
     }
   };

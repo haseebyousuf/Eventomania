@@ -1,39 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import {
-    Box,
-    Card,
-    CardContent,
-    TextField,
-    Button,
-    CardActions,
-    Snackbar,
-    Alert,
-    Slide,
-    useMediaQuery,
+  Box,
+  Card,
+  CardContent,
+  TextField,
+  Button,
+  CardActions,
+  useMediaQuery,
 } from "@mui/material";
+import { toast } from "react-toastify";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { motion } from "framer-motion";
 import { useTheme } from "@emotion/react";
 const inputs = [
-    { id: 1, label: "Committee Name", name: "name" },
-    { id: 2, label: "Description", name: "description" },
+  { id: 1, label: "Committee Name", name: "name" },
+  { id: 2, label: "Description", name: "description" },
 ];
 const addCommitteeSchema = yup.object().shape({
-    name: yup.string().required("*Name is Required"),
-    description: yup.string().required("Description is required"),
+  name: yup.string().required("*Name is Required"),
+  description: yup.string().required("Description is required"),
 });
 
 const initialValuesCommittee = {
-    name: "",
-    description: "",
+  name: "",
+  description: "",
 };
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState(null);
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
@@ -47,20 +43,33 @@ const Form = () => {
       const savedCommittee = await savedCommitteeResponse.data;
       onSubmitProps.resetForm();
       if (savedCommittee) {
-        setMessage("Committee Added!");
-        setOpen(true);
-        setTimeout(() => {
-          setOpen(false);
-        }, 3000);
+        toast("Committee Added!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          type: "success",
+          theme: "colored",
+        });
       }
     } catch (error) {
-      alert("There is some error! Please Try Again.");
+      toast("Error: Please Try again", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        type: "error",
+        theme: "colored",
+      });
     }
   };
-  //transition for snackbar
-  const SlideTransition = (props) => {
-    return <Slide {...props} direction='down' />;
-  };
+
   return (
     <Formik
       onSubmit={handleFormSubmit}
@@ -76,20 +85,6 @@ const Form = () => {
         handleSubmit,
       }) => (
         <form onSubmit={handleSubmit}>
-          <Snackbar
-            sx={{ position: "absolute" }}
-            open={open}
-            autoHideDuration={6000}
-            TransitionComponent={SlideTransition}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-          >
-            <Alert variant='filled' severity='success'>
-              {message}
-            </Alert>
-          </Snackbar>
           <Box>
             <Card
               sx={{
