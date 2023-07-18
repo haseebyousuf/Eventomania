@@ -31,7 +31,7 @@ export const createEvent = async (req, res) => {
       startDate,
       endDate,
       description,
-      recommendedAudience,
+      recommendedAudience: recommendedAudience || "Anyone",
       bannerName,
       bannerPath,
       orderName,
@@ -43,6 +43,7 @@ export const createEvent = async (req, res) => {
     //send success response
     res.status(201).json(savedEvent);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
