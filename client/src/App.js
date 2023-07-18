@@ -1,8 +1,9 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import {createTheme} from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 import { themeSettings } from "theme";
 import {
   Home,
@@ -28,6 +29,7 @@ import {
   CommitteeMembers,
   ChangePassword,
 } from "./scenes";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -39,6 +41,8 @@ function App() {
   const convenor = isAuth && user.role === "convenor";
   return (
     <div className='app'>
+      <ToastContainer />
+
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
