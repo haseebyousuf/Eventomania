@@ -58,8 +58,8 @@ const EventContainer = ({
         }}
         sx={{
           display: "flex",
-          justifyContent: "space-between",
-          gap: "5rem",
+          justifyContent: "flex-start",
+          gap: "7rem",
           flexWrap: "wrap",
           paddingBottom: "2rem",
         }}
