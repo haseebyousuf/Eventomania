@@ -64,6 +64,7 @@ const EventActions = ({ getEvents, params }) => {
         openDialog={openDialog}
         setOpenDialog={setOpenDialog}
         params={params}
+        showOrder={true}
       />
       <Tooltip title='View Event Details'>
         <IconButton onClick={handleOpenDialog}>
