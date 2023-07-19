@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Button,
   Dialog,
   Grid,
   IconButton,
@@ -15,6 +16,7 @@ import React from "react";
 import EventHeader from "./EventDetails/EventHeader";
 import EventDescription from "./EventDetails/EventDescription";
 import RecommendedAudience from "./EventDetails/RecommendedAudience";
+import { Link } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
@@ -24,6 +26,7 @@ const EventDialog = ({
   params,
   handleCloseDialog,
   handleClickOpen,
+  showOrder,
 }) => {
   const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -63,6 +66,7 @@ const EventDialog = ({
         </AppBar>
         <Box
           padding='1rem'
+          width='100%'
           sx={{
             backgroundColor: theme.palette.background.default,
             margin: "auto",
@@ -90,6 +94,28 @@ const EventDialog = ({
               <Grid item xs={12} sm={12} md={5} lg={5}>
                 <EventDescription description={params.row.description} />
                 <RecommendedAudience event={params.row} />
+                {showOrder && (
+                  <Button
+                    sx={{
+                      margin: "1rem",
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => {}}
+                    variant='contained'
+                    color='secondary'
+                    size='large'
+                  >
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to={`${process.env.REACT_APP_BASE_URL}/assets/${params.row.orderName}`}
+                      target='_blank'
+                      rel='noreferrer'
+                    >
+                      {" "}
+                      View Order
+                    </Link>
+                  </Button>
+                )}
               </Grid>
             </Grid>
           )}
