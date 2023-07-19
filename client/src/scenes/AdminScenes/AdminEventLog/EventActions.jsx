@@ -2,10 +2,10 @@ import { Box, IconButton, Tooltip } from "@mui/material";
 import GroupsIcon from "@mui/icons-material/Groups";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EventActions = ({ users, data, params }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -27,14 +27,15 @@ const EventActions = ({ users, data, params }) => {
       </Tooltip>
       <Tooltip title='Download Report'>
         <IconButton onClick={() => {}}>
-          <a
-            href={`${process.env.REACT_APP_BASE_URL}/assets/${params.row.reportName}`}
+          <Link
+            style={{ textDecoration: "none", color: "black" }}
+            to={`${process.env.REACT_APP_BASE_URL}/assets/${params.row.orderName}`}
             target='_blank'
             rel='noreferrer'
           >
             {" "}
             <DownloadForOfflineIcon color='info' />
-          </a>
+          </Link>
         </IconButton>
       </Tooltip>
     </Box>
