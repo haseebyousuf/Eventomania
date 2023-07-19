@@ -149,7 +149,7 @@ const ApproveEvents = () => {
       ),
     },
     {
-      field: "display",
+      field: "action",
       headerName: "Approve",
       type: "actions",
       width: 100,
@@ -158,6 +158,7 @@ const ApproveEvents = () => {
           color='success'
           onClick={() => handleApproveEvent(params.row._id)}
           checked={params.row.isApproved ? true : false}
+          {...{ params }}
         />
       ),
     },
