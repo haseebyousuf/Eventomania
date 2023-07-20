@@ -50,9 +50,7 @@ export const createEvent = async (req, res) => {
 export const uploadReport = async (req, res) => {
   try {
     //get file from req.file
-    console.log("req.file", req.file);
     const report = req.file;
-    console.log("report", report);
     const reportName = report.filename;
     const reportPath = report.path;
     //get id of event  form req.body
@@ -65,6 +63,46 @@ export const uploadReport = async (req, res) => {
     });
     //send success response
     res.status(201).json(updatedEvent);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+export const uploadPhotos = async (req, res) => {
+  try {
+    //get file from req.file
+    // Process and save the photos as needed (e.g., store in an array)
+    const uploadedPhotos = req.files;
+    const photosArray = [];
+    uploadedPhotos.forEach((photo) => {
+      // Store photo information or perform additional processing if required
+      photosArray.push({
+        filename: photo.filename,
+        path: photo.path,
+      });
+    });
+    //get id of event  form req.body
+    const { id } = req.body;
+    //update event
+    const filter = { _id: id };
+    const update = { photos: photosArray, isPhotoUploaded: true };
+    const updatedEvent = await Event.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+    //send success response
+    res.status(201).json(updatedEvent);
+    // const report = req.file;
+    // const reportName = report.filename;
+    // const reportPath = report.path;
+    // //get id of event  form req.body
+    // const { id } = req.body;
+    // //update event
+    // const filter = { _id: id };
+    // const update = { reportName, reportPath, status: true };
+    // const updatedEvent = await Event.findOneAndUpdate(filter, update, {
+    //   new: true,
+    // });
+    // //send success response
+    // res.status(201).json(updatedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
