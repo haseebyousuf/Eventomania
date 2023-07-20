@@ -18,6 +18,7 @@ import RecommendedAudience from "./RecommendedAudience";
 
 import Register from "./Register";
 import { motion } from "framer-motion";
+import EventImages from "../EventImages";
 const EventDetails = () => {
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
@@ -72,7 +73,7 @@ const EventDetails = () => {
                     ease: "easeInOut",
                   }}
                   sx={{
-                    padding: "0rem 2rem",
+                    padding: "0rem 0.5rem",
                     backgroundImage: "none",
                     backgroundColor: theme.palette.background.alt,
                   }}
@@ -84,8 +85,8 @@ const EventDetails = () => {
                       alignItems='flex-start'
                       flexDirection='column'
                     >
-                      <Typography
-                        fontSize='1.8rem'
+                      {/* <Typography
+                        fontSize='1.3rem'
                         textDecoration='underline'
                         fontWeight='bold'
                         p='1rem 0rem 1rem 0rem'
@@ -95,8 +96,21 @@ const EventDetails = () => {
                         color='#d12121'
                       >
                         THIS EVENT HAS CONCLUDED!
+                      </Typography> */}
+                      <Typography
+                        fontSize={isNonMobile ? "1.8rem" : "1.5rem"}
+                        textDecoration='underline'
+                        fontWeight='bold'
+                        p='0.3rem 0rem 1rem 0rem'
+                        color='#d12121'
+                        // color={theme.palette.secondary.main}
+                      >
+                        EVENT CONCLUDED!
                       </Typography>
                     </Box>
+                    {event?.isPhotoUploaded && (
+                      <EventImages photos={event.photos} />
+                    )}
                   </CardContent>
                 </Card>
               )}
