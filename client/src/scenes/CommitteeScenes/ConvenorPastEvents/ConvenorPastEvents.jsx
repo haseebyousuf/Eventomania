@@ -9,6 +9,7 @@ import UploadReport from "components/UploadReport";
 import DataGridCustomToolbar from "../../../components/DataGridCustomToolbar";
 import { motion } from "framer-motion";
 import Header from "components/Header";
+import UploadPhotos from "components/UploadPhotos";
 const ConvenorPastEvents = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.user);
@@ -34,9 +35,7 @@ const ConvenorPastEvents = () => {
         events: sortedEvents,
         isLoading: false,
       });
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -49,16 +48,6 @@ const ConvenorPastEvents = () => {
       headerName: "Event Name",
       minWidth: 200,
       flex: 1,
-    },
-    {
-      field: "committee",
-      headerName: "Organized By",
-      minWidth: 150,
-      flex: 1,
-      valueFormatter: ({ value }) => value[0].name,
-      renderCell: (params) => {
-        return <p color='#fff'>{params.row.committee[0].name}</p>;
-      },
     },
     {
       field: "createdBy",
@@ -92,18 +81,16 @@ const ConvenorPastEvents = () => {
         const total = users.filter(
           (user) => user.event[0].id === params.row._id
         ).length;
-        console.log(total);
         return Number(total);
       },
       type: "number",
       valueFormatter: ({ value }) => {
-        console.log(value);
         return value;
       },
     },
     {
       field: "status",
-      headerName: "Status",
+      headerName: "Report Status",
       minWidth: 170,
       disableExport: true,
       renderCell: (params) => {
@@ -136,6 +123,47 @@ const ConvenorPastEvents = () => {
             ) : (
               <Box>
                 <UploadReport getEvents={getEvents} id={params.row._id} />
+              </Box>
+            )}
+          </Box>
+        );
+      },
+    },
+    {
+      field: "upload",
+      headerName: "Upload Photos",
+      minWidth: 170,
+      disableExport: true,
+      renderCell: (params) => {
+        return (
+          <Box color='success'>
+            {params.row.isPhotoUploaded ? (
+              <Button>
+                <Typography
+                  backgroundColor='#66bb6a'
+                  variant='p'
+                  color='#fff'
+                  p={1}
+                  borderRadius='5px'
+                >
+                  PHOTOS UPLOADED
+                </Typography>
+              </Button>
+            ) : moment(params.row.startDate).isAfter(moment()) ? (
+              <Button onClick={() => {}}>
+                <Typography
+                  variant='p'
+                  backgroundColor='rgb(255 167 38)'
+                  color='#fff'
+                  p={1}
+                  borderRadius='5px'
+                >
+                  Event Yet To Begin
+                </Typography>
+              </Button>
+            ) : (
+              <Box>
+                <UploadPhotos getEvents={getEvents} id={params.row._id} />
               </Box>
             )}
           </Box>
