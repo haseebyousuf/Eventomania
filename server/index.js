@@ -1,25 +1,24 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import multer from 'multer';
-import { v4 as uuidv4 } from 'uuid';
+import express from "express";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import morgan from "morgan";
+import multer from "multer";
+import { v4 as uuidv4 } from "uuid";
 
 import path from "path";
-import {fileURLToPath} from "url";
+import { fileURLToPath } from "url";
 
-import committeeRoutes from './routes/committee.js';
-import adminRoutes from './routes/admin.js';
-import eventRoutes from './routes/eventRoutes.js';
+import committeeRoutes from "./routes/committee.js";
+import adminRoutes from "./routes/admin.js";
+import eventRoutes from "./routes/eventRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import dashboardRoutes from "./routes/dashboardRoutes.js"
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
-import { createEvent } from "./controllers/eventController.js";
+import { createEvent, uploadPhotos } from "./controllers/eventController.js";
 import { uploadReport } from "./controllers/eventController.js";
-
 
 //data imports
 import Admin from "./models/Admin.js";
@@ -42,34 +41,35 @@ app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 // FILE STORAGE CONFIGURATIONS
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/assets");
-    },
-    filename: function (req, file, cb) {
-        cb(
-            null,
-            file.fieldname +
-                "-" +
-                uuidv4() +
-                "-" +
-                Date.now() +
-                path.extname(file.originalname)
-        );
-    },
+  destination: function (req, file, cb) {
+    cb(null, "public/assets");
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname +
+        "-" +
+        uuidv4() +
+        "-" +
+        Date.now() +
+        path.extname(file.originalname)
+    );
+  },
 });
 
 const upload = multer({ storage });
 
 // ROUTES WITH FILE UPLOADS
 app.post(
-    "/event/createEvent",
-    upload.fields([
-        { name: "banner", maxCount: 1 },
-        { name: "order", maxCount: 1 },
-    ]),
-    createEvent
+  "/event/createEvent",
+  upload.fields([
+    { name: "banner", maxCount: 1 },
+    { name: "order", maxCount: 1 },
+  ]),
+  createEvent
 );
-app.post("/event/uploadReport", upload.single("report"),uploadReport);
+app.post("/event/uploadReport", upload.single("report"), uploadReport);
+app.post("/event/uploadPhotos", upload.array("photos"), uploadPhotos);
 
 // ROUTES
 app.use("/committee", committeeRoutes);
@@ -80,10 +80,13 @@ app.use("/dashboard", dashboardRoutes);
 // MONGOOSE Setup
 
 const PORT = process.env.PORT || 9000;
-mongoose.set('strictQuery', true);
-mongoose.connect(process.env.MONGO_URL, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true, 
-}).then(()=>{
+mongoose.set("strictQuery", true);
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
     app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
-}).catch((error) => console.log(`${error} did not connect`));
+  })
+  .catch((error) => console.log(`${error} did not connect`));
