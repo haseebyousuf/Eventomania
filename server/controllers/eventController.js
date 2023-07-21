@@ -17,7 +17,6 @@ export const createEvent = async (req, res) => {
       startDate,
       endDate,
       description,
-      recommendedAudience,
       committee,
       createdBy,
     } = req.body;
@@ -31,7 +30,6 @@ export const createEvent = async (req, res) => {
       startDate,
       endDate,
       description,
-      recommendedAudience: recommendedAudience || "Anyone",
       bannerName,
       bannerPath,
       orderName,
