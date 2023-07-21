@@ -22,10 +22,6 @@ const EventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    recommendedAudience: {
-      type: String,
-      required: true,
-    },
     photos: Array,
     isPhotoUploaded: {
       type: Boolean,
