@@ -69,18 +69,20 @@ export const uploadReport = async (req, res) => {
 };
 export const uploadPhotos = async (req, res) => {
   try {
-    //get file from req.file
-    // Process and save the photos as needed (e.g., store in an array)
     const uploadedPhotos = req.files;
     const photosArray = [];
     uploadedPhotos.forEach((photo) => {
-      // Store photo information or perform additional processing if required
+      const compressedPath = photo.path.replace("photos", "compressedPhotos");
+      const compressedFilename = photo.filename.replace(
+        "photos",
+        "compressedPhotos"
+      );
+      console.log(photo);
       photosArray.push({
-        filename: photo.filename,
-        path: photo.path,
+        filename: compressedFilename,
+        path: compressedPath,
       });
     });
-    //get id of event  form req.body
     const { id } = req.body;
     //update event
     const filter = { _id: id };
@@ -90,20 +92,8 @@ export const uploadPhotos = async (req, res) => {
     });
     //send success response
     res.status(201).json(updatedEvent);
-    // const report = req.file;
-    // const reportName = report.filename;
-    // const reportPath = report.path;
-    // //get id of event  form req.body
-    // const { id } = req.body;
-    // //update event
-    // const filter = { _id: id };
-    // const update = { reportName, reportPath, status: true };
-    // const updatedEvent = await Event.findOneAndUpdate(filter, update, {
-    //   new: true,
-    // });
-    // //send success response
-    // res.status(201).json(updatedEvent);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -183,6 +173,11 @@ export const deleteEvent = async (req, res) => {
       }
       if (event.reportPath) {
         fs.unlinkSync(event.reportPath);
+      }
+      if (event.photos) {
+        event.photos.forEach((photo) => {
+          fs.unlinkSync(photo.path);
+        });
       }
       await User.deleteMany({ "event.id": eventId });
       res.status(201).json({ msg: "Deleted Successfully" });
