@@ -42,7 +42,6 @@ const eventSchema = yup.object().shape({
   description: yup.string().required("*Description is Required"),
   banner: yup.string().required("*banner required"),
   order: yup.string().required("*order file required"),
-  recommendedAudience: yup.string(),
 });
 
 const initialValuesEvent = {
@@ -53,7 +52,6 @@ const initialValuesEvent = {
   description: "",
   banner: "",
   order: "",
-  recommendedAudience: "",
 };
 
 const CreateEvent = () => {
@@ -115,7 +113,7 @@ const CreateEvent = () => {
   return (
     <Box overflow='scroll'>
       <Box
-        m='1rem 2.5rem'
+        m={isNonMobile ? "1rem 2.5rem" : "1rem"}
         position='relative'
         component={motion.div}
         initial={{ opacity: 0 }}
@@ -244,7 +242,7 @@ const CreateEvent = () => {
                               },
                             }}
                             sx={{
-                              width: isNonMobile ? "18rem" : "15rem",
+                              width: "18rem",
                             }}
                           />
                         </DemoContainer>
@@ -275,7 +273,7 @@ const CreateEvent = () => {
                               },
                             }}
                             sx={{
-                              width: isNonMobile ? "18rem" : "16rem",
+                              width: "18rem",
                             }}
                           />
                         </DemoContainer>
@@ -305,7 +303,7 @@ const CreateEvent = () => {
                         autoComplete='off'
                         color='secondary'
                         multiline
-                        minRows={3}
+                        minRows={5}
                         label='Event Description'
                         value={values.description}
                         onChange={handleChange}
@@ -321,47 +319,7 @@ const CreateEvent = () => {
                         variant='outlined'
                       />
                     </Box>
-                    <Box
-                      component={motion.div}
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.8 }}
-                      exit={{ y: 20, opacity: 0 }}
-                      sx={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: isNonMobile
-                          ? "space-between"
-                          : "center",
-                        flexWrap: "Wrap",
-                      }}
-                    >
-                      <TextField
-                        sx={{
-                          width: isNonMobile ? "100%" : "18rem",
-                        }}
-                        id='recommendedAudience'
-                        name='recommendedAudience'
-                        autoComplete='off'
-                        color='secondary'
-                        label='Recommended Audience'
-                        value={values.recommendedAudience}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        margin='normal'
-                        helperText={
-                          touched.recommendedAudience
-                            ? errors.recommendedAudience
-                            : "Separate Each by Comma (,)"
-                        }
-                        error={
-                          touched.recommendedAudience &&
-                          Boolean(errors.recommendedAudience)
-                        }
-                        fullWidth
-                        variant='outlined'
-                      />
-                    </Box>
+
                     <Box
                       component={motion.div}
                       initial={{ y: 20, opacity: 0 }}
