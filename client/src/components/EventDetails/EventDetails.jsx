@@ -14,7 +14,6 @@ import {
 import HomeNavbar from "../HomeNavbar";
 import EventHeader from "./EventHeader";
 import EventDescription from "./EventDescription";
-import RecommendedAudience from "./RecommendedAudience";
 
 import Register from "./Register";
 import { motion } from "framer-motion";
@@ -40,7 +39,14 @@ const EventDetails = () => {
       <HomeNavbar />
       {event && (
         <Grid width='90%' margin='auto' container spacing={2}>
-          <Grid item xs={12} sm={12} md={7} lg={8}>
+          <Grid
+            sx={{ marginBottom: "1rem" }}
+            item
+            xs={12}
+            sm={12}
+            md={7}
+            lg={8}
+          >
             <EventHeader
               name={event.name}
               banner={event.bannerName}
@@ -57,7 +63,6 @@ const EventDetails = () => {
               }}
             />
             <EventDescription description={event.description} />
-            <RecommendedAudience event={event} />
           </Grid>
           <Grid item xs={12} sm={12} md={5} lg={4}>
             <Box position='sticky' top='5rem'>
