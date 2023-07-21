@@ -6,9 +6,11 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import multer from "multer";
+import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 
 import committeeRoutes from "./routes/committee.js";
@@ -58,7 +60,45 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+//COMPRESS PHOTOS BEFORE UPLOADING
+const compressAndSavePhotos = async (req, res, next) => {
+  try {
+    const compressedPhotos = await Promise.all(
+      req.files.map(async (photo) => {
+        const photoPath = photo.path;
+        const compressedPath = photoPath.replace("photos", "compressedPhotos");
+        let compressionQuality = 40;
 
+        if (photo.size >= 2000000) {
+          compressionQuality = 35;
+        } else if (photo.size > 1000000) {
+          compressionQuality = 40;
+        } else if (photo.size > 800000 && photo.size <= 1000000) {
+          compressionQuality = 60;
+        } else if (photo.size > 300000 && photo.size <= 800000) {
+          compressionQuality = 80;
+        } else if (photo.size < 300000) {
+          compressionQuality = 90;
+        }
+        await sharp(photoPath)
+          .jpeg({ quality: compressionQuality })
+          .toFile(compressedPath);
+
+        // Remove the original image after compression using fs.promises.unlink
+        await fs.promises.unlink(photoPath);
+
+        // Return the compressed photo information
+        return { ...photo, path: compressedPath };
+      })
+    );
+
+    req.files.photos = compressedPhotos;
+    next();
+  } catch (err) {
+    console.error("Error compressing photos:", err);
+    res.status(500).json({ message: "Error compressing photos." });
+  }
+};
 // ROUTES WITH FILE UPLOADS
 app.post(
   "/event/createEvent",
@@ -69,7 +109,12 @@ app.post(
   createEvent
 );
 app.post("/event/uploadReport", upload.single("report"), uploadReport);
-app.post("/event/uploadPhotos", upload.array("photos"), uploadPhotos);
+app.post(
+  "/event/uploadPhotos",
+  upload.array("photos"),
+  compressAndSavePhotos,
+  uploadPhotos
+);
 
 // ROUTES
 app.use("/committee", committeeRoutes);
