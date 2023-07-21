@@ -15,7 +15,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 import EventHeader from "./EventDetails/EventHeader";
 import EventDescription from "./EventDetails/EventDescription";
-import RecommendedAudience from "./EventDetails/RecommendedAudience";
 import { Link } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -93,7 +92,6 @@ const EventDialog = ({
               </Grid>
               <Grid item xs={12} sm={12} md={5} lg={5}>
                 <EventDescription description={params.row.description} />
-                <RecommendedAudience event={params.row} />
                 {showOrder && (
                   <Button
                     sx={{
