@@ -92,28 +92,17 @@ const UploadReport = ({ id, getEvents }) => {
                   <Box {...getRootProps()}>
                     <input {...getInputProps()} />
                     {!values.report ? (
-                      <>
-                        <Typography
-                          variant='p'
-                          backgroundColor='#f44336'
-                          color='#fff'
-                          p={1}
-                          borderRadius='5px'
-                          sx={{
-                            marginLeft: "10px",
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 0.5,
-                            "&:hover": {
-                              cursor: "pointer",
-                            },
-                          }}
-                        >
-                          UPLOAD REPORT
-                          <CloudUploadOutlined />
-                        </Typography>
-                      </>
+                      <Button
+                        variant='contained'
+                        color='error'
+                        endIcon={<CloudUploadOutlined />}
+                        sx={{
+                          minWidth: "9rem",
+                          color: "#fff",
+                        }}
+                      >
+                        UPLOAD NOW
+                      </Button>
                     ) : (
                       <FlexBetween>
                         <Typography>{values.report.name}</Typography>
@@ -135,41 +124,26 @@ const UploadReport = ({ id, getEvents }) => {
             </Box>
           ) : (
             <Box>
-              <Button type='submit'>
-                <Typography
-                  variant='p'
-                  backgroundColor='#66bb6a'
-                  color='#fff'
-                  p={1}
-                  borderRadius='5px'
-                  sx={{
-                    marginLeft: "5px",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 0.5,
-                  }}
-                >
-                  Submit
-                </Typography>
+              <Button
+                type='submit'
+                variant='contained'
+                color='success'
+                sx={{
+                  color: "#fff",
+                  marginRight: "10px",
+                }}
+              >
+                Submit
               </Button>
-              <Button onClick={resetForm}>
-                <Typography
-                  variant='p'
-                  backgroundColor='rgb(255 167 38)'
-                  color='#fff'
-                  p={1}
-                  borderRadius='5px'
-                  sx={{
-                    marginLeft: "5px",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 0.5,
-                  }}
-                >
-                  Reset
-                </Typography>
+              <Button
+                variant='contained'
+                color='warning'
+                sx={{
+                  color: "#fff",
+                }}
+                onClick={resetForm}
+              >
+                Reset
               </Button>
             </Box>
           )}
