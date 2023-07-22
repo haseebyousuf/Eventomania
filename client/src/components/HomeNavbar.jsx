@@ -3,7 +3,6 @@ import {
   LightModeOutlined,
   DarkModeOutlined,
   Menu as MenuIcon,
-  LoginOutlined,
   ChevronRight,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
@@ -66,8 +65,6 @@ const Navbar = () => {
         backgroundImage: "none",
         backgroundColor: theme.palette.background.alt,
         boxShadow: "0 2px 0px rgba(0 0 0 / 0.1)",
-        // borderBottom: "2px",
-        // BorderBottomColor: "red",
       }}
     >
       <Toolbar
@@ -89,7 +86,7 @@ const Navbar = () => {
           >
             <Typography
               sx={{ fontSize: "1.5rem" }}
-              varient='h1'
+              variant='h1'
               fontWeight='bold'
             >
               EVENTOMANIA
@@ -126,7 +123,6 @@ const Navbar = () => {
                 onClick={() => navigate("/Dashboard")}
                 variant='contained'
                 color='secondary'
-                endIcon={<LoginOutlined />}
               >
                 Dashboard
               </Button>
@@ -139,7 +135,6 @@ const Navbar = () => {
                 variant='contained'
                 onClick={() => navigate("/Login")}
                 color='secondary'
-                endIcon={<LoginOutlined />}
               >
                 Sign IN
               </Button>
@@ -184,7 +179,7 @@ const Navbar = () => {
                 </IconButton>
               )}
               <Box display='flex' alignItems='center' gap='0.5rem'>
-                <Typography varient='h4' fontWeight='bold'>
+                <Typography variant='h4' fontWeight='bold'>
                   EVENTOMANIA
                 </Typography>
               </Box>
@@ -229,7 +224,6 @@ const Navbar = () => {
               margin: "1rem",
               fontWeight: "bold",
             }}
-            endIcon={<LoginOutlined />}
             variant='contained'
             onClick={() => navigate("/Dashboard")}
             color='secondary'
@@ -242,7 +236,6 @@ const Navbar = () => {
               margin: "1rem",
               fontWeight: "bold",
             }}
-            endIcon={<LoginOutlined />}
             variant='contained'
             onClick={() => navigate("/Login")}
             color='secondary'
