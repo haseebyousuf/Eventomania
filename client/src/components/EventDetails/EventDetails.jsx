@@ -71,10 +71,10 @@ const EventDetails = () => {
               ) : (
                 <Card
                   component={motion.div}
-                  initial={{ x: 100, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   transition={{
-                    duration: 0.3,
+                    duration: 0.4,
                     ease: "easeInOut",
                   }}
                   sx={{
@@ -90,25 +90,12 @@ const EventDetails = () => {
                       alignItems='flex-start'
                       flexDirection='column'
                     >
-                      {/* <Typography
-                        fontSize='1.3rem'
-                        textDecoration='underline'
-                        fontWeight='bold'
-                        p='1rem 0rem 1rem 0rem'
-                        // color={
-                        //     theme.palette.secondary.main
-                        // }
-                        color='#d12121'
-                      >
-                        THIS EVENT HAS CONCLUDED!
-                      </Typography> */}
                       <Typography
                         fontSize={isNonMobile ? "1.8rem" : "1.5rem"}
                         textDecoration='underline'
                         fontWeight='bold'
                         p='0.3rem 0rem 1rem 0rem'
                         color='#d12121'
-                        // color={theme.palette.secondary.main}
                       >
                         EVENT CONCLUDED!
                       </Typography>
