@@ -2,7 +2,7 @@ import fs from "fs";
 import nodemailer from "nodemailer";
 import Event from "../models/Event.js";
 import User from "../models/User.js";
-import { generateCertificate } from "../utils/certifcate.js";
+import { generateCertificate } from "../utils/generateCertificate.js";
 
 export const createEvent = async (req, res) => {
   try {
