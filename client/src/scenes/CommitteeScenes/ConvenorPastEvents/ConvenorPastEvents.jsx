@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import SendIcon from "@mui/icons-material/Send";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import EventActions from "./EventActions";
@@ -10,12 +13,14 @@ import DataGridCustomToolbar from "../../../components/DataGridCustomToolbar";
 import { motion } from "framer-motion";
 import Header from "components/Header";
 import UploadPhotos from "components/UploadPhotos";
+import { toast } from "react-toastify";
 const ConvenorPastEvents = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.user);
 
   const [data, setData] = useState({ events: null, isLoading: true });
   const [users, setUsers] = useState(null);
+  const [buttonDisabled, setButtonDisabled] = React.useState({});
 
   const getEvents = async () => {
     try {
@@ -42,24 +47,42 @@ const ConvenorPastEvents = () => {
     getEvents();
     // eslint-disable-next-line
   }, []);
+
+  const handleCertificateSend = async (id) => {
+    setButtonDisabled({ ...buttonDisabled, [id]: true });
+
+    try {
+      const data = {
+        id: id,
+      };
+      const promise = toast.promise(
+        // The uploading message to display
+        axios({
+          method: "post",
+          url: `${process.env.REACT_APP_BASE_URL}/events/sendCertificate`,
+          headers: { "Content-Type": "application/JSON" },
+          data: data,
+        }).then((response) => response.data), // Resolve the promise with the response data
+        {
+          pending: "Sending Certificates...", // Message shown while the request is pending
+          success: "Certificates ent!", // Success message
+          error: "There was some error! Please Try again.", // Error message
+        }
+      );
+      const certificateResponse = await promise;
+      if (certificateResponse) {
+        getEvents();
+        setButtonDisabled({ ...buttonDisabled, [id]: false });
+      }
+    } catch (error) {}
+    setButtonDisabled({ ...buttonDisabled, [id]: false });
+  };
   const columns = [
     {
       field: "name",
       headerName: "Event Name",
       minWidth: 200,
       flex: 1,
-    },
-    {
-      field: "createdBy",
-      headerName: "Created By",
-      minWidth: 150,
-      flex: 1,
-      valueFormatter: ({ value }) => value[0].name,
-      renderCell: (params) => {
-        return (
-          <Typography variant='p'>{params.row.createdBy[0].name}</Typography>
-        );
-      },
     },
     {
       field: "startDate",
@@ -97,33 +120,108 @@ const ConvenorPastEvents = () => {
         return (
           <Box color='success'>
             {params.row.status ? (
-              <Button>
-                <Typography
-                  backgroundColor='#66bb6a'
-                  variant='p'
-                  color='#fff'
-                  p={1}
-                  borderRadius='5px'
-                >
-                  REPORT GENERATED
-                </Typography>
+              <Button
+                disabled
+                variant='contained'
+                color='success'
+                endIcon={<DoneIcon />}
+                sx={{
+                  minWidth: "9rem",
+                  color: "#fff",
+                  "&.Mui-disabled": {
+                    opacity: 0.9,
+                    backgroundColor: "#388e3c",
+                    color: "#fff",
+                  },
+                }}
+              >
+                GENERATED
               </Button>
             ) : moment(params.row.startDate).isAfter(moment()) ? (
-              <Button onClick={() => {}}>
-                <Typography
-                  variant='p'
-                  backgroundColor='rgb(255 167 38)'
-                  color='#fff'
-                  p={1}
-                  borderRadius='5px'
-                >
-                  Event Yet To Begin
-                </Typography>
+              <Button
+                disabled
+                variant='contained'
+                color='warning'
+                endIcon={<HourglassBottomIcon />}
+                sx={{
+                  minWidth: "9rem",
+                  color: "#fff",
+                  "&.Mui-disabled": {
+                    opacity: 0.9,
+                    backgroundColor: "#ffa726",
+                    color: "#fff",
+                  },
+                }}
+              >
+                Pending
               </Button>
             ) : (
               <Box>
                 <UploadReport getEvents={getEvents} id={params.row._id} />
               </Box>
+            )}
+          </Box>
+        );
+      },
+    },
+    {
+      field: "send",
+      headerName: "Certificates",
+      minWidth: 170,
+      disableExport: true,
+      renderCell: (params) => {
+        return (
+          <Box color='success'>
+            {params.row.isCertificateGenerated ? (
+              <Button
+                disabled
+                variant='contained'
+                color='success'
+                endIcon={<DoneIcon />}
+                sx={{
+                  minWidth: "9rem",
+                  color: "#fff",
+                  "&.Mui-disabled": {
+                    opacity: 0.9,
+                    backgroundColor: "#388e3c",
+                    color: "#fff",
+                  },
+                }}
+              >
+                Generated
+              </Button>
+            ) : moment(params.row.startDate).isAfter(moment()) ? (
+              <Button
+                disabled
+                variant='contained'
+                color='warning'
+                endIcon={<HourglassBottomIcon />}
+                sx={{
+                  minWidth: "9rem",
+                  color: "#fff",
+                  "&.Mui-disabled": {
+                    opacity: 0.9,
+                    backgroundColor: "#ffa726",
+                    color: "#fff",
+                  },
+                }}
+              >
+                PENDING
+              </Button>
+            ) : (
+              <Button
+                disabled={buttonDisabled[params.row._id]}
+                variant='contained'
+                color='error'
+                endIcon={<SendIcon />}
+                sx={{
+                  minWidth: "9rem",
+                  color: "#fff",
+                }}
+                onClick={() => handleCertificateSend(params.row._id)}
+              >
+                SEND NOW
+              </Button>
             )}
           </Box>
         );
@@ -138,28 +236,40 @@ const ConvenorPastEvents = () => {
         return (
           <Box color='success'>
             {params.row.isPhotoUploaded ? (
-              <Button>
-                <Typography
-                  backgroundColor='#66bb6a'
-                  variant='p'
-                  color='#fff'
-                  p={1}
-                  borderRadius='5px'
-                >
-                  PHOTOS UPLOADED
-                </Typography>
+              <Button
+                disabled
+                variant='contained'
+                color='success'
+                endIcon={<DoneIcon />}
+                sx={{
+                  minWidth: "9rem",
+                  color: "#fff",
+                  "&.Mui-disabled": {
+                    opacity: 0.9,
+                    backgroundColor: "#388e3c",
+                    color: "#fff",
+                  },
+                }}
+              >
+                UPLOADED
               </Button>
             ) : moment(params.row.startDate).isAfter(moment()) ? (
-              <Button onClick={() => {}}>
-                <Typography
-                  variant='p'
-                  backgroundColor='rgb(255 167 38)'
-                  color='#fff'
-                  p={1}
-                  borderRadius='5px'
-                >
-                  Event Yet To Begin
-                </Typography>
+              <Button
+                disabled
+                variant='contained'
+                color='warning'
+                endIcon={<HourglassBottomIcon />}
+                sx={{
+                  minWidth: "9rem",
+                  color: "#fff",
+                  "&.Mui-disabled": {
+                    opacity: 0.9,
+                    backgroundColor: "#ffa726",
+                    color: "#fff",
+                  },
+                }}
+              >
+                Pending
               </Button>
             ) : (
               <Box>
