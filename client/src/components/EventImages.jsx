@@ -11,7 +11,7 @@ const EventImages = ({ photos }) => {
   });
   console.log(images);
   return (
-    <Box height='25rem' marginBottom='1rem'>
+    <Box minHeight='20rem' marginBottom='1rem'>
       <ImageGallery
         items={images}
         showNav={true}
