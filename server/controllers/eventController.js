@@ -1,6 +1,8 @@
+import fs from "fs";
+import nodemailer from "nodemailer";
 import Event from "../models/Event.js";
 import User from "../models/User.js";
-import fs from "fs";
+import { generateCertificate } from "../utils/certifcate.js";
 
 export const createEvent = async (req, res) => {
   try {
@@ -180,6 +182,57 @@ export const deleteEvent = async (req, res) => {
       await User.deleteMany({ "event.id": eventId });
       res.status(201).json({ msg: "Deleted Successfully" });
     } else {
+      res.status(500).json({ error: error.message });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const sendCertificate = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    try {
+      const users = await User.find({ "event.id": id });
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "eventomaniasp@gmail.com",
+          pass: "avxcuuzoupuwiklp",
+        },
+      });
+
+      for (const user of users) {
+        const certificate = await generateCertificate(
+          user.name,
+          user.event[0].name
+        );
+
+        const mailOptions = {
+          from: "eventomaniasp@gmail.com",
+          to: user.email,
+          subject: `Event Certificate - ${user.event[0].name}`,
+          text: `Dear ${user.name},\n\nThank You!\nFor attending the event "${user.event[0].name}". Attached to this email is your certificate.\n\nBest regards,\nTeam Eventomania .`,
+          attachments: [
+            {
+              filename: `${user.name.split(" ")[0]}_certificate.pdf`,
+              content: certificate,
+            },
+          ],
+        };
+
+        await transporter.sendMail(mailOptions);
+      }
+      const filter = { _id: id };
+      const update = { isCertificateGenerated: "true" };
+      const updatedEvent = await Event.findOneAndUpdate(filter, update, {
+        new: true,
+      });
+      if (updatedEvent) {
+        res.status(200).json({ msg: "Certificates Sent" });
+      }
+    } catch (error) {
       res.status(500).json({ error: error.message });
     }
   } catch (error) {
