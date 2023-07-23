@@ -13,17 +13,14 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
-import committeeRoutes from "./routes/committee.js";
-import adminRoutes from "./routes/admin.js";
+import committeeRoutes from "./routes/committeeRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 import { createEvent, uploadPhotos } from "./controllers/eventController.js";
 import { uploadReport } from "./controllers/eventController.js";
-
-//data imports
-import Admin from "./models/Admin.js";
 
 // CONFIGURATION
 const __filename = fileURLToPath(import.meta.url);
