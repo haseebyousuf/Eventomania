@@ -198,8 +198,8 @@ export const sendCertificate = async (req, res) => {
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "eventomaniasp@gmail.com",
-          pass: "avxcuuzoupuwiklp",
+          user: process.env.MAIL,
+          pass: process.env.MAIL_PASS,
         },
       });
 
@@ -209,20 +209,21 @@ export const sendCertificate = async (req, res) => {
           user.event[0].name
         );
 
-        const mailOptions = {
-          from: "eventomaniasp@gmail.com",
-          to: user.email,
-          subject: `Event Certificate - ${user.event[0].name}`,
-          text: `Dear ${user.name},\n\nThank You!\nFor attending the event "${user.event[0].name}". Attached to this email is your certificate.\n\nBest regards,\nTeam Eventomania .`,
-          attachments: [
-            {
-              filename: `${user.name.split(" ")[0]}_certificate.pdf`,
-              content: certificate,
-            },
-          ],
-        };
-
-        await transporter.sendMail(mailOptions);
+        if (user.email) {
+          const mailOptions = {
+            from: "eventomaniasp@gmail.com",
+            to: user.email,
+            subject: `Event Certificate - ${user.event[0].name}`,
+            text: `Dear ${user.name},\n\nThank You!\nFor attending the event "${user.event[0].name}". Attached to this email is your certificate.\n\nBest regards,\nTeam Eventomania .`,
+            attachments: [
+              {
+                filename: `${user.name.split(" ")[0]}_certificate.pdf`,
+                content: certificate,
+              },
+            ],
+          };
+          await transporter.sendMail(mailOptions);
+        }
       }
       const filter = { _id: id };
       const update = { isCertificateGenerated: "true" };
