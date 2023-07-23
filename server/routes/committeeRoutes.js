@@ -1,10 +1,10 @@
-import express from 'express';
-import { verifyToken } from '../middleware/auth.js';
+import express from "express";
+import { verifyToken } from "../middleware/auth.js";
 import {
   addCommittee,
   getCommittees,
   deleteCommittee,
-} from "../controllers/committee.js";
+} from "../controllers/committeeController.js";
 
 const router = express.Router();
 
