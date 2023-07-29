@@ -22,10 +22,10 @@ import * as yup from "yup";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import axios from "axios";
 import { motion } from "framer-motion";
 import Header from "components/Header";
 import { toast } from "react-toastify";
+import { useCreateEventMutation } from "state/eventApiSlice";
 // import { useNavigate } from "react-router-dom";
 
 const eventSchema = yup.object().shape({
@@ -55,10 +55,11 @@ const initialValuesEvent = {
 };
 
 const CreateEvent = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.global.user);
   const isNonMobile = useMediaQuery("(min-width: 700px)");
   const theme = useTheme();
   const { palette } = useTheme();
+  const [createEvent] = useCreateEventMutation();
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
@@ -73,30 +74,23 @@ const CreateEvent = () => {
       const createdBy = { id: user._id, name: user.name };
       formData.append("committee", [JSON.stringify(committee)]);
       formData.append("createdBy", [JSON.stringify(createdBy)]);
-
-      const savedEventResponse = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/event/createEvent`,
-        headers: { "Content-Type": "application/JSON" },
-        data: formData,
-      });
-      const savedEvent = await savedEventResponse.data;
-      if (savedEvent) {
+      const res = await createEvent(formData).unwrap();
+      if (res) {
         onSubmitProps.resetForm();
-
-        toast("Event Created.", {
-          type: "success",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
       }
+      toast("Event Created.", {
+        type: "success",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } catch (error) {
+      console.log(error);
       toast("There was some error! Please Try again.", {
         type: "error",
         position: "top-right",
