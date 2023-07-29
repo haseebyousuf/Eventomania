@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 const CommitteeMembers = () => {
   const theme = useTheme();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.global.user);
 
   const [data, setData] = useState({ members: null, isLoading: true });
   useEffect(() => {

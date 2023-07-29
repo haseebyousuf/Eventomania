@@ -15,7 +15,7 @@ import BreakdownChart from "components/BreakdownChart";
 import { useSelector } from "react-redux";
 import DashboardShimmer from "components/DashboardShimmer";
 const CommitteeDashboard = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.global.user);
   const [data, setData] = useState(null);
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
@@ -38,7 +38,6 @@ const CommitteeDashboard = () => {
     getStats();
     // eslint-disable-next-line
   }, []);
-  console.log(data);
   const columns = [
     {
       field: "name",

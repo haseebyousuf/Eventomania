@@ -16,7 +16,7 @@ import UploadPhotos from "components/UploadPhotos";
 import { toast } from "react-toastify";
 const ConvenorPastEvents = () => {
   const theme = useTheme();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.global.user);
 
   const [data, setData] = useState({ events: null, isLoading: true });
   const [users, setUsers] = useState(null);
