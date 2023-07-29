@@ -19,7 +19,6 @@ const EventContainer = ({
   setFilteredEvents,
   events,
   isPast,
-  committees,
 }) => {
   const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -45,7 +44,7 @@ const EventContainer = ({
         setAnimateCard={setAnimateCard}
         setFilteredEvents={setFilteredEvents}
         events={events}
-        committees={committees}
+        // committees={committees}
       />
 
       <Box
