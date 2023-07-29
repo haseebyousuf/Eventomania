@@ -52,7 +52,7 @@ const initialValuesMember = {
 
 const AddCommitteeMember = () => {
   const theme = useTheme();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.global.user);
 
   // States
   const [showPassword, setShowPassword] = useState(false);
