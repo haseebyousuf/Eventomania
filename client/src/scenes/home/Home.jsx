@@ -1,29 +1,21 @@
 import { Box } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import HomeNavbar from "../../components/HomeNavbar";
 import moment from "moment";
 import EventContainer from "components/EventContainer";
+import { usePublishedEventsQuery } from "state/eventApiSlice";
 
 const Home = () => {
   const [upcomingEvents, setUpcomingEvents] = useState(null);
   const [pastEvents, setPastEvents] = useState(null);
   const [filteredPastEvents, setFilteredPastEvents] = useState(null);
   const [filteredUpcomingEvents, setFilteredUpcomingEvents] = useState(null);
-  const [committees, setCommittees] = useState(null);
+  const { data: events, isLoading } = usePublishedEventsQuery();
 
   useEffect(() => {
-    getEvents();
-    getCommittees();
-    // eslint-disable-next-line
-  }, []);
-  const getEvents = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/events/getPublishedEvents`
-      );
+    if (!isLoading && events && events.length > 0) {
       setUpcomingEvents(
-        response.data.filter((item) => {
+        events.filter((item) => {
           if (
             moment(item.startDate).isAfter(moment()) ||
             moment(item.startDate).isSame(moment(), "day", "month", "year")
@@ -34,41 +26,22 @@ const Home = () => {
           }
         })
       );
-      setPastEvents(
-        response.data.filter((item) =>
-          moment(item.startDate).isBefore(moment())
-        )
-      );
       setFilteredUpcomingEvents(
-        response.data.filter(
+        events.filter(
           (item) =>
             moment(item.startDate).isAfter(moment()) ||
             moment(item.startDate).isSame(moment(), "day", "month", "year")
         )
       );
+      setPastEvents(
+        events.filter((item) => moment(item.startDate).isBefore(moment()))
+      );
+
       setFilteredPastEvents(
-        response.data.filter((item) =>
-          moment(item.startDate).isBefore(moment())
-        )
+        events.filter((item) => moment(item.startDate).isBefore(moment()))
       );
-    } catch (error) {
-      console.error(error);
     }
-  };
-  const getCommittees = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/committee/get-committees`
-      );
-      setCommittees({
-        ...committees,
-        committees: response.data.map((committee) => committee.name),
-        isLoading: false,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  }, [events, isLoading]);
 
   return (
     <Box
@@ -82,7 +55,6 @@ const Home = () => {
         filteredEvents={filteredUpcomingEvents}
         setFilteredEvents={setFilteredUpcomingEvents}
         events={upcomingEvents}
-        committees={committees}
         isPast={false}
       />
       <EventContainer
@@ -90,7 +62,6 @@ const Home = () => {
         filteredEvents={filteredPastEvents}
         setFilteredEvents={setFilteredPastEvents}
         events={pastEvents}
-        committees={committees}
         isPast={true}
       />
     </Box>
