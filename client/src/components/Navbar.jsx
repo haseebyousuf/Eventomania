@@ -28,7 +28,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.global.user);
 
   const handleLogout = () => {
     dispatch(setLogout());
