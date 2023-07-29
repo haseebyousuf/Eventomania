@@ -106,7 +106,7 @@ const ConfirmPassword = () => {
   //hooks
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const theme = useTheme();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.global.user);
 
   return (
     <Box>
