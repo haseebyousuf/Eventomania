@@ -19,7 +19,7 @@ const AllCommittees = () => {
   const getCommittees = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/committee/get-committees`
+        `${process.env.REACT_APP_BASE_URL}/committee/getCommittees`
       );
       setData({
         ...data,

@@ -3,7 +3,7 @@ import { api } from "./api";
 export const committeeApiSlice = api.injectEndpoints({
   endpoints: (build) => ({
     committees: build.query({
-      query: () => `committee/get-committees`,
+      query: () => `committee/getCommittees`,
       providesTags: ["Committees"],
     }),
     addCommittee: build.mutation({

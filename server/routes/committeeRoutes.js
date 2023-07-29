@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 router.post("/addCommittee", addCommittee);
-router.get("/get-committees", getCommittees);
+router.get("/getCommittees", getCommittees);
 router.post("/deleteCommittee", deleteCommittee);
 
 export default router;
