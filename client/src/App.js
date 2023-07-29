@@ -32,10 +32,10 @@ import {
 import { ToastContainer } from "react-toastify";
 
 function App() {
-  const mode = useSelector((state) => state.mode);
+  const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const isAuth = Boolean(useSelector((state) => state.token));
-  const user = useSelector((state) => state.user);
+  const isAuth = Boolean(useSelector((state) => state.global.token));
+  const user = useSelector((state) => state.global.user);
   const admin = isAuth && user.role === "admin";
   const member = isAuth && user.role === "member";
   const convenor = isAuth && user.role === "convenor";
