@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import {
   Box,
   useTheme,
@@ -18,6 +17,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import Header from "components/Header";
 import { toast } from "react-toastify";
+import { useCommitteesQuery } from "state/committeeApiSlice";
+import { useAddConvenorMutation } from "state/adminApiSlice";
 
 const addConvenorSchema = yup.object().shape({
   name: yup.string().required("*Name Required"),
@@ -48,34 +49,9 @@ const AddConvenor = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
-  const [data, setData] = useState({ committees: null, isLoading: true });
-
-  //useEffect to get committees
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/committee/get-committees`)
-      .then((response) => {
-        setData({
-          ...data,
-          committees: response.data,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        toast("There was some error! Please Try again.", {
-          type: "error",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      });
-    // eslint-disable-next-line
-  }, []);
+  // const [data, setData] = useState({ committees: null, isLoading: true });
+  const { data } = useCommitteesQuery();
+  const [addConvenor, { isLoading }] = useAddConvenorMutation();
 
   //submit handler
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -89,15 +65,9 @@ const AddConvenor = () => {
         committeeId,
         role: "convenor",
       };
-      const savedConvenorResponse = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/admin/addConvenor`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(convenor),
-      });
-      const savedConvenor = await savedConvenorResponse.data;
+      const res = await addConvenor(convenor).unwrap();
       onSubmitProps.resetForm();
-      if (savedConvenor) {
+      if (res) {
         toast("Convenor Added Successfully", {
           type: "success",
           position: "top-right",
@@ -111,7 +81,7 @@ const AddConvenor = () => {
         });
       }
     } catch (error) {
-      toast(error.response.data.msg, {
+      toast(error.data.error, {
         type: "error",
         position: "top-right",
         autoClose: 3000,
@@ -272,8 +242,8 @@ const AddConvenor = () => {
                         error={touched.committee && Boolean(errors.committee)}
                       >
                         <MenuItem disabled>Select a Committee</MenuItem>
-                        {data.committees &&
-                          data.committees.map((committee) => (
+                        {data &&
+                          data.map((committee) => (
                             <MenuItem
                               key={committee._id}
                               value={`${committee.name}|${committee._id}`}
@@ -322,6 +292,7 @@ const AddConvenor = () => {
                   >
                     <Button
                       variant='contained'
+                      disabled={isLoading}
                       type='submit'
                       sx={{
                         color: "black",
