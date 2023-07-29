@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import {
   Box,
   Card,
@@ -12,10 +11,10 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import { toast } from "react-toastify";
+import { useLoginMutation } from "state/adminApiSlice";
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("No password provided."),
@@ -27,45 +26,26 @@ const initialValuesLogin = {
 const LoginForm = () => {
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
   const theme = useTheme();
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
-
+  const [login, { isLoading }] = useLoginMutation();
   const handleFormSubmit = async (values, onSubmitProps) => {
-    setButtonDisabled(true);
     try {
-      const admin = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/admin/verify`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(values),
+      const res = await login(values).unwrap();
+      dispatch(setLogin({ ...res }));
+      toast("Welcome to Dashboard", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        type: "success",
+        theme: "colored",
       });
-      const verifiedAdmin = await admin.data;
-      onSubmitProps.resetForm();
-      if (verifiedAdmin) {
-        setButtonDisabled(false);
-        dispatch(
-          setLogin({
-            user: verifiedAdmin.user,
-            token: verifiedAdmin.token,
-          })
-        );
-        toast("Welcome to Dashboard", {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          type: "success",
-          theme: "colored",
-        });
-        navigate("/Dashboard");
-      }
     } catch (error) {
-      toast(error.response.data.msg, {
+      console.log(error);
+      toast(error.data.msg, {
         type: "error",
         position: "top-right",
         autoClose: 3000,
@@ -76,7 +56,6 @@ const LoginForm = () => {
         progress: undefined,
         theme: "colored",
       });
-      setButtonDisabled(false);
     }
   };
   return (
@@ -180,7 +159,7 @@ const LoginForm = () => {
                 <Button
                   variant='contained'
                   type='submit'
-                  disabled={buttonDisabled}
+                  disabled={isLoading}
                   sx={{
                     color: "black",
                     fontWeight: "bold",
