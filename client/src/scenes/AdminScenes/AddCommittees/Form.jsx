@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import {
   Box,
   Card,
@@ -14,6 +13,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { motion } from "framer-motion";
 import { useTheme } from "@emotion/react";
+import { useAddCommitteeMutation } from "state/committeeApiSlice";
 const inputs = [
   { id: 1, label: "Committee Name", name: "name" },
   { id: 2, label: "Description", name: "description" },
@@ -30,19 +30,13 @@ const initialValuesCommittee = {
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const theme = useTheme();
+  const [addCommittee, { isLoading }] = useAddCommitteeMutation();
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
-      const savedCommitteeResponse = await axios({
-        method: "post",
-
-        url: `${process.env.REACT_APP_BASE_URL}/committee/add-committee`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(values),
-      });
-      const savedCommittee = await savedCommitteeResponse.data;
+      const res = await addCommittee(values).unwrap();
       onSubmitProps.resetForm();
-      if (savedCommittee) {
+      if (res) {
         toast("Committee Added!", {
           position: "top-right",
           autoClose: 3000,
@@ -141,6 +135,7 @@ const Form = () => {
               >
                 <Button
                   variant='contained'
+                  disabled={isLoading}
                   type='submit'
                   sx={{
                     color: "black",
