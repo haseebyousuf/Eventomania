@@ -6,15 +6,12 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useCommitteesQuery } from "state/committeeApiSlice";
 
-const EventFilter = ({
-  setAnimateCard,
-  setFilteredEvents,
-  events,
-  committees,
-}) => {
+const EventFilter = ({ setAnimateCard, setFilteredEvents, events }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const [activeFilter, setActiveFilter] = useState("all");
+  const { data: committees, isLoading } = useCommitteesQuery();
 
   const handleFilter = ({ target }) => {
     setActiveFilter(target.value);
@@ -31,7 +28,6 @@ const EventFilter = ({
       }
     }, 500);
   };
-
   return (
     <Box
       sx={{
@@ -58,10 +54,10 @@ const EventFilter = ({
         <MenuItem value='all' selected>
           All
         </MenuItem>
-        {committees &&
-          Object.values(committees.committees).map((committee) => (
-            <MenuItem key={committee} value={committee}>
-              {committee}
+        {!isLoading &&
+          committees.map((committee) => (
+            <MenuItem key={committee._id} value={committee.name}>
+              {committee.name}
             </MenuItem>
           ))}
       </TextField>
