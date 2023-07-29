@@ -18,7 +18,19 @@ export const adminApiSlice = api.injectEndpoints({
       }),
       providesTags: ["Admins"],
     }),
+    addMember: build.mutation({
+      query: (data) => ({
+        url: `admin/addMember`,
+        method: "POST",
+        body: data,
+      }),
+      providesTags: ["Admins"],
+    }),
   }),
 });
 
-export const { useLoginMutation, useAddConvenorMutation } = adminApiSlice;
+export const {
+  useLoginMutation,
+  useAddConvenorMutation,
+  useAddMemberMutation,
+} = adminApiSlice;
