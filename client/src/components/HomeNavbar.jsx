@@ -50,7 +50,7 @@ const Navbar = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [value, setValue] = useState(0);
-  const isAuth = Boolean(useSelector((state) => state.token));
+  const isAuth = Boolean(useSelector((state) => state.global.token));
 
   useEffect(() => {
     if (isNonMobile) {
