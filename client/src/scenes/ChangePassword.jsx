@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import {
   Box,
   Card,
@@ -19,6 +18,7 @@ import Header from "components/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useChangePasswordMutation } from "state/adminApiSlice";
 
 const inputs = [
   { id: 1, label: "Current Password", name: "currentPassword" },
@@ -52,7 +52,7 @@ const initialValuesPassword = {
 };
 const ConfirmPassword = () => {
   const [showPassword, setShowPassword] = useState([false, false, false]);
-
+  const [changePassword] = useChangePasswordMutation();
   //handlers
   const handleClickShowPassword = (index) => {
     setShowPassword((prevState) => {
@@ -67,15 +67,9 @@ const ConfirmPassword = () => {
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       values.userId = user._id;
-      const changePasswordResponse = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/admin/changePassword`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(values),
-      });
-      const response = await changePasswordResponse.data;
-      onSubmitProps.resetForm();
-      if (response) {
+      const res = await changePassword(values).unwrap();
+      if (res) {
+        onSubmitProps.resetForm();
         toast("Password Changed Successfully", {
           type: "success",
           position: "top-right",
@@ -89,7 +83,8 @@ const ConfirmPassword = () => {
         });
       }
     } catch (error) {
-      toast(error.response.data.msg, {
+      console.log(error);
+      toast(error.data.msg, {
         type: "error",
         position: "top-right",
         autoClose: 3000,
