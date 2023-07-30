@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, useTheme } from "@mui/material";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
@@ -7,49 +6,27 @@ import moment from "moment";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import EventActions from "./EventActions";
 import { motion } from "framer-motion";
-import { toast } from "react-toastify";
+import { useApprovedEventsQuery } from "state/eventApiSlice";
+import { useGetUsersQuery } from "state/userApiSlice";
+
+const filterAndSortData = (data) => {
+  return data
+    .filter((item) => item.status === true)
+    .sort((a, b) => moment(b.startDate) - moment(a.startDate));
+};
+
 const AdminEventLog = () => {
   const theme = useTheme();
-
-  const [users, setUsers] = useState(null);
-  const [data, setData] = useState({ events: null, isLoading: true });
-
-  const getEvents = async () => {
-    try {
-      const eventResponse = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/events/getApprovedEvents`
-      );
-      const sortedEvents = eventResponse.data.sort(
-        (a, b) => moment(b.startDate) - moment(a.startDate)
-      );
-      const userResponse = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/user/getUsers`
-      );
-      setUsers(userResponse.data);
-      setData({
-        ...data,
-        events: sortedEvents.filter((item) => item.status === true),
-        isLoading: false,
-      });
-    } catch (error) {
-      toast("There was some error! Please Try again.", {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
+  const [events, setEvents] = useState(null);
+  const { data: users } = useGetUsersQuery();
+  const { data, isLoading } = useApprovedEventsQuery();
   useEffect(() => {
-    getEvents();
+    if (data) {
+      const filteredData = filterAndSortData(data);
+      setEvents(filteredData);
+    }
+  }, [data]);
 
-    // eslint-disable-next-line
-  }, []);
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
 
   const columns = [
@@ -103,7 +80,7 @@ const AdminEventLog = () => {
       type: "actions",
       minWidth: 250,
       renderCell: (params) => (
-        <EventActions data={data} users={users} {...{ params }} />
+        <EventActions data={events} users={users} {...{ params }} />
       ),
     },
   ];
@@ -149,13 +126,13 @@ const AdminEventLog = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading}
           getRowId={(row) => row._id}
-          rows={data.events || []}
+          rows={events || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
-            toolbar: { csvOptions, showExport: true, data },
+            toolbar: { csvOptions, showExport: true, events },
           }}
         ></DataGrid>
       </Box>
