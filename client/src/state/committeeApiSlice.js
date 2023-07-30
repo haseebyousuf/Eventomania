@@ -13,9 +13,22 @@ export const committeeApiSlice = api.injectEndpoints({
         body: data,
       }),
       providesTags: ["Committees"],
+      invalidatesTags: ["Committees"],
+    }),
+    deleteCommittee: build.mutation({
+      query: (data) => ({
+        url: `committee/deleteCommittee`,
+        method: "POST",
+        body: data,
+      }),
+      providesTags: ["Committees"],
+      invalidatesTags: ["Committees"],
     }),
   }),
 });
 
-export const { useCommitteesQuery, useAddCommitteeMutation } =
-  committeeApiSlice;
+export const {
+  useCommitteesQuery,
+  useAddCommitteeMutation,
+  useDeleteCommitteeMutation,
+} = committeeApiSlice;
