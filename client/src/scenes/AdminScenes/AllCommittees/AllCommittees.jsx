@@ -1,46 +1,59 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Box, useTheme } from "@mui/material";
+import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import Actions from "./Actions";
 import moment from "moment";
 import Header from "components/Header";
 import { motion } from "framer-motion";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import {
+  useCommitteesQuery,
+  useDeleteCommitteeMutation,
+} from "state/committeeApiSlice";
+import { Delete } from "@mui/icons-material";
 import { toast } from "react-toastify";
 
 const AllCommittees = () => {
   const theme = useTheme();
-  const [data, setData] = useState({ committees: null, isLoading: true });
-  useEffect(() => {
-    getCommittees();
-    // eslint-disable-next-line
-  }, []);
-  const getCommittees = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/committee/getCommittees`
-      );
-      setData({
-        ...data,
-        committees: response.data,
-        isLoading: false,
-      });
-    } catch (error) {
-      toast("There was some error! Please Try again.", {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+  const { data, isLoading } = useCommitteesQuery();
+  const [deleteCommittee] = useDeleteCommitteeMutation();
+
+  const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+
+  const handleDelete = async (id) => {
+    const choice = window.confirm(
+      "Are you sure you want to delete this committee?"
+    );
+    if (choice) {
+      try {
+        const res = await deleteCommittee({ committeeId: id }).unwrap();
+        if (res) {
+          toast("Committee Deleted Successfully", {
+            type: "error",
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        toast("There was some error! Please Try again.", {
+          type: "error",
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     }
   };
-  const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
 
   const columns = [
     {
@@ -80,12 +93,17 @@ const AllCommittees = () => {
       flex: 0.5,
       minWidth: 100,
       renderCell: (params) => (
-        <Actions
-          getCommittees={getCommittees}
-          setData={setData}
-          data={data}
-          {...{ params }}
-        />
+        <Box>
+          <Tooltip title='Delete This Committee'>
+            <IconButton
+              onClick={() => {
+                handleDelete(params.id);
+              }}
+            >
+              <Delete color='error' />
+            </IconButton>
+          </Tooltip>
+        </Box>
       ),
     },
   ];
@@ -129,9 +147,9 @@ const AllCommittees = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.committees || []}
+          rows={data || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
