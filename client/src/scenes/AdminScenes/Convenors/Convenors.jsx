@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Actions from "./Actions";
@@ -7,29 +5,12 @@ import moment from "moment";
 import Header from "components/Header";
 import { motion } from "framer-motion";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import { useConvenorsQuery } from "state/adminApiSlice";
 
 const Convenors = () => {
   const theme = useTheme();
-  const [data, setData] = useState({ convenors: null, isLoading: true });
+  const { data, isLoading } = useConvenorsQuery();
 
-  useEffect(() => {
-    getConvenors();
-    // eslint-disable-next-line
-  }, []);
-  const getConvenors = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/admin/get-convenors`
-      );
-      setData({
-        ...data,
-        convenors: response.data,
-        isLoading: false,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const columns = [
     {
       field: "name",
@@ -69,14 +50,7 @@ const Convenors = () => {
       type: "actions",
       minWidth: 150,
       flex: 1,
-      renderCell: (params) => (
-        <Actions
-          getConvenors={getConvenors}
-          setData={setData}
-          data={data}
-          {...{ params }}
-        />
-      ),
+      renderCell: (params) => <Actions data={data} {...{ params }} />,
     },
   ];
 
@@ -121,9 +95,9 @@ const Convenors = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.convenors || []}
+          rows={data || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
