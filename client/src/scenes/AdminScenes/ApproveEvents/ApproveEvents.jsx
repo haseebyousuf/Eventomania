@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, Switch, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
@@ -8,40 +6,19 @@ import Header from "components/Header";
 import { motion } from "framer-motion";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { toast } from "react-toastify";
+import {
+  useApproveEventMutation,
+  useUnapprovedEventsQuery,
+} from "state/eventApiSlice";
 const ApproveEvents = () => {
   const theme = useTheme();
-  const [data, setData] = useState({ events: null, isLoading: true });
+  const { data, isLoading } = useUnapprovedEventsQuery();
+  const [approveEvent] = useApproveEventMutation();
 
-  const getEvents = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/events/getUnApprovedEvents`
-      );
-      setData({ ...data, events: response.data, isLoading: false });
-    } catch (error) {
-      toast("There was some error! Please Try again.", {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
   const handleApproveEvent = async (id) => {
     try {
-      const publishedEventResponse = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/events/ApproveEvent`,
-        headers: { "Content-Type": "application/JSON" },
-        data: JSON.stringify({ id }),
-      });
-      const publishedEvent = await publishedEventResponse.data;
-      if (publishedEvent) {
+      const res = await approveEvent({ id }).unwrap();
+      if (res) {
         toast("Event Approved.", {
           type: "success",
           position: "top-right",
@@ -67,12 +44,8 @@ const ApproveEvents = () => {
         theme: "colored",
       });
     }
-    getEvents();
   };
-  useEffect(() => {
-    getEvents();
-    // eslint-disable-next-line
-  }, []);
+
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
   const columns = [
     {
@@ -139,14 +112,7 @@ const ApproveEvents = () => {
       headerName: "Actions",
       type: "actions",
       width: 100,
-      renderCell: (params) => (
-        <EventActions
-          getEvents={getEvents}
-          setData={setData}
-          data={data}
-          {...{ params }}
-        />
-      ),
+      renderCell: (params) => <EventActions data={data} {...{ params }} />,
     },
     {
       field: "action",
@@ -203,9 +169,9 @@ const ApproveEvents = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.events || []}
+          rows={data || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
