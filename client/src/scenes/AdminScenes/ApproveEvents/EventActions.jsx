@@ -3,11 +3,12 @@ import { Delete } from "@mui/icons-material";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import EventDialog from "components/EventDialog";
 import React from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { useDeleteEventMutation } from "state/eventApiSlice";
 
-const EventActions = ({ getEvents, params }) => {
+const EventActions = ({ params }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [deleteEvent] = useDeleteEventMutation();
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -19,15 +20,8 @@ const EventActions = ({ getEvents, params }) => {
     const choice = window.confirm("Want to delete Approve event?");
     if (choice) {
       try {
-        const response = await axios({
-          method: "post",
-          url: `${process.env.REACT_APP_BASE_URL}/events/deleteEvent`,
-          headers: { "Content-Type": "application/json" },
-          data: JSON.stringify({ eventId: id }),
-        });
-        const responseData = await response.data;
-        if (responseData) {
-          getEvents();
+        const res = await deleteEvent({ eventId: id }).unwrap();
+        if (res) {
           toast("Event Deleted Successfully", {
             type: "error",
             position: "top-right",
@@ -71,11 +65,6 @@ const EventActions = ({ getEvents, params }) => {
           <RemoveRedEyeOutlinedIcon color='info' />
         </IconButton>
       </Tooltip>
-      {/* <Tooltip title="Edit This Event">
-                <IconButton onClick={() => {}}>
-                    <Edit color="success" />
-                </IconButton>
-            </Tooltip> */}
       <Tooltip title='Delete This Event'>
         <IconButton
           onClick={() => {
