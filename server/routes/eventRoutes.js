@@ -11,10 +11,10 @@ import {
 } from "../controllers/eventController.js";
 const router = express.Router();
 
-router.get("/getUnApprovedEvents", getUnApprovedEvents);
-router.get("/getApprovedEvents", getApprovedEvents);
+router.get("/unapprovedEvents", getUnApprovedEvents);
+router.get("/approvedEvents", getApprovedEvents);
 router.post("/approveEvent", approveEvent);
-router.get("/getPublishedEvents", getPublishedEvents);
+router.get("/publishedEvents", getPublishedEvents);
 router.get("/getEvents", getEvents);
 router.post("/togglePublish", togglePublish);
 router.post("/deleteEvent", deleteEvent);
