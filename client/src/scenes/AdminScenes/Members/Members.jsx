@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Actions from "./Actions";
@@ -7,40 +5,12 @@ import moment from "moment";
 import Header from "components/Header";
 import { motion } from "framer-motion";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
-import { toast } from "react-toastify";
+import { useMembersQuery } from "state/adminApiSlice";
 
 const Members = () => {
   const theme = useTheme();
-  const [data, setData] = useState({ members: null, isLoading: true });
+  const { data, isLoading } = useMembersQuery();
 
-  useEffect(() => {
-    getMembers();
-    // eslint-disable-next-line
-  }, []);
-  const getMembers = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/admin/getMembers`
-      );
-      setData({
-        ...data,
-        members: response.data,
-        isLoading: false,
-      });
-    } catch (error) {
-      toast("There was some error! Please Try again.", {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
   const columns = [
     {
       field: "name",
@@ -80,14 +50,7 @@ const Members = () => {
       type: "actions",
       minWidth: 150,
       flex: 1,
-      renderCell: (params) => (
-        <Actions
-          getMembers={getMembers}
-          setData={setData}
-          data={data}
-          {...{ params }}
-        />
-      ),
+      renderCell: (params) => <Actions data={data} {...{ params }} />,
     },
   ];
   return (
@@ -131,9 +94,9 @@ const Members = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.members || []}
+          rows={data || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
