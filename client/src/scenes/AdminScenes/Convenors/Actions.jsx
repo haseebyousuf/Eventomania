@@ -1,24 +1,22 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { useDeleteConvenorMutation } from "state/adminApiSlice";
 
-const Actions = ({ getConvenors, params }) => {
+const Actions = ({ params }) => {
+  const [deleteConvenor] = useDeleteConvenorMutation();
   const handleDelete = async (id, committeeId) => {
     const choice = window.confirm(
       "Are you sure you want to delete this Convenor?"
     );
     if (choice) {
       try {
-        const response = await axios({
-          method: "post",
-          url: `${process.env.REACT_APP_BASE_URL}/admin/deleteConvenor`,
-          headers: { "Content-Type": "application/json" },
-          data: JSON.stringify({ convenorId: id, committeeId }),
-        });
-        const responseData = await response.data;
-        if (responseData) {
-          getConvenors();
+        const values = {
+          convenorId: id,
+          committeeId,
+        };
+        const res = await deleteConvenor(values).unwrap();
+        if (res) {
           toast("Convenor Deleted Successfully.", {
             type: "error",
             position: "top-right",
