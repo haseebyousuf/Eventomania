@@ -1,39 +1,39 @@
+import { useState } from "react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import GroupsIcon from "@mui/icons-material/Groups";
 import EventDialog from "components/EventDialog";
-import React from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
-const EventActions = ({ getEvents, users, params }) => {
+import { useDeleteEventMutation } from "state/eventApiSlice";
+
+const EventActions = ({ users, params }) => {
+  //state
+  const [openDialog, setOpenDialog] = useState(false);
+  //RTK query
+  const [deleteEvent] = useDeleteEventMutation();
+  //hooks
   const navigate = useNavigate();
-  const [openDialog, setOpenDialog] = React.useState(false);
 
+  //handlers
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
+
   const handleDelete = async (id) => {
     const choice = window.confirm(
       "Are you sure you want to delete this event?"
     );
     if (choice) {
       try {
-        const response = await axios({
-          method: "post",
-
-          url: `${process.env.REACT_APP_BASE_URL}/events/deleteEvent`,
-          headers: { "Content-Type": "application/json" },
-          data: JSON.stringify({ eventId: id }),
-        });
-        const responseData = await response.data;
-        if (responseData) {
-          getEvents();
+        const res = await deleteEvent({ eventId: id }).unwrap();
+        if (res) {
           toast("Event Deleted Successfully.", {
             type: "error",
             position: "top-right",
@@ -61,6 +61,7 @@ const EventActions = ({ getEvents, users, params }) => {
       }
     }
   };
+
   return (
     <Box>
       <EventDialog
