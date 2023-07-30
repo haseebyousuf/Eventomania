@@ -17,10 +17,10 @@ const router = express.Router();
 
 router.post("/verify", verifyAdmin);
 router.post("/createAdmin", createAdmin);
-router.get("/get-convenors", getConvenors);
+router.get("/convenors", getConvenors);
 router.post("/addConvenor", addConvenor);
 router.post("/deleteConvenor", deleteConvenor);
-router.get("/getMembers", getMembers);
+router.get("/members", getMembers);
 router.post("/committeeMembers", getCommitteeMembers);
 router.post("/addMember", addMember);
 router.post("/deleteMember", deleteMember);
