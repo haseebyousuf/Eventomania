@@ -1,48 +1,51 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, Switch, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+
 import EventActions from "./EventActions";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import Header from "components/Header";
-import { motion } from "framer-motion";
-import { toast } from "react-toastify";
-const PastEvents = () => {
-  const theme = useTheme();
-  const [data, setData] = useState({ events: null, isLoading: true });
-  const [users, setUsers] = useState(null);
+import {
+  useApprovedEventsQuery,
+  useTogglePublishMutation,
+} from "state/eventApiSlice";
+import { useGetUsersQuery } from "state/userApiSlice";
 
-  const getEvents = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/events/getApprovedEvents`
-      );
-      const sortedEvents = response.data.sort(
-        (a, b) => moment(b.startDate) - moment(a.startDate)
-      );
-      setData({ ...data, events: sortedEvents, isLoading: false });
-      const userResponse = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/user/getUsers`
-      );
-      setUsers(userResponse.data);
-    } catch (error) {
-      console.error(error);
+const filterAndSortData = (data) => {
+  return data
+    .filter((item) => item.isApproved === true)
+    .sort((a, b) => moment(b.startDate) - moment(a.startDate));
+};
+
+const PastEvents = () => {
+  //state
+  const [events, setEvents] = useState(null);
+
+  //RTK query
+  const { data, isLoading } = useApprovedEventsQuery();
+  const { data: users } = useGetUsersQuery();
+  const [togglePublish] = useTogglePublishMutation();
+
+  //useEffect
+  useEffect(() => {
+    if (data) {
+      const filteredData = filterAndSortData(data);
+      setEvents(filteredData);
     }
-  };
+  }, [data]);
+
+  //hooks
+  const theme = useTheme();
+
+  //handlers
   const handlePublishBtn = async (id, isPublished) => {
     const data = { id, isPublished };
     try {
-      const savedCommitteeResponse = await axios({
-        method: "post",
-
-        url: `${process.env.REACT_APP_BASE_URL}/events/togglePublish`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(data),
-      });
-      const savedCommittee = await savedCommitteeResponse.data;
-      if (savedCommittee) {
-        getEvents();
+      const res = await togglePublish(data).unwrap();
+      if (res) {
         toast(
           isPublished
             ? "Event Unpublished from Home Page"
@@ -74,10 +77,7 @@ const PastEvents = () => {
       });
     }
   };
-  useEffect(() => {
-    getEvents();
-    // eslint-disable-next-line
-  }, []);
+
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
   const columns = [
     {
@@ -110,15 +110,31 @@ const PastEvents = () => {
     },
     {
       field: "startDate",
-      headerName: "Date",
-      minWidth: 100,
-      flex: 0.5,
+      headerName: "Event Date",
+      minWidth: 120,
+      flex: 0.8,
       valueGetter: (params) => params.row.startDate,
       valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
       renderCell: (params) => {
         return moment(params.row.startDate).format("MMMM Do YYYY");
       },
       sortComparator: dayInMonthComparator,
+    },
+
+    {
+      field: "registrations",
+      headerName: "Registrations",
+      type: "number",
+      minWidth: 100,
+      flex: 0.3,
+      valueGetter: (params) => {
+        return users.filter((user) => user.event[0].id === params.row._id)
+          .length;
+      },
+      renderCell: (params) => {
+        return users.filter((user) => user.event[0].id === params.row._id)
+          .length;
+      },
     },
     {
       field: "isPublished",
@@ -175,13 +191,7 @@ const PastEvents = () => {
       type: "actions",
       width: 190,
       renderCell: (params) => (
-        <EventActions
-          users={users}
-          getEvents={getEvents}
-          setData={setData}
-          data={data}
-          {...{ params }}
-        />
+        <EventActions users={users} data={events} {...{ params }} />
       ),
     },
   ];
@@ -226,9 +236,9 @@ const PastEvents = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.events || []}
+          rows={events || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
