@@ -65,11 +65,11 @@ const AdminEventLog = () => {
       minWidth: 120,
       flex: 0.3,
       valueGetter: (params) => {
-        return users.filter((user) => user.event[0].id === params.row._id)
+        return users?.filter((user) => user.event[0].id === params.row._id)
           .length;
       },
       renderCell: (params) => {
-        return users.filter((user) => user.event[0].id === params.row._id)
+        return users?.filter((user) => user.event[0].id === params.row._id)
           .length;
       },
     },
