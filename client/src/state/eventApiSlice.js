@@ -54,6 +54,36 @@ export const eventApiSlice = api.injectEndpoints({
       providesTags: ["Events"],
       invalidatesTags: ["Events"],
     }),
+    uploadReport: build.mutation({
+      query: (data) => ({
+        url: `event/uploadReport`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["Events"],
+      invalidatesTags: ["Events"],
+    }),
+    uploadPhotos: build.mutation({
+      query: (data) => ({
+        url: `event/uploadPhotos`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["Events"],
+      invalidatesTags: ["Events"],
+    }),
+    sendCertificates: build.mutation({
+      query: (data) => ({
+        url: `events/sendCertificate`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["Events"],
+      invalidatesTags: ["Events"],
+    }),
   }),
 });
 
@@ -65,4 +95,7 @@ export const {
   useApproveEventMutation,
   useDeleteEventMutation,
   useTogglePublishMutation,
+  useUploadReportMutation,
+  useUploadPhotosMutation,
+  useSendCertificatesMutation,
 } = eventApiSlice;
