@@ -11,7 +11,7 @@ import { useCommitteesQuery } from "state/committeeApiSlice";
 const EventFilter = ({ setAnimateCard, setFilteredEvents, events }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const [activeFilter, setActiveFilter] = useState("all");
-  const { data: committees, isLoading } = useCommitteesQuery();
+  const { data: committees } = useCommitteesQuery();
 
   const handleFilter = ({ target }) => {
     setActiveFilter(target.value);
@@ -54,7 +54,7 @@ const EventFilter = ({ setAnimateCard, setFilteredEvents, events }) => {
         <MenuItem value='all' selected>
           All
         </MenuItem>
-        {!isLoading &&
+        {committees &&
           committees.map((committee) => (
             <MenuItem key={committee._id} value={committee.name}>
               {committee.name}
