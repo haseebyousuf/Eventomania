@@ -6,17 +6,20 @@ export const dashboardApiSlice = api.injectEndpoints({
       query: () => `dashboard/adminDashboardStats`,
       providesTags: ["Dashboard"],
     }),
-    // approveEvent: build.mutation({
-    //   query: (data) => ({
-    //     url: `events/approveEvent`,
-    //     method: "POST",
-    //     body: data,
-    //     formData: true,
-    //   }),
-    //   providesTags: ["Events"],
-    //   invalidatesTags: ["Events"],
-    // }),
+    committeeDashboardStats: build.mutation({
+      query: (data) => ({
+        url: `dashboard/committeeDashboardStats`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["Dashboard"],
+      invalidatesTags: ["Dashboard"],
+    }),
   }),
 });
 
-export const { useAdminDashboardStatsQuery } = dashboardApiSlice;
+export const {
+  useAdminDashboardStatsQuery,
+  useCommitteeDashboardStatsMutation,
+} = dashboardApiSlice;
