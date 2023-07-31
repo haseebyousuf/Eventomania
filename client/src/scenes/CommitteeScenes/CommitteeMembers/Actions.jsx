@@ -1,23 +1,18 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { useDeleteMemberMutation } from "state/adminApiSlice";
 
-const Actions = ({ getMembers, params }) => {
+const Actions = ({ params, getMembers }) => {
+  const [deleteMember] = useDeleteMemberMutation();
   const handleDelete = async (id) => {
     const choice = window.confirm(
       "Are you sure you want to delete this Member?"
     );
     if (choice) {
       try {
-        const response = await axios({
-          method: "post",
-          url: `${process.env.REACT_APP_BASE_URL}/admin/deleteMember`,
-          headers: { "Content-Type": "application/json" },
-          data: JSON.stringify({ memberId: id }),
-        });
-        const responseData = await response.data;
-        if (responseData) {
+        const res = await deleteMember({ memberId: id }).unwrap();
+        if (res) {
           getMembers();
           toast("Member Deleted Successfully.", {
             type: "error",
