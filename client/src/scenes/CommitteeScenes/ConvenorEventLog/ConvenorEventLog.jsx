@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, useTheme } from "@mui/material";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
@@ -8,49 +7,37 @@ import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import EventActions from "./EventActions";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
+import { useApprovedEventsQuery } from "state/eventApiSlice";
+import { useGetUsersQuery } from "state/userApiSlice";
+
+const filterAndSortData = (data, user) => {
+  return data
+    .filter(
+      (event) =>
+        event.status === true && event.committee[0].id === user.committeeId
+    )
+    .sort((a, b) => moment(b.startDate) - moment(a.startDate));
+};
+
 const ConvenorEventLog = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.global.user);
+  const [events, setEvents] = useState(null);
+  const { data, isLoading } = useApprovedEventsQuery();
+  const { data: users } = useGetUsersQuery();
 
-  const [users, setUsers] = useState(null);
-  const [data, setData] = useState({ events: null, isLoading: true });
-
-  const getEvents = async () => {
-    try {
-      const eventResponse = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/events/getApprovedEvents`
-      );
-      const sortedEvents = eventResponse.data.sort(
-        (a, b) => moment(b.startDate) - moment(a.startDate)
-      );
-      const userResponse = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/user/getUsers`
-      );
-      setUsers(userResponse.data);
-      setData({
-        ...data,
-        events: sortedEvents.filter(
-          (event) =>
-            event.status === true && event.committee[0].id === user.committeeId
-        ),
-        isLoading: false,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
   useEffect(() => {
-    getEvents();
-
-    // eslint-disable-next-line
-  }, []);
+    if (data) {
+      const filteredData = filterAndSortData(data, user);
+      setEvents(filteredData);
+    }
+  }, [data, user]);
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
 
   const columns = [
     {
       field: "name",
       headerName: "Event Name",
-      resizable: true,
       minWidth: 250,
       flex: 1,
     },
@@ -84,11 +71,11 @@ const ConvenorEventLog = () => {
       minWidth: 120,
       flex: 0.3,
       valueGetter: (params) => {
-        return users.filter((user) => user.event[0].id === params.row._id)
+        return users?.filter((user) => user.event[0].id === params.row._id)
           .length;
       },
       renderCell: (params) => {
-        return users.filter((user) => user.event[0].id === params.row._id)
+        return users?.filter((user) => user.event[0].id === params.row._id)
           .length;
       },
     },
@@ -145,13 +132,13 @@ const ConvenorEventLog = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.events || []}
+          rows={events || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
-            toolbar: { csvOptions, showExport: true, data },
+            toolbar: { csvOptions, showExport: true, events },
           }}
         ></DataGrid>
       </Box>
