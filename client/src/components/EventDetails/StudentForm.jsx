@@ -1,10 +1,9 @@
-import React, { useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, CardActions, TextField } from "@mui/material";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import { useRegisterStudentMutation } from "state/userApiSlice";
 
 const studentSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -42,10 +41,10 @@ const initialValuesStudent = {
 };
 const StudentForm = ({ eventDetails }) => {
   // STATES
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [registerStudent, { isLoading }] = useRegisterStudentMutation();
+
   // FUNCTION TO SUBMIT FORM
   const handleFormSubmit = async (values, onSubmitProps) => {
-    setButtonDisabled(true);
     const event = {
       name: eventDetails.name,
       id: eventDetails._id,
@@ -62,16 +61,9 @@ const StudentForm = ({ eventDetails }) => {
         event,
         type: "student",
       };
-      const savedStudentResponse = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/user/registerStudent`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(student),
-      });
-      const savedStudent = await savedStudentResponse.data;
-      onSubmitProps.resetForm();
-      if (savedStudent) {
-        setButtonDisabled(false);
+      const res = await registerStudent(student).unwrap();
+      if (res) {
+        onSubmitProps.resetForm();
         toast("Registered Successfully!", {
           type: "success",
           position: "top-right",
@@ -85,8 +77,7 @@ const StudentForm = ({ eventDetails }) => {
         });
       }
     } catch (error) {
-      setButtonDisabled(false);
-      toast(error.response.data.msg, {
+      toast(error?.data?.msg || "Server Error", {
         type: "error",
         position: "top-right",
         autoClose: 3000,
@@ -158,7 +149,7 @@ const StudentForm = ({ eventDetails }) => {
             <Button
               variant='contained'
               type='submit'
-              disabled={buttonDisabled}
+              disabled={isLoading}
               sx={{
                 color: "black",
                 fontWeight: "bold",
