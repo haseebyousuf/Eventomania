@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Actions from "./Actions";
@@ -9,31 +8,26 @@ import { motion } from "framer-motion";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useCommitteeMembersMutation } from "state/adminApiSlice";
 
 const CommitteeMembers = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.global.user);
+  const [data, setData] = useState(null);
+  const [committeeMembers, { isLoading }] = useCommitteeMembersMutation();
 
-  const [data, setData] = useState({ members: null, isLoading: true });
   useEffect(() => {
+    console.log("memebeeeeeers");
     getMembers();
     // eslint-disable-next-line
   }, []);
   const getMembers = async () => {
     try {
-      const response = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/admin/committeeMembers`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify({ committeeId: user.committeeId }),
-      });
-      setData({
-        ...data,
-        members: response.data,
-        isLoading: false,
-      });
+      const res = await committeeMembers({
+        committeeId: user.committeeId,
+      }).unwrap();
+      setData(res);
     } catch (error) {
-      console.log(error);
       toast("There was some error! Please Try again.", {
         type: "error",
         position: "top-right",
@@ -87,12 +81,7 @@ const CommitteeMembers = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => (
-        <Actions
-          getMembers={getMembers}
-          setData={setData}
-          data={data}
-          {...{ params }}
-        />
+        <Actions data={data} getMembers={getMembers} {...{ params }} />
       ),
     },
   ];
@@ -141,9 +130,9 @@ const CommitteeMembers = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.members || []}
+          rows={data || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           componentsProps={{
