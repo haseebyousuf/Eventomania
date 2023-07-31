@@ -4,11 +4,11 @@ import React from "react";
 import { CloudUploadOutlined } from "@mui/icons-material";
 import Dropzone from "react-dropzone";
 import { Box, Button } from "@mui/material";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { useUploadPhotosMutation } from "state/eventApiSlice";
 
-const UploadPhotos = ({ id, getEvents }) => {
-  const [buttonDisabled, setButtonDisabled] = React.useState(false);
+const UploadPhotos = ({ id }) => {
+  const [uploadPhotos, { isLoading }] = useUploadPhotosMutation();
 
   const photosSchema = yup.object().shape({
     photos: yup
@@ -18,7 +18,6 @@ const UploadPhotos = ({ id, getEvents }) => {
   });
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    setButtonDisabled(true);
     try {
       const formData = new FormData();
       for (let photo of values.photos) {
@@ -26,12 +25,9 @@ const UploadPhotos = ({ id, getEvents }) => {
       }
       formData.append("id", id);
       const promise = toast.promise(
-        axios({
-          method: "post",
-          url: `${process.env.REACT_APP_BASE_URL}/event/uploadPhotos`,
-          headers: { "Content-Type": "application/JSON" },
-          data: formData,
-        }).then((photosResponse) => photosResponse.data),
+        uploadPhotos(formData)
+          .unwrap()
+          .then((photosResponse) => photosResponse.data),
         {
           pending: "Uploading photos...",
           success: "Photos Uploaded!",
@@ -41,14 +37,8 @@ const UploadPhotos = ({ id, getEvents }) => {
       const updatedEvent = await promise;
       if (updatedEvent) {
         onSubmitProps.resetForm();
-
-        setButtonDisabled(false);
-
-        getEvents();
       }
-    } catch (error) {
-      setButtonDisabled(false);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -120,7 +110,7 @@ const UploadPhotos = ({ id, getEvents }) => {
           ) : (
             <Box>
               <Button
-                disabled={buttonDisabled}
+                disabled={isLoading}
                 type='submit'
                 variant='contained'
                 color='success'
