@@ -4,9 +4,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import EventIcon from "@mui/icons-material/Event";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import AssessmentIcon from "@mui/icons-material/Assessment";
-
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import axios from "axios";
 import StatBox from "components/StatBox";
 import OverallStats from "components/OverallStats";
 import { DataGrid } from "@mui/x-data-grid";
@@ -14,30 +12,29 @@ import moment from "moment";
 import BreakdownChart from "components/BreakdownChart";
 import { useSelector } from "react-redux";
 import DashboardShimmer from "components/DashboardShimmer";
+import { useCommitteeDashboardStatsMutation } from "state/dashboardApiSlice";
+
 const CommitteeDashboard = () => {
   const user = useSelector((state) => state.global.user);
   const [data, setData] = useState(null);
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+  const [committeeDashboardStats] = useCommitteeDashboardStatsMutation();
 
   useEffect(() => {
+    console.log("Dasghboard useEffecct");
     const getStats = async () => {
       try {
-        const response = await axios({
-          method: "post",
-          url: `${process.env.REACT_APP_BASE_URL}/dashboard/committeeDashboardStats`,
-          headers: { "Content-Type": "application/json" },
-          data: JSON.stringify({ committeeId: user.committeeId }),
-        });
-
-        setData(response.data);
+        const res = await committeeDashboardStats({
+          committeeId: user.committeeId,
+        }).unwrap();
+        setData(res);
       } catch (error) {
         console.error(error);
       }
     };
     getStats();
-    // eslint-disable-next-line
-  }, []);
+  }, [committeeDashboardStats, user.committeeId]);
   const columns = [
     {
       field: "name",
