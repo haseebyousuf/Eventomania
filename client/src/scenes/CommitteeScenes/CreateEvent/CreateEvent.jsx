@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Typography,
@@ -16,7 +15,7 @@ import moment from "moment";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Dropzone from "react-dropzone";
@@ -26,18 +25,36 @@ import { motion } from "framer-motion";
 import Header from "components/Header";
 import { toast } from "react-toastify";
 import { useCreateEventMutation } from "state/eventApiSlice";
-// import { useNavigate } from "react-router-dom";
+
+const isNotPast = (value) => {
+  return moment(value).isSameOrAfter(moment(), "day");
+};
+
+// Custom validation method for ensuring the end date is after the start date
+const isEndDateAfterStartDate = (endDate, options) => {
+  const { startDate } = options.parent;
+  return moment(startDate).isBefore(endDate);
+};
 
 const eventSchema = yup.object().shape({
   name: yup.string().required("*Name Required!"),
   startDate: yup
     .date()
     .required("Start Date is required")
-    .typeError("Invalid Date and Time!"),
+    .typeError("Invalid Date and Time!")
+    .test("is-not-past", "Start Date should not be in the past", isNotPast),
+
   endDate: yup
     .date()
-    .required("Start Date and Time is required")
-    .typeError("Invalid Date and Time!"),
+    .required("End Date and Time is required")
+    .typeError("Invalid Date and Time!")
+    .test("is-not-past", "End Date should not be in the past", isNotPast)
+    .test(
+      "is-after-start-date",
+      "End Date should not be before Start Date",
+      isEndDateAfterStartDate
+    ),
+
   venue: yup.string().required("*Venue is Required!"),
   description: yup.string().required("*Description is Required"),
   banner: yup.string().required("*banner required"),
@@ -127,6 +144,7 @@ const CreateEvent = () => {
             handleChange,
             handleSubmit,
             setFieldValue,
+            setTouched,
             resetForm,
           }) => (
             <form autoComplete='off' onSubmit={handleSubmit}>
@@ -210,66 +228,105 @@ const CreateEvent = () => {
                       }}
                     >
                       <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <DateTimePicker
+                        <DemoContainer components={["DesktopDateTimePicker"]}>
+                          <DesktopDateTimePicker
+                            helperText='Enter When the event will start'
                             label='Start Date & Time'
                             name='startDate'
                             id='startDate'
-                            value={values.startDate}
-                            onChange={(value) => {
-                              setFieldValue("startDate", moment(value));
+                            viewRenderers={{
+                              hours: null,
+                              minutes: null,
+                              seconds: null,
                             }}
-                            onBlur={handleBlur}
+                            value={values.startDate}
                             disablePast
-                            slotProps={{
-                              textField: {
-                                margin: "normal",
-                                color: "secondary",
-                                onBlur: handleBlur,
-                                error:
-                                  touched.startDate &&
-                                  Boolean(errors.startDate),
-                                helperText: touched.startDate
-                                  ? errors.startDate
-                                  : "Enter when event will start",
-                              },
+                            onChange={(value) => {
+                              setFieldValue("startDate", moment(value), true);
+                              setTouched({ startDate: true });
                             }}
                             sx={{
                               width: "18rem",
+                            }}
+                            slotProps={{
+                              textField: {
+                                variant: "outlined",
+                                onBlur: () => setTouched({ startDate: true }),
+
+                                error: Boolean(
+                                  touched.startDate && errors.startDate
+                                ),
+                                helperText:
+                                  touched.startDate && errors.startDate,
+                                margin: "normal",
+                                color: "secondary",
+                              },
                             }}
                           />
                         </DemoContainer>
                       </LocalizationProvider>
                       <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <DemoContainer components={["DateTimePicker"]}>
-                          <DateTimePicker
-                            helperText='Enter When the event will start'
+                        <DemoContainer components={["DesktopDateTimePicker"]}>
+                          <DesktopDateTimePicker
+                            helperText='Enter When the event will end'
                             label='End Date & Time'
                             name='endDate'
                             id='endDate'
-                            value={values.endDate}
-                            onChange={(value) => {
-                              setFieldValue("endDate", moment(value));
+                            viewRenderers={{
+                              hours: null,
+                              minutes: null,
+                              seconds: null,
                             }}
-                            onBlur={handleBlur}
+                            value={values.endDate}
                             disablePast
-                            slotProps={{
-                              textField: {
-                                margin: "normal",
-                                color: "secondary",
-                                onBlur: handleBlur,
-                                error:
-                                  touched.endDate && Boolean(errors.endDate),
-                                helperText: touched.endDate
-                                  ? errors.endDate
-                                  : "Enter when event will end",
-                              },
+                            onChange={(value) => {
+                              setFieldValue("endDate", moment(value), true);
+                              setTouched({ endDate: true });
                             }}
                             sx={{
                               width: "18rem",
                             }}
+                            slotProps={{
+                              textField: {
+                                variant: "outlined",
+                                onBlur: () => setTouched({ endDate: true }),
+
+                                error: Boolean(
+                                  touched.endDate && errors.endDate
+                                ),
+                                helperText: touched.endDate && errors.endDate,
+                                margin: "normal",
+                                color: "secondary",
+                              },
+                            }}
                           />
                         </DemoContainer>
+                        {/* <MobileDatePicker
+                          disablePast
+                          format='DD/MM/YYYY'
+                          name='startDate'
+                          label='Start Date'
+                          value={values.startDate}
+                          onChange={(value) =>
+                            setFieldValue("startDate", moment(value), true)
+                          }
+                          sx={{
+                            width: "18rem",
+                          }}
+                          slotProps={{
+                            textField: {
+                              variant: "outlined",
+                              onBlur: () => setTouched({ startDate: true }),
+
+                              error: Boolean(
+                                touched.startDate && errors.startDate
+                              ),
+                              helperText: touched.startDate && errors.startDate,
+                              margin: "normal",
+                              color: "secondary",
+                            },
+                          }}
+                        /> */}
                       </LocalizationProvider>
                     </Box>
                     <Box
