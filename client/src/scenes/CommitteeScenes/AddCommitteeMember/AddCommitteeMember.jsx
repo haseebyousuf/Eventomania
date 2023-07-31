@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
+import React, { useState } from "react";
 import {
   Box,
   useTheme,
@@ -19,6 +17,7 @@ import { motion } from "framer-motion";
 import Header from "components/Header";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useAddMemberMutation } from "state/adminApiSlice";
 
 const AddMemberSchema = yup.object().shape({
   memberName: yup.string().required("*Name Required"),
@@ -58,34 +57,7 @@ const AddCommitteeMember = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
-  const [data, setData] = useState({ committees: null, isLoading: true });
-
-  //useEffect to get committees
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_BASE_URL}/committee/get-committees`)
-      .then((response) => {
-        setData({
-          ...data,
-          committees: response.data,
-          isLoading: false,
-        });
-      })
-      .catch((error) => {
-        toast("There was some error! Please Try again.", {
-          type: "error",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-      });
-    // eslint-disable-next-line
-  }, []);
+  const [addMember, { isLoading }] = useAddMemberMutation();
 
   //submit handler
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -98,15 +70,9 @@ const AddCommitteeMember = () => {
         committeeId,
         role: "member",
       };
-      const savedMemberResponse = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/admin/AddMember`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(Member),
-      });
-      const savedMember = await savedMemberResponse.data;
-      onSubmitProps.resetForm();
-      if (savedMember) {
+      const res = await addMember(Member).unwrap();
+      if (res) {
+        onSubmitProps.resetForm();
         toast("Member Added Successfully", {
           type: "success",
           position: "top-right",
@@ -121,7 +87,7 @@ const AddCommitteeMember = () => {
       }
     } catch (error) {
       console.log(error);
-      toast(error.response.data.msg, {
+      toast(error.data.msg || "Server Error", {
         type: "error",
         position: "top-right",
         autoClose: 3000,
@@ -304,6 +270,7 @@ const AddCommitteeMember = () => {
                   >
                     <Button
                       variant='contained'
+                      disabled={isLoading}
                       type='submit'
                       sx={{
                         color: "black",
