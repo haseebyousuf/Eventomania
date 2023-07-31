@@ -63,6 +63,14 @@ export const adminApiSlice = api.injectEndpoints({
       providesTags: ["Admins"],
       invalidatesTags: ["Admins"],
     }),
+    committeeMembers: build.mutation({
+      query: (data) => ({
+        url: `admin/committeeMembers`,
+        method: "POST",
+        body: data,
+      }),
+      providesTags: ["Admins"],
+    }),
   }),
 });
 
@@ -75,4 +83,5 @@ export const {
   useAddMemberMutation,
   useDeleteMemberMutation,
   useChangePasswordMutation,
+  useCommitteeMembersMutation,
 } = adminApiSlice;
