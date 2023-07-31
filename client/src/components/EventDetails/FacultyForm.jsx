@@ -1,10 +1,9 @@
-import React, { useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { Button, CardActions, TextField } from "@mui/material";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import { useRegisterFacultyMutation } from "state/userApiSlice";
 
 const facultySchema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -31,33 +30,24 @@ const initialValuesFaculty = {
 };
 const FacultyForm = ({ eventDetails }) => {
   // STATES
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [registerFaculty, { isLoading }] = useRegisterFacultyMutation();
   // FUNCTION TO SUBMIT FORM
   const handleFormSubmit = async (values, onSubmitProps) => {
-    setButtonDisabled(true);
     const event = {
       name: eventDetails.name,
       id: eventDetails._id,
     };
     try {
       const { employeeId } = values;
-
       const faculty = {
         ...values,
         regNo: employeeId.toUpperCase(),
         event,
         type: "faculty",
       };
-      const savedFacultyResponse = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/user/registerFaculty`,
-        headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(faculty),
-      });
-      const savedFaculty = await savedFacultyResponse.data;
-      onSubmitProps.resetForm();
-      if (savedFaculty) {
-        setButtonDisabled(false);
+      const res = await registerFaculty(faculty).unwrap();
+      if (res) {
+        onSubmitProps.resetForm();
         toast("Registered Successfully!", {
           type: "success",
           position: "top-right",
@@ -71,8 +61,7 @@ const FacultyForm = ({ eventDetails }) => {
         });
       }
     } catch (error) {
-      setButtonDisabled(false);
-      toast(error.response.data.msg, {
+      toast(error?.data?.msg || "Server Error", {
         type: "error",
         position: "top-right",
         autoClose: 3000,
@@ -145,7 +134,7 @@ const FacultyForm = ({ eventDetails }) => {
             <Button
               variant='contained'
               type='submit'
-              disabled={buttonDisabled}
+              disabled={isLoading}
               sx={{
                 color: "black",
                 fontWeight: "bold",
