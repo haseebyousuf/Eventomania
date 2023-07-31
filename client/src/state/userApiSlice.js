@@ -6,7 +6,29 @@ export const userApiSlice = api.injectEndpoints({
       query: () => `user/getUsers`,
       providesTags: ["users"],
     }),
+    registerFaculty: build.mutation({
+      query: (data) => ({
+        url: `user/registerFaculty`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["users"],
+    }),
+    registerStudent: build.mutation({
+      query: (data) => ({
+        url: `user/registerStudent`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["users"],
+    }),
   }),
 });
 
-export const { useGetUsersQuery } = userApiSlice;
+export const {
+  useGetUsersQuery,
+  useRegisterFacultyMutation,
+  useRegisterStudentMutation,
+} = userApiSlice;
