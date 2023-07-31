@@ -1,19 +1,18 @@
 import Admin from "../models/Admin.js";
 import Committee from "../models/Committee.js";
 import Event from "../models/Event.js";
-import moment from 'moment'
+import moment from "moment";
 
 export const adminDashboardStats = async (req, res) => {
   try {
-    
     const currentYear = moment().year(); // Get the current year
     const currentMonth = moment().month(); // Get the current month (0-11)
     const approvedEvents = await Event.find({ isApproved: true }).exec();
     //EVENTS PER COMMITTEE
     const eventData = {};
 
-    approvedEvents.forEach(event => {
-      event.committee.forEach(committee => {
+    approvedEvents.forEach((event) => {
+      event.committee.forEach((committee) => {
         const committeeId = committee.id;
         const committeeName = committee.name;
 
@@ -30,7 +29,7 @@ export const adminDashboardStats = async (req, res) => {
     });
 
     const eventsPerCommittee = Object.values(eventData);
-    
+
     //GET EVENTS PER MONTH
     // Create an object to store the count of events per month
     const eventsCountByMonth = {};
@@ -40,7 +39,7 @@ export const adminDashboardStats = async (req, res) => {
         startDate.year() === currentYear &&
         startDate.month() <= currentMonth
       ) {
-        const monthName = startDate.format('MMM');
+        const monthName = startDate.format("MMM");
         if (eventsCountByMonth[monthName]) {
           eventsCountByMonth[monthName]++;
         } else {
@@ -53,30 +52,25 @@ export const adminDashboardStats = async (req, res) => {
     const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
 
     // Format data for Nivo line chart
-    const eventsPerMonth = allMonths.map(month => ({
+    const eventsPerMonth = allMonths.map((month) => ({
       x: month,
-      y: eventsCountByMonth[month] || 0
+      y: eventsCountByMonth[month] || 0,
     }));
 
     //END EVENTS PER MONTH
     const events = await Event.find().exec();
-    const approvedEventsCount = events.filter(event =>
-      event.isApproved &&
-      moment(event.startDate).year() === currentYear
+    const approvedEventsCount = events.filter(
+      (event) =>
+        event.isApproved && moment(event.startDate).year() === currentYear
     ).length;
-    const unapprovedEventsCount = events.filter(event =>
-      !event.isApproved &&
-      moment(event.startDate).year() === currentYear
+    const unapprovedEventsCount = events.filter(
+      (event) =>
+        !event.isApproved && moment(event.startDate).year() === currentYear
     ).length;
-    const upcomingEvents = events.filter(event =>
-      event.isApproved &&
-      moment(event.startDate).isAfter(moment()) ||
-                            moment(event.startDate).isSame(
-                                moment(),
-                                "day",
-                                "month",
-                                "year"
-                            )
+    const upcomingEvents = events.filter(
+      (event) =>
+        (event.isApproved && moment(event.startDate).isAfter(moment())) ||
+        moment(event.startDate).isSame(moment(), "day", "month", "year")
     );
 
     const adminsCount = await Admin.countDocuments().exec();
@@ -92,45 +86,39 @@ export const adminDashboardStats = async (req, res) => {
       committeesCount,
     });
   } catch (error) {
-    console.log('Error:', error); // Log the error for debugging
-    res.status(500).json({ error: 'An error occurred while fetching dashboard stats.' });
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching dashboard stats." });
   }
 };
 
-
 export const committeeDashboardStats = async (req, res) => {
-
   try {
     const currentYear = moment().year(); // Get the current year
     const currentMonth = moment().month(); // Get the current month (0-11)
     const committeeId = req.body.committeeId; // Get the committee ID from the request body
-    console.log(req.body);
 
     const committee = await Committee.findById(committeeId).exec();
 
     if (!committee) {
-      return res.status(404).json({ error: 'Committee not found' });
+      return res.status(404).json({ error: "Committee not found" });
     }
 
     const approvedEvents = await Event.find({
       isApproved: true,
-      'committee.id': committeeId
+      "committee.id": committeeId,
     }).exec();
-    
-    const upcomingEvents = approvedEvents.filter(event =>
-      moment(event.startDate).isAfter(moment()) ||
-                            moment(event.startDate).isSame(
-                                moment(),
-                                "day",
-                                "month",
-                                "year"
-                            )
+
+    const upcomingEvents = approvedEvents.filter(
+      (event) =>
+        moment(event.startDate).isAfter(moment()) ||
+        moment(event.startDate).isSame(moment(), "day", "month", "year")
     );
     //EVENTS PER COMMITTEE
     const eventData = {};
 
-    approvedEvents.forEach(event => {
-      event.createdBy.forEach(member => {
+    approvedEvents.forEach((event) => {
+      event.createdBy.forEach((member) => {
         const memberId = member.id;
         const memberName = member.name;
 
@@ -150,52 +138,50 @@ export const committeeDashboardStats = async (req, res) => {
     //EVENTS PER MONTH OF COMMITTEE
 
     // Create an object to store the count of events per month
-     const eventsCountByMonth = {};
-     for (const event of approvedEvents) {
-       const startDate = moment(event.startDate);
-       if (
-         startDate.year() === currentYear &&
-         startDate.month() <= currentMonth
-       ) {
-         const monthName = startDate.format('MMM');
-         if (eventsCountByMonth[monthName]) {
-           eventsCountByMonth[monthName]++;
-         } else {
-           eventsCountByMonth[monthName] = 1;
-         }
-       }
-     }
- 
-     // Generate an array of month names up to the current month
-     const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
- 
-     // Format data for Nivo line chart
-     const eventsPerMonth = allMonths.map(month => ({
-       x: month,
-       y: eventsCountByMonth[month] || 0
-     }));
+    const eventsCountByMonth = {};
+    for (const event of approvedEvents) {
+      const startDate = moment(event.startDate);
+      if (
+        startDate.year() === currentYear &&
+        startDate.month() <= currentMonth
+      ) {
+        const monthName = startDate.format("MMM");
+        if (eventsCountByMonth[monthName]) {
+          eventsCountByMonth[monthName]++;
+        } else {
+          eventsCountByMonth[monthName] = 1;
+        }
+      }
+    }
+
+    // Generate an array of month names up to the current month
+    const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
+
+    // Format data for Nivo line chart
+    const eventsPerMonth = allMonths.map((month) => ({
+      x: month,
+      y: eventsCountByMonth[month] || 0,
+    }));
     //END OF EVENTS PER MONTH OF COMMITTEE
 
+    const events = await Event.find({ "committee.id": committeeId }).exec();
 
-
-    const events = await Event.find({ 'committee.id': committeeId }).exec();
-
-    const approvedEventsCount = events.filter(event =>
-      event.isApproved &&
-      moment(event.startDate).year() === currentYear
+    const approvedEventsCount = events.filter(
+      (event) =>
+        event.isApproved && moment(event.startDate).year() === currentYear
     ).length;
 
-    const unapprovedEventsCount = events.filter(event =>
-      !event.isApproved &&
-      moment(event.startDate).year() === currentYear
+    const unapprovedEventsCount = events.filter(
+      (event) =>
+        !event.isApproved && moment(event.startDate).year() === currentYear
     ).length;
-    const pendingReportCount = events.filter(event =>
-      event.isApproved && event.status === false
+    const pendingReportCount = events.filter(
+      (event) => event.isApproved && event.status === false
     ).length;
 
-
-
-    const adminsCount = await Admin.countDocuments({ 'committeeId': committeeId }).exec();
+    const adminsCount = await Admin.countDocuments({
+      committeeId: committeeId,
+    }).exec();
 
     res.status(200).json({
       approvedEventsCount,
@@ -207,8 +193,12 @@ export const committeeDashboardStats = async (req, res) => {
       adminsCount,
     });
   } catch (error) {
-    console.log('Error:', error); // Log the error for debugging
-    res.status(500).json({ error: 'An error occurred while fetching dashboard stats for the committee.' });
+    res
+      .status(500)
+      .json({
+        error:
+          "An error occurred while fetching dashboard stats for the committee.",
+      });
   }
 };
 
@@ -218,8 +208,8 @@ export const eventsPerCommittee = async (req, res) => {
 
     const eventData = {};
 
-    events.forEach(event => {
-      event.committee.forEach(committee => {
+    events.forEach((event) => {
+      event.committee.forEach((committee) => {
         const committeeId = committee.id;
         const committeeName = committee.name;
 
@@ -239,7 +229,10 @@ export const eventsPerCommittee = async (req, res) => {
 
     res.status(200).json(formattedData);
   } catch (error) {
-    console.log('Error:', error); // Log the error for debugging
-    res.status(500).json({ error: 'An error occurred while fetching events per committee.' });
+    res
+      .status(500)
+      .json({
+        error: "An error occurred while fetching events per committee.",
+      });
   }
 };

@@ -17,7 +17,6 @@ const CommitteeMembers = () => {
   const [committeeMembers, { isLoading }] = useCommitteeMembersMutation();
 
   useEffect(() => {
-    console.log("memebeeeeeers");
     getMembers();
     // eslint-disable-next-line
   }, []);

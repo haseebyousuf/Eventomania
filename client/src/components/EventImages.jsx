@@ -9,7 +9,6 @@ const EventImages = ({ photos }) => {
       thumbnail: `${process.env.REACT_APP_BASE_URL}/assets/${photo.filename}`,
     };
   });
-  console.log(images);
   return (
     <Box minHeight='20rem' marginBottom='1rem'>
       <ImageGallery

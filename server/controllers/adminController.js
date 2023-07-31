@@ -164,7 +164,6 @@ export const getMembers = async (req, res) => {
 };
 
 export const deleteConvenor = async (req, res) => {
-  console.log(req.body);
   try {
     const { convenorId, committeeId } = req.body;
     const deletedConvenor = await Admin.deleteOne({ _id: convenorId });

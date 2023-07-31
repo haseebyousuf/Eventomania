@@ -83,7 +83,6 @@ const ConfirmPassword = () => {
         });
       }
     } catch (error) {
-      console.log(error);
       toast(error.data.msg, {
         type: "error",
         position: "top-right",

@@ -22,7 +22,6 @@ const CommitteeDashboard = () => {
   const [committeeDashboardStats] = useCommitteeDashboardStatsMutation();
 
   useEffect(() => {
-    console.log("Dasghboard useEffecct");
     const getStats = async () => {
       try {
         const res = await committeeDashboardStats({

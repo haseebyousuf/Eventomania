@@ -39,7 +39,6 @@ const AllCommittees = () => {
           });
         }
       } catch (error) {
-        console.log(error);
         toast("There was some error! Please Try again.", {
           type: "error",
           position: "top-right",

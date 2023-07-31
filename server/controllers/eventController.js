@@ -43,7 +43,6 @@ export const createEvent = async (req, res) => {
     //send success response
     res.status(201).json(savedEvent);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -77,7 +76,6 @@ export const uploadPhotos = async (req, res) => {
         "photos",
         "compressedPhotos"
       );
-      console.log(photo);
       photosArray.push({
         filename: compressedFilename,
         path: compressedPath,
@@ -93,7 +91,6 @@ export const uploadPhotos = async (req, res) => {
     //send success response
     res.status(201).json(updatedEvent);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };

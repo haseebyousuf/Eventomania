@@ -86,7 +86,6 @@ const AddCommitteeMember = () => {
         });
       }
     } catch (error) {
-      console.log(error);
       toast(error.data.msg || "Server Error", {
         type: "error",
         position: "top-right",
