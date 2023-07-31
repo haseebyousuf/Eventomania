@@ -3,14 +3,14 @@ import * as yup from "yup";
 import React from "react";
 import { CloudUploadOutlined } from "@mui/icons-material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-
 import Dropzone from "react-dropzone";
 import { Box, Button, Typography } from "@mui/material";
 import FlexBetween from "./FlexBetween";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { useUploadReportMutation } from "state/eventApiSlice";
 
-const UploadReport = ({ id, getEvents }) => {
+const UploadReport = ({ id }) => {
+  const [uploadReport] = useUploadReportMutation();
   const reportSchema = yup.object().shape({
     report: yup.string().required("*report required"),
   });
@@ -24,16 +24,9 @@ const UploadReport = ({ id, getEvents }) => {
         formData.append(value, values[value]);
       }
       formData.append("id", id);
-      const reportResponse = await axios({
-        method: "post",
-        url: `${process.env.REACT_APP_BASE_URL}/event/uploadReport`,
-        headers: { "Content-Type": "application/JSON" },
-        data: formData,
-      });
-      const updatedEvent = await reportResponse.data;
-      onSubmitProps.resetForm();
-      if (updatedEvent) {
-        getEvents();
+      const res = await uploadReport(formData).unwrap();
+      if (res) {
+        onSubmitProps.resetForm();
         toast("Report Uploaded!.", {
           type: "success",
           position: "top-right",
