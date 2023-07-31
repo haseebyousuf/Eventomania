@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, Button, useTheme } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import SendIcon from "@mui/icons-material/Send";
@@ -14,68 +13,56 @@ import { motion } from "framer-motion";
 import Header from "components/Header";
 import UploadPhotos from "components/UploadPhotos";
 import { toast } from "react-toastify";
+import { useGetUsersQuery } from "state/userApiSlice";
+import {
+  useApprovedEventsQuery,
+  useSendCertificatesMutation,
+} from "state/eventApiSlice";
+
+const filterAndSortData = (data, user) => {
+  return data
+    .filter((event) => event.committee[0].id === user.committeeId)
+    .sort((a, b) => moment(b.startDate) - moment(a.startDate));
+};
+
 const ConvenorPastEvents = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.global.user);
+  const [events, setEvents] = useState(null);
 
-  const [data, setData] = useState({ events: null, isLoading: true });
-  const [users, setUsers] = useState(null);
+  const { data, isLoading } = useApprovedEventsQuery();
+  const { data: users } = useGetUsersQuery();
+  const [sendCertificates] = useSendCertificatesMutation();
+
   const [buttonDisabled, setButtonDisabled] = React.useState({});
 
-  const getEvents = async () => {
-    try {
-      const userResponse = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/user/getUsers`
-      );
-      setUsers(userResponse.data);
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/events/getApprovedEvents`
-      );
-
-      const sortedEvents = response.data
-        .sort((a, b) => moment(b.startDate) - moment(a.startDate))
-        .filter((event) => event.committee[0].id === user.committeeId);
-      setData({
-        ...data,
-        events: sortedEvents,
-        isLoading: false,
-      });
-    } catch (error) {}
-  };
-
   useEffect(() => {
-    getEvents();
-    // eslint-disable-next-line
-  }, []);
-
+    if (data) {
+      const filteredData = filterAndSortData(data, user);
+      setEvents(filteredData);
+    }
+  }, [data, user]);
   const handleCertificateSend = async (id) => {
     setButtonDisabled({ ...buttonDisabled, [id]: true });
 
     try {
-      const data = {
-        id: id,
-      };
       const promise = toast.promise(
-        // The uploading message to display
-        axios({
-          method: "post",
-          url: `${process.env.REACT_APP_BASE_URL}/events/sendCertificate`,
-          headers: { "Content-Type": "application/JSON" },
-          data: data,
-        }).then((response) => response.data), // Resolve the promise with the response data
+        sendCertificates({ id })
+          .unwrap()
+          .then((response) => response.data),
         {
-          pending: "Sending Certificates...", // Message shown while the request is pending
-          success: "Certificates ent!", // Success message
-          error: "There was some error! Please Try again.", // Error message
+          pending: "Sending Certificates...",
+          success: "Certificates sent!",
+          error: "There was some error! Please Try again.",
         }
       );
       const certificateResponse = await promise;
       if (certificateResponse) {
-        getEvents();
         setButtonDisabled({ ...buttonDisabled, [id]: false });
       }
-    } catch (error) {}
-    setButtonDisabled({ ...buttonDisabled, [id]: false });
+    } catch (error) {
+      setButtonDisabled({ ...buttonDisabled, [id]: false });
+    }
   };
   const columns = [
     {
@@ -101,7 +88,7 @@ const ConvenorPastEvents = () => {
       minWidth: 80,
       flex: 0.5,
       renderCell: (params) => {
-        const total = users.filter(
+        const total = users?.filter(
           (user) => user.event[0].id === params.row._id
         ).length;
         return Number(total);
@@ -157,7 +144,10 @@ const ConvenorPastEvents = () => {
               </Button>
             ) : (
               <Box>
-                <UploadReport getEvents={getEvents} id={params.row._id} />
+                <UploadReport
+                  //  getEvents={getEvents}
+                  id={params.row._id}
+                />
               </Box>
             )}
           </Box>
@@ -273,7 +263,10 @@ const ConvenorPastEvents = () => {
               </Button>
             ) : (
               <Box>
-                <UploadPhotos getEvents={getEvents} id={params.row._id} />
+                <UploadPhotos
+                  //  getEvents={getEvents}
+                  id={params.row._id}
+                />
               </Box>
             )}
           </Box>
@@ -286,7 +279,11 @@ const ConvenorPastEvents = () => {
       type: "actions",
       width: 100,
       renderCell: (params) => (
-        <EventActions setData={setData} data={data} {...{ params }} />
+        <EventActions
+          //  setData={setData}
+          data={data}
+          {...{ params }}
+        />
       ),
     },
   ];
@@ -331,9 +328,9 @@ const ConvenorPastEvents = () => {
         }}
       >
         <DataGrid
-          loading={data.isLoading || !data}
+          loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={data.events || []}
+          rows={events || []}
           columns={columns}
           components={{ Toolbar: DataGridCustomToolbar }}
           sx={{
