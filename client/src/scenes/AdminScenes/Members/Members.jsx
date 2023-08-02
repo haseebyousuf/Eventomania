@@ -1,9 +1,10 @@
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { motion } from "framer-motion";
+
 import Actions from "./Actions";
 import moment from "moment";
 import Header from "components/Header";
-import { motion } from "framer-motion";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { useMembersQuery } from "state/adminApiSlice";
 

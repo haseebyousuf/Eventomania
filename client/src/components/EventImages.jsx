@@ -3,12 +3,14 @@ import React from "react";
 import ImageGallery from "react-image-gallery";
 
 const EventImages = ({ photos }) => {
+  //set image data
   const images = photos.map((photo) => {
     return {
       original: `${process.env.REACT_APP_BASE_URL}/assets/${photo.filename}`,
       thumbnail: `${process.env.REACT_APP_BASE_URL}/assets/${photo.filename}`,
     };
   });
+
   return (
     <Box minHeight='20rem' marginBottom='1rem'>
       <ImageGallery

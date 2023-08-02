@@ -1,20 +1,24 @@
-import Header from "components/Header";
 import { Diversity3Outlined } from "@mui/icons-material";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import EventIcon from "@mui/icons-material/Event";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
-import StatBox from "components/StatBox";
-import OverallStats from "components/OverallStats";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
-import BreakdownChart from "components/BreakdownChart";
 import { motion } from "framer-motion";
+
 import DashboardShimmer from "components/DashboardShimmer";
 import { useAdminDashboardStatsQuery } from "state/dashboardApiSlice";
+import Header from "components/Header";
+import BreakdownChart from "components/BreakdownChart";
+import StatBox from "components/StatBox";
+import OverallStats from "components/OverallStats";
+
 const Dashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+
+  //rtk query
   const { data, isLoading } = useAdminDashboardStatsQuery();
 
   const columns = [

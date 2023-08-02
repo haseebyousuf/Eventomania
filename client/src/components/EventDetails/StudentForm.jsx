@@ -3,6 +3,7 @@ import * as yup from "yup";
 import { Button, CardActions, TextField } from "@mui/material";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+
 import { useRegisterStudentMutation } from "state/userApiSlice";
 
 const studentSchema = yup.object().shape({
@@ -39,8 +40,9 @@ const initialValuesStudent = {
   courseSemesterDept: "",
   department: "",
 };
+
 const StudentForm = ({ eventDetails }) => {
-  // STATES
+  // RTK query
   const [registerStudent, { isLoading }] = useRegisterStudentMutation();
 
   // FUNCTION TO SUBMIT FORM

@@ -13,11 +13,14 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { motion } from "framer-motion";
 import { useTheme } from "@emotion/react";
+
 import { useAddCommitteeMutation } from "state/committeeApiSlice";
+
 const inputs = [
   { id: 1, label: "Committee Name", name: "name" },
   { id: 2, label: "Description", name: "description" },
 ];
+
 const addCommitteeSchema = yup.object().shape({
   name: yup.string().required("*Name is Required"),
   description: yup.string().required("Description is required"),
@@ -27,10 +30,13 @@ const initialValuesCommittee = {
   name: "",
   description: "",
 };
+
 const Form = () => {
+  //RTK query
+  const [addCommittee, { isLoading }] = useAddCommitteeMutation();
+
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const theme = useTheme();
-  const [addCommittee, { isLoading }] = useAddCommitteeMutation();
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {

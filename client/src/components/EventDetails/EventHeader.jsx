@@ -1,16 +1,15 @@
 import {
-    Divider,
-    Paper,
-    Stack,
-    Typography,
-    styled,
-    useMediaQuery,
+  Divider,
+  Paper,
+  Stack,
+  Typography,
+  styled,
+  useMediaQuery,
 } from "@mui/material";
 import EventIcon from "@mui/icons-material/Event";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TodayIcon from "@mui/icons-material/Today";
 import moment from "moment";
-import React from "react";
 
 const EventHeader = ({
   name,
@@ -23,6 +22,7 @@ const EventHeader = ({
   dialog,
 }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
+
   const Item = styled(Paper)(({ theme }) => ({
     backgroundImage: "none",
     backgroundColor: theme.palette.background.alt,
@@ -30,6 +30,7 @@ const EventHeader = ({
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+
   return (
     <>
       <img

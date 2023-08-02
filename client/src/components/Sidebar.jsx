@@ -20,17 +20,17 @@ import {
   ChevronRightOutlined,
   LogoutOutlined,
 } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 import FlexBetween from "./FlexBetween";
 import Profile from "assets/profile.png";
-import { useDispatch } from "react-redux";
 import { setLogout } from "state";
 import {
   adminNavItems,
   memberNavItems,
   convenorNavItems,
 } from "utils/constants";
-import { toast } from "react-toastify";
 
 const Sidebar = ({
   drawerWidth,

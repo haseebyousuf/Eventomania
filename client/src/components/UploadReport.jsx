@@ -5,18 +5,22 @@ import { CloudUploadOutlined } from "@mui/icons-material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from "react-dropzone";
 import { Box, Button, Typography } from "@mui/material";
-import FlexBetween from "./FlexBetween";
 import { toast } from "react-toastify";
+
+import FlexBetween from "./FlexBetween";
 import { useUploadReportMutation } from "state/eventApiSlice";
 
 const UploadReport = ({ id }) => {
   const [uploadReport] = useUploadReportMutation();
+
   const reportSchema = yup.object().shape({
     report: yup.string().required("*report required"),
   });
+
   const initialReportValue = {
     report: "",
   };
+
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       const formData = new FormData();

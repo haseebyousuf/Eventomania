@@ -5,14 +5,15 @@ import SendIcon from "@mui/icons-material/Send";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
-import EventActions from "./EventActions";
 import { useSelector } from "react-redux";
 import UploadReport from "components/UploadReport";
 import DataGridCustomToolbar from "../../../components/DataGridCustomToolbar";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+
+import EventActions from "./EventActions";
 import Header from "components/Header";
 import UploadPhotos from "components/UploadPhotos";
-import { toast } from "react-toastify";
 import { useGetUsersQuery } from "state/userApiSlice";
 import {
   useApprovedEventsQuery,
@@ -28,13 +29,15 @@ const filterAndSortData = (data, user) => {
 const ConvenorPastEvents = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.global.user);
-  const [events, setEvents] = useState(null);
 
+  //state
+  const [events, setEvents] = useState(null);
+  const [buttonDisabled, setButtonDisabled] = useState({});
+
+  //rtk query
   const { data, isLoading } = useApprovedEventsQuery();
   const { data: users } = useGetUsersQuery();
   const [sendCertificates] = useSendCertificatesMutation();
-
-  const [buttonDisabled, setButtonDisabled] = React.useState({});
 
   useEffect(() => {
     if (data) {
@@ -42,9 +45,10 @@ const ConvenorPastEvents = () => {
       setEvents(filteredData);
     }
   }, [data, user]);
+
+  //handlers
   const handleCertificateSend = async (id) => {
     setButtonDisabled({ ...buttonDisabled, [id]: true });
-
     try {
       const promise = toast.promise(
         sendCertificates({ id })
@@ -64,6 +68,7 @@ const ConvenorPastEvents = () => {
       setButtonDisabled({ ...buttonDisabled, [id]: false });
     }
   };
+
   const columns = [
     {
       field: "name",

@@ -14,11 +14,12 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { motion } from "framer-motion";
 import { useTheme } from "@emotion/react";
-import Header from "components/Header";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
 import { useChangePasswordMutation } from "state/adminApiSlice";
+import Header from "components/Header";
 
 const inputs = [
   { id: 1, label: "Current Password", name: "currentPassword" },
@@ -39,20 +40,30 @@ const changePasswordSchema = yup.object().shape({
       [yup.ref("currentPassword"), null],
       "Old Password and New Password Cannot Be Same"
     ),
-
   cNewPassword: yup
     .string()
     .required("Confirm Password Please")
     .oneOf([yup.ref("newPassword")], "Passwords does not match"),
 });
+
 const initialValuesPassword = {
   currentPassword: "",
   newPassword: "",
   cNewPassword: "",
 };
+
 const ConfirmPassword = () => {
+  //hooks
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+  const theme = useTheme();
+  const user = useSelector((state) => state.global.user);
+
+  //state
   const [showPassword, setShowPassword] = useState([false, false, false]);
+
+  //rtk query
   const [changePassword] = useChangePasswordMutation();
+
   //handlers
   const handleClickShowPassword = (index) => {
     setShowPassword((prevState) => {
@@ -61,9 +72,11 @@ const ConfirmPassword = () => {
       return updatedState;
     });
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       values.userId = user._id;
@@ -97,11 +110,6 @@ const ConfirmPassword = () => {
     }
   };
 
-  //hooks
-  const isNonMobile = useMediaQuery("(min-width: 600px)");
-  const theme = useTheme();
-  const user = useSelector((state) => state.global.user);
-
   return (
     <Box>
       <Box
@@ -113,7 +121,6 @@ const ConfirmPassword = () => {
         transition={{ delay: 0.1, ease: "easeInOut" }}
       >
         <Header title='CHANGE PASSWORD' subtitle='Enter Details' />
-
         <Formik
           onSubmit={handleFormSubmit}
           initialValues={initialValuesPassword}

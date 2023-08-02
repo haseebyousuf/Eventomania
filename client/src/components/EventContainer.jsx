@@ -9,6 +9,7 @@ import {
 import { motion } from "framer-motion";
 import moment from "moment";
 import React, { useState } from "react";
+
 import EventCard from "./EventCard";
 import EventCardShimmer from "./EventCardShimmer";
 import EventFilter from "./EventFilter";

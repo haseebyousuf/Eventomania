@@ -6,13 +6,19 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
+
 import { useCommitteesQuery } from "state/committeeApiSlice";
 
 const EventFilter = ({ setAnimateCard, setFilteredEvents, events }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
+
+  //state
   const [activeFilter, setActiveFilter] = useState("all");
+
+  //RTK Query
   const { data: committees } = useCommitteesQuery();
 
+  //handlers
   const handleFilter = ({ target }) => {
     setActiveFilter(target.value);
     setAnimateCard([{ y: 100, opacity: 0 }]);
@@ -28,6 +34,7 @@ const EventFilter = ({ setAnimateCard, setFilteredEvents, events }) => {
       }
     }, 500);
   };
+
   return (
     <Box
       sx={{

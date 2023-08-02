@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import GroupsIcon from "@mui/icons-material/Groups";
-import EventDialog from "components/EventDialog";
 
+import EventDialog from "components/EventDialog";
 import { useDeleteEventMutation } from "state/eventApiSlice";
 
 const EventActions = ({ users, params }) => {

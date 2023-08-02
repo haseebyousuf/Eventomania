@@ -1,20 +1,24 @@
 import { Box, Switch, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 import moment from "moment";
+
+import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import EventActions from "./EventActions";
 import Header from "components/Header";
-import { motion } from "framer-motion";
-import DataGridCustomToolbar from "components/DataGridCustomToolbar";
-import { toast } from "react-toastify";
 import {
   useApproveEventMutation,
   useUnapprovedEventsQuery,
 } from "state/eventApiSlice";
+
 const ApproveEvents = () => {
   const theme = useTheme();
+  // RTK Query
   const { data, isLoading } = useUnapprovedEventsQuery();
   const [approveEvent] = useApproveEventMutation();
 
+  //approveHandler
   const handleApproveEvent = async (id) => {
     try {
       const res = await approveEvent({ id }).unwrap();
@@ -45,8 +49,9 @@ const ApproveEvents = () => {
       });
     }
   };
-
+  //sort function
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+
   const columns = [
     {
       field: "name",

@@ -5,7 +5,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React from "react";
 
 const DashboardShimmer = ({ isNonMediumScreens }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -35,7 +34,6 @@ const DashboardShimmer = ({ isNonMediumScreens }) => {
           },
         }}
       >
-        {/* ROW 1 */}
         <Box
           gridColumn='span 2'
           gridRow='span 1'
@@ -49,7 +47,6 @@ const DashboardShimmer = ({ isNonMediumScreens }) => {
         >
           <Skeleton height='100%' />
         </Box>
-        {/* ///a */}
         <Box
           gridColumn='span 2'
           gridRow='span 1'
@@ -99,7 +96,6 @@ const DashboardShimmer = ({ isNonMediumScreens }) => {
           <Skeleton height='100%' />
         </Box>
 
-        {/* ROW 2 */}
         <Box
           gridColumn='span 7'
           gridRow='span 3'

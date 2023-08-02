@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import HomeNavbar from "../../components/HomeNavbar";
 import moment from "moment";
+
+import HomeNavbar from "../../components/HomeNavbar";
 import EventContainer from "components/EventContainer";
 import { usePublishedEventsQuery } from "state/eventApiSlice";
 

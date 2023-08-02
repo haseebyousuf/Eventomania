@@ -5,6 +5,7 @@ import { CloudUploadOutlined } from "@mui/icons-material";
 import Dropzone from "react-dropzone";
 import { Box, Button } from "@mui/material";
 import { toast } from "react-toastify";
+
 import { useUploadPhotosMutation } from "state/eventApiSlice";
 
 const UploadPhotos = ({ id }) => {

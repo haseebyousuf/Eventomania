@@ -1,14 +1,16 @@
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import Actions from "./Actions";
-import moment from "moment";
-import Header from "components/Header";
 import { motion } from "framer-motion";
+import moment from "moment";
+
+import Header from "components/Header";
+import Actions from "./Actions";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { useConvenorsQuery } from "state/adminApiSlice";
 
 const Convenors = () => {
   const theme = useTheme();
+  //rtk query
   const { data, isLoading } = useConvenorsQuery();
 
   const columns = [

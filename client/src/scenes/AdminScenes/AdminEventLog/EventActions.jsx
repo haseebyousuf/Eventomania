@@ -1,7 +1,6 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import GroupsIcon from "@mui/icons-material/Groups";
 import DownloadIcon from "@mui/icons-material/Download";
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const EventActions = ({ users, data, params }) => {

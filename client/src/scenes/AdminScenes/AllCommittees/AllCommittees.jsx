@@ -1,23 +1,26 @@
 import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import moment from "moment";
-import Header from "components/Header";
 import { motion } from "framer-motion";
+import { Delete } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import moment from "moment";
+
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import Header from "components/Header";
 import {
   useCommitteesQuery,
   useDeleteCommitteeMutation,
 } from "state/committeeApiSlice";
-import { Delete } from "@mui/icons-material";
-import { toast } from "react-toastify";
 
 const AllCommittees = () => {
   const theme = useTheme();
+  //RTK query
   const { data, isLoading } = useCommitteesQuery();
   const [deleteCommittee] = useDeleteCommitteeMutation();
-
+  //sort function
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
 
+  //deleteHandler
   const handleDelete = async (id) => {
     const choice = window.confirm(
       "Are you sure you want to delete this committee?"

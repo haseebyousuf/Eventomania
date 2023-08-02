@@ -12,22 +12,29 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useDispatch } from "react-redux";
-import { setLogin } from "state";
 import { toast } from "react-toastify";
+
 import { useLoginMutation } from "state/adminApiSlice";
+import { setLogin } from "state";
+
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("No password provided."),
 });
+
 const initialValuesLogin = {
   email: "",
   password: "",
 };
+
 const LoginForm = () => {
   const dispatch = useDispatch();
-
   const theme = useTheme();
+
+  //rtk query
   const [login, { isLoading }] = useLoginMutation();
+
+  //handlers
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       const res = await login(values).unwrap();
@@ -57,6 +64,7 @@ const LoginForm = () => {
       });
     }
   };
+
   return (
     <Formik
       onSubmit={handleFormSubmit}

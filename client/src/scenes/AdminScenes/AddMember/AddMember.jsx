@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Box,
   useTheme,
@@ -16,8 +15,9 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
-import Header from "components/Header";
 import { toast } from "react-toastify";
+
+import Header from "components/Header";
 import { useCommitteesQuery } from "state/committeeApiSlice";
 import { useAddMemberMutation } from "state/adminApiSlice";
 
@@ -57,12 +57,16 @@ const AddMember = () => {
   const theme = useTheme();
   // States
   const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  //RTK Query
   const { data } = useCommitteesQuery();
   const [addMember, { isLoading }] = useAddMemberMutation();
 
-  //submit handler
+  // handlers
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       const { committee } = values;

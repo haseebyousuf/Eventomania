@@ -8,18 +8,19 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
-import StudentForm from "./StudentForm";
-import FacultyForm from "./FacultyForm";
 import { motion } from "framer-motion";
 
+import StudentForm from "./StudentForm";
+import FacultyForm from "./FacultyForm";
+
 const Register = ({ event }) => {
+  const theme = useTheme();
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);
   };
 
-  const theme = useTheme();
   return (
     <Box>
       <Card

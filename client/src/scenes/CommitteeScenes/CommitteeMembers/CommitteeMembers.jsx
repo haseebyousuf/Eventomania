@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import Actions from "./Actions";
 import moment from "moment";
-import Header from "components/Header";
 import { motion } from "framer-motion";
-import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+
 import { useCommitteeMembersMutation } from "state/adminApiSlice";
+import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import Actions from "./Actions";
+import Header from "components/Header";
 
 const CommitteeMembers = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.global.user);
+  //state
   const [data, setData] = useState(null);
+  //rtk query
   const [committeeMembers, { isLoading }] = useCommitteeMembersMutation();
 
   useEffect(() => {
     getMembers();
     // eslint-disable-next-line
   }, []);
+
   const getMembers = async () => {
     try {
       const res = await committeeMembers({
@@ -40,6 +44,7 @@ const CommitteeMembers = () => {
       });
     }
   };
+
   const columns = [
     {
       field: "name",

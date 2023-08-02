@@ -17,6 +17,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import Header from "components/Header";
 import { toast } from "react-toastify";
+
 import { useCommitteesQuery } from "state/committeeApiSlice";
 import { useAddConvenorMutation } from "state/adminApiSlice";
 
@@ -47,13 +48,16 @@ const AddConvenor = () => {
   const theme = useTheme();
   // States
   const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleMouseDownPassword = () => setShowPassword(!showPassword);
-  // const [data, setData] = useState({ committees: null, isLoading: true });
+
+  // RTK query
   const { data } = useCommitteesQuery();
   const [addConvenor, { isLoading }] = useAddConvenorMutation();
 
-  //submit handler
+  //handlers
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       const { committee } = values;

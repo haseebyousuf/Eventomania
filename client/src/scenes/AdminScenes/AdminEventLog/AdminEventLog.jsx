@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Box, useTheme } from "@mui/material";
-import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
-import moment from "moment";
-import DataGridCustomToolbar from "components/DataGridCustomToolbar";
-import EventActions from "./EventActions";
 import { motion } from "framer-motion";
+import moment from "moment";
+
+import Header from "components/Header";
+import EventActions from "./EventActions";
+import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { useApprovedEventsQuery } from "state/eventApiSlice";
 import { useGetUsersQuery } from "state/userApiSlice";
 
@@ -17,9 +18,12 @@ const filterAndSortData = (data) => {
 
 const AdminEventLog = () => {
   const theme = useTheme();
+  //state
   const [events, setEvents] = useState(null);
+  //RTK Query
   const { data: users } = useGetUsersQuery();
   const { data, isLoading } = useApprovedEventsQuery();
+  //useEffect
   useEffect(() => {
     if (data) {
       const filteredData = filterAndSortData(data);
@@ -27,6 +31,7 @@ const AdminEventLog = () => {
     }
   }, [data]);
 
+  //Function to sort table on the basis of date
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
 
   const columns = [

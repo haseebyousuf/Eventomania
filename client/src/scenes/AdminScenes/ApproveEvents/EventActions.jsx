@@ -1,21 +1,27 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import EventDialog from "components/EventDialog";
-import React from "react";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+
+import EventDialog from "components/EventDialog";
 import { useDeleteEventMutation } from "state/eventApiSlice";
 
 const EventActions = ({ params }) => {
-  const [openDialog, setOpenDialog] = React.useState(false);
+  //state
+  const [openDialog, setOpenDialog] = useState(false);
+  // RTK query
   const [deleteEvent] = useDeleteEventMutation();
 
+  //handlers
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
+
   const handleDelete = async (id) => {
     const choice = window.confirm("Want to delete Approve event?");
     if (choice) {

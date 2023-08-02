@@ -1,6 +1,7 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { toast } from "react-toastify";
+
 import { useDeleteMemberMutation } from "state/adminApiSlice";
 
 const Actions = ({ getMembers, params }) => {

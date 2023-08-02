@@ -78,7 +78,9 @@ const PastEvents = () => {
     }
   };
 
+  //sort function
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+
   const columns = [
     {
       field: "name",

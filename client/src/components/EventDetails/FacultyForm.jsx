@@ -3,6 +3,7 @@ import * as yup from "yup";
 import { Button, CardActions, TextField } from "@mui/material";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+
 import { useRegisterFacultyMutation } from "state/userApiSlice";
 
 const facultySchema = yup.object().shape({
@@ -21,6 +22,7 @@ const facultySchema = yup.object().shape({
     .email("That doesn't look like an email")
     .required("Email is required"),
 });
+
 const initialValuesFaculty = {
   name: "",
   employeeId: "",
@@ -28,10 +30,12 @@ const initialValuesFaculty = {
   email: "",
   department: "",
 };
+
 const FacultyForm = ({ eventDetails }) => {
-  // STATES
+  // RTK Query
   const [registerFaculty, { isLoading }] = useRegisterFacultyMutation();
-  // FUNCTION TO SUBMIT FORM
+
+  // handlers
   const handleFormSubmit = async (values, onSubmitProps) => {
     const event = {
       name: eventDetails.name,
@@ -81,6 +85,7 @@ const FacultyForm = ({ eventDetails }) => {
     { label: "Email", name: "email" },
     { label: "Department", name: "department" },
   ];
+
   return (
     <Formik
       onSubmit={handleFormSubmit}

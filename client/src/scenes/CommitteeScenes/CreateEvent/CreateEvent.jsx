@@ -19,12 +19,13 @@ import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker
 import { Formik } from "formik";
 import * as yup from "yup";
 import Dropzone from "react-dropzone";
-import FlexBetween from "components/FlexBetween";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { motion } from "framer-motion";
-import Header from "components/Header";
 import { toast } from "react-toastify";
+
 import { useCreateEventMutation } from "state/eventApiSlice";
+import Header from "components/Header";
+import FlexBetween from "components/FlexBetween";
 
 const isNotPast = (value) => {
   return moment(value).isSameOrAfter(moment(), "day");
@@ -43,7 +44,6 @@ const eventSchema = yup.object().shape({
     .required("Start Date is required")
     .typeError("Invalid Date and Time!")
     .test("is-not-past", "Start Date should not be in the past", isNotPast),
-
   endDate: yup
     .date()
     .required("End Date and Time is required")
@@ -54,7 +54,6 @@ const eventSchema = yup.object().shape({
       "End Date should not be before Start Date",
       isEndDateAfterStartDate
     ),
-
   venue: yup.string().required("*Venue is Required!"),
   description: yup.string().required("*Description is Required"),
   banner: yup.string().required("*banner required"),
@@ -76,8 +75,11 @@ const CreateEvent = () => {
   const isNonMobile = useMediaQuery("(min-width: 700px)");
   const theme = useTheme();
   const { palette } = useTheme();
+
+  //rtk query
   const [createEvent] = useCreateEventMutation();
 
+  //handlers
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       const formData = new FormData();
@@ -120,6 +122,7 @@ const CreateEvent = () => {
       });
     }
   };
+
   return (
     <Box overflow='scroll'>
       <Box

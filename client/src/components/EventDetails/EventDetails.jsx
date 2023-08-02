@@ -10,18 +10,23 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { motion } from "framer-motion";
 
 import HomeNavbar from "../HomeNavbar";
 import EventHeader from "./EventHeader";
 import EventDescription from "./EventDescription";
 
 import Register from "./Register";
-import { motion } from "framer-motion";
 import EventImages from "../EventImages";
+
 const EventDetails = () => {
-  const navigate = useNavigate();
-  const [event, setEvent] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+
+  const [event, setEvent] = useState(null);
+
   useEffect(() => {
     if (!location.state) {
       navigate("/");
@@ -30,9 +35,6 @@ const EventDetails = () => {
     }
     // eslint-disable-next-line
   }, []);
-  const theme = useTheme();
-
-  const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   return (
     <Box height='100vh'>

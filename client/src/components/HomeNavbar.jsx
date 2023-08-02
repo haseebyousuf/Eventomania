@@ -5,9 +5,6 @@ import {
   Menu as MenuIcon,
   ChevronRight,
 } from "@mui/icons-material";
-import FlexBetween from "components/FlexBetween";
-import { useDispatch, useSelector } from "react-redux";
-import { setMode } from "state";
 import {
   AppBar,
   Box,
@@ -26,7 +23,11 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-// import profileImage from "assets/"
+import { useDispatch, useSelector } from "react-redux";
+
+import { setMode } from "state";
+import FlexBetween from "components/FlexBetween";
+
 const navItems = [
   {
     text: "HOME",
@@ -45,13 +46,15 @@ const navItems = [
 const Navbar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
-
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
+  const isAuth = Boolean(useSelector((state) => state.global.user));
+
+  //states
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [value, setValue] = useState(0);
-  const isAuth = Boolean(useSelector((state) => state.global.token));
 
+  //useEffect
   useEffect(() => {
     if (isNonMobile) {
       setIsSidebarOpen(false);
@@ -71,7 +74,6 @@ const Navbar = () => {
         sx={{
           justifyContent: "space-between",
           margin: isNonMobile ? "auto 5rem auto 5rem" : "auto 2rem auto 2rem",
-          // padding: "auto 0rem auto 0rem",
           paddingLeft: "0rem !important",
           paddingRight: "0rem !important",
         }}

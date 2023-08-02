@@ -17,12 +17,12 @@ import {
   useTheme,
   Zoom,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 import FlexBetween from "components/FlexBetween";
 import { setMode } from "state";
 import { setLogout } from "state";
 import Profile from "assets/profile.png";
-import { toast } from "react-toastify";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
@@ -57,22 +57,9 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       {user && (
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* LEFT SIDE  */}
-          {/* <FlexBetween> */}
           <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <MenuIcon />
           </IconButton>
-          {/* <FlexBetween
-            backgroundColor={theme.palette.background.alt}
-            borderRadius="9px"
-            gap="3rem"
-            p="0.1rem 1.5rem"
-          >
-            <InputBase placeholder="Search..." />
-            <IconButton>
-              <Search />
-            </IconButton>
-          </FlexBetween> */}
-          {/* </FlexBetween> */}
           {/* RIGHT SIDE */}
           <FlexBetween gap='1rem'>
             <IconButton onClick={() => dispatch(setMode())}>

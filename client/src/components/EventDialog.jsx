@@ -1,3 +1,4 @@
+import React from "react";
 import {
   AppBar,
   Box,
@@ -12,14 +13,15 @@ import {
   useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import React from "react";
+import { Link } from "react-router-dom";
+
 import EventHeader from "./EventDetails/EventHeader";
 import EventDescription from "./EventDetails/EventDescription";
-import { Link } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
+
 const EventDialog = ({
   openDialog,
   params,

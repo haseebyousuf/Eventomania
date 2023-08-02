@@ -1,10 +1,13 @@
 import { Box, IconButton, Tooltip } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { toast } from "react-toastify";
+
 import { useDeleteMemberMutation } from "state/adminApiSlice";
 
 const Actions = ({ params, getMembers }) => {
+  //rtk query
   const [deleteMember] = useDeleteMemberMutation();
+  //handlers
   const handleDelete = async (id) => {
     const choice = window.confirm(
       "Are you sure you want to delete this Member?"
@@ -41,6 +44,7 @@ const Actions = ({ params, getMembers }) => {
       }
     }
   };
+
   return (
     <Box>
       <Tooltip title='Delete This Member'>
