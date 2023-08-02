@@ -36,9 +36,9 @@ function App() {
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   const isAuth = Boolean(useSelector((state) => state.global.token));
   const user = useSelector((state) => state.global.user);
-  const admin = isAuth && user.role === "admin";
-  const member = isAuth && user.role === "member";
-  const convenor = isAuth && user.role === "convenor";
+  const isAdmin = isAuth && user.role === "admin";
+  const isMember = isAuth && user.role === "member";
+  const isConvenor = isAuth && user.role === "convenor";
   return (
     <div className='app'>
       <ToastContainer />
@@ -47,137 +47,61 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
+            <Route path='*' element={<Navigate to='/' />} />
             <Route path='/' element={<Home />} />
             <Route path='/EventDetails/:eventId' element={<EventDetails />} />
             <Route
               path='/Login'
               element={!isAuth ? <Login /> : <Navigate to='/Dashboard' />}
             />
-            <Route element={<Layout />}>
-              {/* admin Routes */}
-              <Route
-                path='/Dashboard'
-                element={
-                  admin ? (
-                    <Dashboard />
-                  ) : convenor ? (
-                    <CommitteeDashboard />
-                  ) : member ? (
-                    <CommitteeDashboard />
-                  ) : (
-                    <Navigate to='/Login' />
-                  )
-                }
-              />
-              <Route
-                path='/ApproveEvents'
-                element={admin ? <ApproveEvents /> : <Navigate to='/Login' />}
-              />
-              <Route
-                path='/PastEvents'
-                element={
-                  admin ? (
-                    <PastEvents />
-                  ) : convenor ? (
-                    <ConvenorPastEvents />
-                  ) : member ? (
-                    <ConvenorPastEvents />
-                  ) : (
-                    <Navigate to='/Login' />
-                  )
-                }
-              />
-              <Route
-                path='/EventLog'
-                element={
-                  admin ? (
-                    <AdminEventLog />
-                  ) : convenor ? (
-                    <ConvenorEventLog />
-                  ) : member ? (
-                    <ConvenorEventLog />
-                  ) : (
-                    <Navigate to='/Login' />
-                  )
-                }
-              />
-              <Route
-                path='/AddCommittees'
-                element={admin ? <AddCommittees /> : <Navigate to='/Login' />}
-              />
-              <Route
-                path='/ViewCommittees'
-                element={admin ? <AllCommittees /> : <Navigate to='/Login' />}
-              />
-              <Route
-                path='/Convenors'
-                element={admin ? <Convenors /> : <Navigate to='/Login' />}
-              />
-              <Route
-                path='/Members'
-                element={
-                  admin ? (
-                    <Members />
-                  ) : convenor ? (
-                    <CommitteeMembers />
-                  ) : member ? (
-                    <CommitteeMembers />
-                  ) : (
-                    <Navigate to='/Login' />
-                  )
-                }
-              />
-              <Route
-                path='/ChangePassword'
-                element={
-                  isAuth ? <ChangePassword /> : <Navigate to='/Dashboard' />
-                }
-              />
-
-              <Route
-                path='/Registrations/:eventId'
-                element={
-                  isAuth &&
-                  (user.role === "admin" ||
-                    user.role === "convenor" ||
-                    user.role === "member") ? (
-                    <AudienceDetails />
-                  ) : (
-                    <Navigate to='/Login' />
-                  )
-                }
-              />
-
-              <Route
-                path='/AddConvenors'
-                element={admin ? <AddConvenor /> : <Navigate to='/Login' />}
-              />
-              <Route
-                path='/AddMember'
-                element={
-                  admin ? (
-                    <AddMember />
-                  ) : convenor ? (
-                    <AddCommitteeMember />
-                  ) : (
-                    <Navigate to='/Login' />
-                  )
-                }
-              />
-              {/* convenor routes */}
-              <Route
-                path='/CreateEvent'
-                element={
-                  convenor ? (
-                    <CreateEvent />
-                  ) : member ? (
-                    <CreateEvent />
-                  ) : (
-                    <Navigate to='/Login' />
-                  )
-                }
-              />
-            </Route>
+            {isAdmin && (
+              <Route element={<Layout />}>
+                <Route path='/Dashboard' element={<Dashboard />} />
+                <Route path='/ApproveEvents' element={<ApproveEvents />} />
+                <Route path='/PastEvents' element={<PastEvents />} />
+                <Route path='/EventLog' element={<AdminEventLog />} />
+                <Route path='/ViewCommittees' element={<AllCommittees />} />
+                <Route path='/AddCommittees' element={<AddCommittees />} />
+                <Route path='/Convenors' element={<Convenors />} />
+                <Route path='/AddConvenors' element={<AddConvenor />} />
+                <Route path='/Members' element={<Members />} />
+                <Route path='/AddMember' element={<AddMember />} />
+                <Route path='/ChangePassword' element={<ChangePassword />} />
+                <Route
+                  path='/Registrations/:eventId'
+                  element={<AudienceDetails />}
+                />
+              </Route>
+            )}
+            {isConvenor && (
+              <Route element={<Layout />}>
+                <Route path='/Dashboard' element={<CommitteeDashboard />} />
+                <Route path='/CreateEvent' element={<CreateEvent />} />
+                <Route path='/PastEvents' element={<ConvenorPastEvents />} />
+                <Route path='/EventLog' element={<ConvenorEventLog />} />
+                <Route path='/Members' element={<CommitteeMembers />} />
+                <Route path='/AddMember' element={<AddCommitteeMember />} />
+                <Route path='/ChangePassword' element={<ChangePassword />} />
+                <Route
+                  path='/Registrations/:eventId'
+                  element={<AudienceDetails />}
+                />
+              </Route>
+            )}
+            {isMember && (
+              <Route element={<Layout />}>
+                <Route path='/Dashboard' element={<CommitteeDashboard />} />
+                <Route path='/CreateEvent' element={<CreateEvent />} />
+                <Route path='/PastEvents' element={<ConvenorPastEvents />} />
+                <Route path='/EventLog' element={<ConvenorEventLog />} />
+                <Route path='/Members' element={<CommitteeMembers />} />
+                <Route path='/ChangePassword' element={<ChangePassword />} />
+                <Route
+                  path='/Registrations/:eventId'
+                  element={<AudienceDetails />}
+                />
+              </Route>
+            )}
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
