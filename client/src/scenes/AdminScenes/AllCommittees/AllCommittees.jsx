@@ -29,30 +29,10 @@ const AllCommittees = () => {
       try {
         const res = await deleteCommittee({ committeeId: id }).unwrap();
         if (res) {
-          toast("Committee Deleted Successfully", {
-            type: "error",
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.error("Committee Deleted Successfully");
         }
       } catch (error) {
-        toast("There was some error! Please Try again.", {
-          type: "error",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error("There was some error! Please Try again.");
       }
     }
   };
