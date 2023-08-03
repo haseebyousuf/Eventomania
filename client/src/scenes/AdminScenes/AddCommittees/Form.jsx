@@ -43,30 +43,10 @@ const Form = () => {
       const res = await addCommittee(values).unwrap();
       onSubmitProps.resetForm();
       if (res) {
-        toast("Committee Added!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          type: "success",
-          theme: "colored",
-        });
+        toast.success("Committee Added!");
       }
     } catch (error) {
-      toast("Error: Please Try again", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        type: "error",
-        theme: "colored",
-      });
+      toast.error("There is some error, Please Try again");
     }
   };
 
