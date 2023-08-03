@@ -72,30 +72,10 @@ const AddConvenor = () => {
       const res = await addConvenor(convenor).unwrap();
       onSubmitProps.resetForm();
       if (res) {
-        toast("Convenor Added Successfully", {
-          type: "success",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success("Convenor Added Successfully");
       }
     } catch (error) {
-      toast(error.data.error, {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(error.data.error || "Server Error");
     }
   };
 
