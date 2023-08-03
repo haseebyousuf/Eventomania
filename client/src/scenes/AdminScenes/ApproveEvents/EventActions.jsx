@@ -28,30 +28,10 @@ const EventActions = ({ params }) => {
       try {
         const res = await deleteEvent({ eventId: id }).unwrap();
         if (res) {
-          toast("Event Deleted Successfully", {
-            type: "error",
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.error("Event Deleted Successfully");
         }
       } catch (error) {
-        toast("There was an error deleting the event.", {
-          type: "error",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error("There was an error deleting the event.");
       }
     }
   };
