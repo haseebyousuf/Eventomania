@@ -20,30 +20,10 @@ const Actions = ({ params }) => {
         };
         const res = await deleteConvenor(values).unwrap();
         if (res) {
-          toast("Convenor Deleted Successfully.", {
-            type: "error",
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.error("Convenor Deleted Successfully.");
         }
       } catch (error) {
-        toast("There was an error deleting the Convenor", {
-          type: "error",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error("There was an error deleting the Convenor");
       }
     }
   };
