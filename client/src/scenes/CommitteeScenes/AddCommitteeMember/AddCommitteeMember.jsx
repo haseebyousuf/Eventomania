@@ -74,30 +74,10 @@ const AddCommitteeMember = () => {
       const res = await addMember(Member).unwrap();
       if (res) {
         onSubmitProps.resetForm();
-        toast("Member Added Successfully", {
-          type: "success",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success("Member Added Successfully");
       }
     } catch (error) {
-      toast(error.data.msg || "Server Error", {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(error?.data?.msg || "Server Error");
     }
   };
 
