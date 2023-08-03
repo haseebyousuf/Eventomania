@@ -41,7 +41,16 @@ function App() {
   const isConvenor = isAuth && user.role === "convenor";
   return (
     <div className='app'>
-      <ToastContainer />
+      <ToastContainer
+        position='top-right'
+        autoClose={1500}
+        hideProgressBar={false}
+        closeOnClick={true}
+        pauseOnHover={false}
+        draggable={true}
+        progress={undefined}
+        theme='colored'
+      />
 
       <BrowserRouter>
         <ThemeProvider theme={theme}>
