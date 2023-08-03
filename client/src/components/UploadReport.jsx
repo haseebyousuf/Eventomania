@@ -31,30 +31,10 @@ const UploadReport = ({ id }) => {
       const res = await uploadReport(formData).unwrap();
       if (res) {
         onSubmitProps.resetForm();
-        toast("Report Uploaded!.", {
-          type: "success",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success("Report Uploaded!.");
       }
     } catch (error) {
-      toast("There was some error! Please Try again.", {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("There was some error! Please Try again.");
     }
   };
   return (
