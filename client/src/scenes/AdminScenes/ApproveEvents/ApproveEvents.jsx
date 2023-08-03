@@ -23,30 +23,10 @@ const ApproveEvents = () => {
     try {
       const res = await approveEvent({ id }).unwrap();
       if (res) {
-        toast("Event Approved.", {
-          type: "success",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success("Event Approved.");
       }
     } catch (error) {
-      toast("There was some error! Please Try again.", {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("There was some error! Please Try again.");
     }
   };
   //sort function
