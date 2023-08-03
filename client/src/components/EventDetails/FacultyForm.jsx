@@ -52,30 +52,10 @@ const FacultyForm = ({ eventDetails }) => {
       const res = await registerFaculty(faculty).unwrap();
       if (res) {
         onSubmitProps.resetForm();
-        toast("Registered Successfully!", {
-          type: "success",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success("Registered Successfully!");
       }
     } catch (error) {
-      toast(error?.data?.msg || "Server Error", {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(error?.data?.msg || "Server Error");
     }
   };
   const inputs = [
