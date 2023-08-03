@@ -17,30 +17,10 @@ const Actions = ({ params, getMembers }) => {
         const res = await deleteMember({ memberId: id }).unwrap();
         if (res) {
           getMembers();
-          toast("Member Deleted Successfully.", {
-            type: "error",
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.error("Member Deleted Successfully.");
         }
       } catch (error) {
-        toast("There was an error deleting the Member.", {
-          type: "error",
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error("There was an error deleting the Member.");
       }
     }
   };
