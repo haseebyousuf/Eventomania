@@ -39,29 +39,9 @@ const LoginForm = () => {
     try {
       const res = await login(values).unwrap();
       dispatch(setLogin({ ...res }));
-      toast("Welcome to Dashboard", {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        type: "success",
-        theme: "colored",
-      });
+      toast.success("Welcome to Dashboard");
     } catch (error) {
-      toast(error.data.msg, {
-        type: "error",
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(error?.data?.msg || "Server Error");
     }
   };
 
