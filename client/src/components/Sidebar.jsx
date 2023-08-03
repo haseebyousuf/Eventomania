@@ -56,17 +56,7 @@ const Sidebar = ({
   //handlers
   const handleLogout = () => {
     dispatch(setLogout());
-    toast("You have been logged out!", {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      type: "error",
-      theme: "colored",
-    });
+    toast.error("You have been logged out!");
     navigate("/Login");
   };
 
