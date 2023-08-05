@@ -8,6 +8,7 @@ import morgan from "morgan";
 import multer from "multer";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
+import cookieParser from "cookie-parser";
 
 import path from "path";
 import fs from "fs";
@@ -29,12 +30,21 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
+app.use(cookieParser());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+
 //set directory of where we store files
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
