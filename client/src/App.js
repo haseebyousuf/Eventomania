@@ -34,7 +34,7 @@ import { ToastContainer } from "react-toastify";
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const isAuth = Boolean(useSelector((state) => state.global.token));
+  const isAuth = Boolean(useSelector((state) => state.global.user));
   const user = useSelector((state) => state.global.user);
   const isAdmin = isAuth && user.role === "admin";
   const isMember = isAuth && user.role === "member";
