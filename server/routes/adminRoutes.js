@@ -1,5 +1,4 @@
 import express from "express";
-import { verifyToken } from "../middleware/auth.js";
 import {
   createAdmin,
   getConvenors,
@@ -12,18 +11,27 @@ import {
   deleteMember,
   changePassword,
 } from "../controllers/adminController.js";
+import { checkRole } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.post("/verify", verifyAdmin);
 router.post("/createAdmin", createAdmin);
-router.get("/convenors", getConvenors);
-router.post("/addConvenor", addConvenor);
-router.post("/deleteConvenor", deleteConvenor);
-router.get("/members", getMembers);
-router.post("/committeeMembers", getCommitteeMembers);
-router.post("/addMember", addMember);
-router.post("/deleteMember", deleteMember);
-router.post("/changePassword", changePassword);
+router.get("/convenors", checkRole(["admin"]), getConvenors);
+router.post("/addConvenor", checkRole(["admin"]), addConvenor);
+router.post("/deleteConvenor", checkRole(["admin"]), deleteConvenor);
+router.get("/members", checkRole(["admin"]), getMembers);
+router.post("/addMember", checkRole(["admin", "convenor"]), addMember);
+router.post("/deleteMember", checkRole(["admin", "convenor"]), deleteMember);
+router.post(
+  "/changePassword",
+  checkRole(["admin", "convenor", "member"]),
+  changePassword
+);
+router.post(
+  "/committeeMembers",
+  checkRole(["member", "convenor"]),
+  getCommitteeMembers
+);
 
 export default router;
