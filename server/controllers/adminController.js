@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Admin from "../models/Admin.js";
 import Committee from "../models/Committee.js";
+import generateToken from "../utils/generateToken.js";
 
 export const createAdmin = async (req, res) => {
   try {
@@ -31,10 +32,9 @@ export const verifyAdmin = async (req, res) => {
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid Credentials. " });
     const user = await Admin.findOne({ email: email }).select("-password");
-    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1hr",
-    });
-    res.status(200).json({ token, user });
+    console.log(user._id);
+    generateToken(res, user._id);
+    res.status(201).json({ user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
