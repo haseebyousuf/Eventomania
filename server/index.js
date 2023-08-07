@@ -14,6 +14,8 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 
+import credentials from "./middleware/credentials.js";
+
 import committeeRoutes from "./routes/committeeRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
@@ -22,25 +24,22 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 import { createEvent, uploadPhotos } from "./controllers/eventController.js";
 import { uploadReport } from "./controllers/eventController.js";
+import corsOptions from "./config/corsOptions.js";
 
 // CONFIGURATION
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+//middleware
 dotenv.config();
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(helmet());
 app.use(cookieParser());
+app.use(credentials);
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+app.use(cors(corsOptions));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(helmet());
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
