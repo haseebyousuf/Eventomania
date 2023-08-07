@@ -1,16 +1,16 @@
 import Admin from "../models/Admin.js";
-import Committee from "../models/Committee.js"
+import Committee from "../models/Committee.js";
 
-export const addCommittee = async(req,res) => {
+export const addCommittee = async (req, res) => {
   try {
-    const{ name, description} = req.body;
-    const newCommittee = new Committee({name,description});
+    const { name, description } = req.body;
+    const newCommittee = new Committee({ name, description });
     const savedCommittee = await newCommittee.save();
     res.status(201).json(savedCommittee);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 export const getCommittees = async (req, res) => {
   try {
