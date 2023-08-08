@@ -16,15 +16,9 @@ import Header from "components/Header";
 import UploadPhotos from "components/UploadPhotos";
 import { useGetUsersQuery } from "state/userApiSlice";
 import {
-  useApprovedEventsQuery,
+  useCommitteeApprovedEventsMutation,
   useSendCertificatesMutation,
 } from "state/eventApiSlice";
-
-const filterAndSortData = (data, user) => {
-  return data
-    .filter((event) => event.committee[0].id === user.committeeId)
-    .sort((a, b) => moment(b.startDate) - moment(a.startDate));
-};
 
 const ConvenorPastEvents = () => {
   const theme = useTheme();
@@ -35,16 +29,20 @@ const ConvenorPastEvents = () => {
   const [buttonDisabled, setButtonDisabled] = useState({});
 
   //rtk query
-  const { data, isLoading } = useApprovedEventsQuery();
+  const [getApprovedEvents, { isLoading }] =
+    useCommitteeApprovedEventsMutation();
   const { data: users } = useGetUsersQuery();
   const [sendCertificates] = useSendCertificatesMutation();
 
   useEffect(() => {
-    if (data) {
-      const filteredData = filterAndSortData(data, user);
-      setEvents(filteredData);
-    }
-  }, [data, user]);
+    const getEvents = async () => {
+      const res = await getApprovedEvents({
+        committeeId: user.committeeId,
+      }).unwrap();
+      setEvents(res);
+    };
+    getEvents();
+  }, [getApprovedEvents, user.committeeId]);
 
   //handlers
   const handleCertificateSend = async (id) => {
@@ -82,9 +80,10 @@ const ConvenorPastEvents = () => {
       minWidth: 120,
       type: "date",
       flex: 0.5,
-      valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) =>
+        moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
-        return moment(params.row.startDate).format("MMMM Do YYYY");
+        return moment(new Date(params.row.startDate)).format("MMMM Do YYYY");
       },
     },
     {
@@ -129,7 +128,7 @@ const ConvenorPastEvents = () => {
               >
                 GENERATED
               </Button>
-            ) : moment(params.row.startDate).isAfter(moment()) ? (
+            ) : moment(new Date(params.row.startDate)).isAfter(moment()) ? (
               <Button
                 disabled
                 variant='contained'
@@ -185,7 +184,7 @@ const ConvenorPastEvents = () => {
               >
                 Generated
               </Button>
-            ) : moment(params.row.startDate).isAfter(moment()) ? (
+            ) : moment(new Date(params.row.startDate)).isAfter(moment()) ? (
               <Button
                 disabled
                 variant='contained'
@@ -248,7 +247,7 @@ const ConvenorPastEvents = () => {
               >
                 UPLOADED
               </Button>
-            ) : moment(params.row.startDate).isAfter(moment()) ? (
+            ) : moment(new Date(params.row.startDate)).isAfter(moment()) ? (
               <Button
                 disabled
                 variant='contained'
@@ -286,7 +285,7 @@ const ConvenorPastEvents = () => {
       renderCell: (params) => (
         <EventActions
           //  setData={setData}
-          data={data}
+          data={events}
           {...{ params }}
         />
       ),
@@ -333,7 +332,7 @@ const ConvenorPastEvents = () => {
         }}
       >
         <DataGrid
-          loading={isLoading || !data}
+          loading={isLoading || !events}
           getRowId={(row) => row._id}
           rows={events || []}
           columns={columns}
