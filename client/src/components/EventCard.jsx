@@ -44,6 +44,7 @@ const EventCard = ({ event, isPast }) => {
         <CardMedia
           image={`${process.env.REACT_APP_BASE_URL}/assets/${event.bannerName}`}
           title='Event Banner'
+          crossOrigin='anonymous'
           sx={{
             height: 150,
             padding: "1em 1em 0 1em",
