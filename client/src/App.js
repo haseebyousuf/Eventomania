@@ -83,7 +83,7 @@ function App() {
                 />
               </Route>
             )}
-            {isConvenor && (
+            {(isConvenor || isMember) && (
               <Route element={<Layout />}>
                 <Route path='/Dashboard' element={<CommitteeDashboard />} />
                 <Route path='/CreateEvent' element={<CreateEvent />} />
@@ -96,21 +96,9 @@ function App() {
                   path='/Registrations/:eventId'
                   element={<AudienceDetails />}
                 />
-              </Route>
-            )}
-            {isMember && (
-              <Route element={<Layout />}>
-                <Route path='/Dashboard' element={<CommitteeDashboard />} />
-                <Route path='/CreateEvent' element={<CreateEvent />} />
-                <Route path='/Unapproved' element={<UnapprovedEvents />} />
-                <Route path='/PastEvents' element={<ConvenorPastEvents />} />
-                <Route path='/EventLog' element={<ConvenorEventLog />} />
-                <Route path='/Members' element={<CommitteeMembers />} />
-                <Route path='/ChangePassword' element={<ChangePassword />} />
-                <Route
-                  path='/Registrations/:eventId'
-                  element={<AudienceDetails />}
-                />
+                {isConvenor && (
+                  <Route path='/AddMember' element={<AddCommitteeMember />} />
+                )}
               </Route>
             )}
           </Routes>
