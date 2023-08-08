@@ -1,5 +1,7 @@
 import fs from "fs";
+import moment from "moment";
 import nodemailer from "nodemailer";
+
 import Event from "../models/Event.js";
 import User from "../models/User.js";
 import { generateCertificate } from "../utils/generateCertificate.js";
@@ -111,6 +113,23 @@ export const getUnApprovedEvents = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+export const getCommitteeUnApprovedEvents = async (req, res) => {
+  try {
+    const { committeeId } = req.body;
+    const events = await Event.find({
+      isApproved: false,
+      "committee.id": committeeId,
+    });
+    const sortedEvents = events.sort(
+      (a, b) => moment(b.startDate) - moment(a.startDate)
+    );
+    if (!events) res.status(401).json({ error: "No Events found" });
+    res.status(200).json(sortedEvents);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const getPublishedEvents = async (req, res) => {
   try {
     const events = await Event.find({ isPublished: "true" });
@@ -123,6 +142,22 @@ export const getApprovedEvents = async (req, res) => {
   try {
     const events = await Event.find({ isApproved: "true" });
     res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+export const getCommitteeApprovedEvents = async (req, res) => {
+  try {
+    const { committeeId } = req.body;
+    const events = await Event.find({
+      isApproved: true,
+      "committee.id": committeeId,
+    });
+    const sortedEvents = events.sort(
+      (a, b) => moment(b.startDate) - moment(a.startDate)
+    );
+    if (!events) res.status(401).json({ error: "No Events found" });
+    res.status(200).json(sortedEvents);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -140,6 +175,7 @@ export const approveEvent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 export const togglePublish = async (req, res) => {
   try {
     const { id, isPublished } = req.body;
