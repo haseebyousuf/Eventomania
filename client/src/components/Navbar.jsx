@@ -23,17 +23,24 @@ import FlexBetween from "components/FlexBetween";
 import { setMode } from "state";
 import { setLogout } from "state";
 import Profile from "assets/profile.png";
+import { useLogoutMutation } from "state/adminApiSlice";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
   const user = useSelector((state) => state.global.user);
 
-  const handleLogout = () => {
-    dispatch(setLogout());
-    toast.error("You have been logged out!");
-    navigate("/Login");
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(setLogout());
+      toast.error("You have been logged out!");
+      navigate("/Login");
+    } catch (err) {
+      toast.error(err?.data?.message || err?.error || "Server Error");
+    }
   };
 
   return (

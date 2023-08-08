@@ -31,6 +31,7 @@ import {
   memberNavItems,
   convenorNavItems,
 } from "utils/constants";
+import { useLogoutMutation } from "state/adminApiSlice";
 
 const Sidebar = ({
   drawerWidth,
@@ -47,17 +48,22 @@ const Sidebar = ({
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch();
-
+  const [logout] = useLogoutMutation();
   //effects
   useEffect(() => {
     setActive(pathname.substring(1));
   }, [pathname]);
 
   //handlers
-  const handleLogout = () => {
-    dispatch(setLogout());
-    toast.error("You have been logged out!");
-    navigate("/Login");
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      dispatch(setLogout());
+      toast.error("You have been logged out!");
+      navigate("/Login");
+    } catch (err) {
+      toast.error(err?.data?.message || err?.error || "Server Error");
+    }
   };
 
   return (
