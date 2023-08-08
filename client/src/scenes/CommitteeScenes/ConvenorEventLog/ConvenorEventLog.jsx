@@ -5,19 +5,14 @@ import moment from "moment";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 
-import { useApprovedEventsQuery } from "state/eventApiSlice";
+import { useCommitteeApprovedEventsMutation } from "state/eventApiSlice";
 import { useGetUsersQuery } from "state/userApiSlice";
 import Header from "components/Header";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import EventActions from "./EventActions";
 
-const filterAndSortData = (data, user) => {
-  return data
-    .filter(
-      (event) =>
-        event.status === true && event.committee[0].id === user.committeeId
-    )
-    .sort((a, b) => moment(b.startDate) - moment(a.startDate));
+const filterEvents = (data) => {
+  return data.filter((event) => event.status === true);
 };
 
 const ConvenorEventLog = () => {
@@ -27,15 +22,21 @@ const ConvenorEventLog = () => {
   const [events, setEvents] = useState(null);
 
   //rtk query
-  const { data, isLoading } = useApprovedEventsQuery();
   const { data: users } = useGetUsersQuery();
+  const [getApprovedEvents, { isLoading }] =
+    useCommitteeApprovedEventsMutation();
 
   useEffect(() => {
-    if (data) {
-      const filteredData = filterAndSortData(data, user);
-      setEvents(filteredData);
-    }
-  }, [data, user]);
+    const getEvents = async () => {
+      const res = await getApprovedEvents({
+        committeeId: user.committeeId,
+      }).unwrap();
+      const filteredEvents = filterEvents(res);
+      setEvents(filteredEvents);
+    };
+
+    getEvents();
+  }, [getApprovedEvents, user.committeeId]);
 
   //sort function
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
@@ -64,9 +65,10 @@ const ConvenorEventLog = () => {
       minWidth: 150,
       flex: 0.3,
       valueGetter: (params) => params.row.startDate,
-      valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) =>
+        moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
-        return moment(params.row.startDate).format("MMMM Do YYYY");
+        return moment(new Date(params.row.startDate)).format("MMMM Do YYYY");
       },
       sortComparator: dayInMonthComparator,
     },
@@ -92,7 +94,7 @@ const ConvenorEventLog = () => {
       type: "actions",
       minWidth: 250,
       renderCell: (params) => (
-        <EventActions data={data} users={users} {...{ params }} />
+        <EventActions data={events} users={users} {...{ params }} />
       ),
     },
   ];
@@ -138,7 +140,7 @@ const ConvenorEventLog = () => {
         }}
       >
         <DataGrid
-          loading={isLoading || !data}
+          loading={isLoading || !events}
           getRowId={(row) => row._id}
           rows={events || []}
           columns={columns}
