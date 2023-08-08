@@ -20,9 +20,29 @@ export const eventApiSlice = api.injectEndpoints({
       query: () => `events/unapprovedEvents`,
       providesTags: ["Events"],
     }),
+    committeeUnapprovedEvents: build.mutation({
+      query: (data) => ({
+        url: `events/committeeUnapprovedEvents`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["Events"],
+      invalidatesTags: ["Events"],
+    }),
     approvedEvents: build.query({
       query: () => `events/approvedEvents`,
       providesTags: ["Events"],
+    }),
+    committeeApprovedEvents: build.mutation({
+      query: (data) => ({
+        url: `events/committeeApprovedEvents`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["Events"],
+      invalidatesTags: ["Events"],
     }),
     approveEvent: build.mutation({
       query: (data) => ({
@@ -91,7 +111,9 @@ export const {
   useCreateEventMutation,
   usePublishedEventsQuery,
   useUnapprovedEventsQuery,
+  useCommitteeUnapprovedEventsMutation,
   useApprovedEventsQuery,
+  useCommitteeApprovedEventsMutation,
   useApproveEventMutation,
   useDeleteEventMutation,
   useTogglePublishMutation,
