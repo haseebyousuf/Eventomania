@@ -30,6 +30,7 @@ import {
   ChangePassword,
 } from "./scenes";
 import { ToastContainer } from "react-toastify";
+import UnapprovedEvents from "scenes/CommitteeScenes/UnapprovedEvents/UnapprovedEvents";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -86,10 +87,10 @@ function App() {
               <Route element={<Layout />}>
                 <Route path='/Dashboard' element={<CommitteeDashboard />} />
                 <Route path='/CreateEvent' element={<CreateEvent />} />
+                <Route path='/Unapproved' element={<UnapprovedEvents />} />
                 <Route path='/PastEvents' element={<ConvenorPastEvents />} />
                 <Route path='/EventLog' element={<ConvenorEventLog />} />
                 <Route path='/Members' element={<CommitteeMembers />} />
-                <Route path='/AddMember' element={<AddCommitteeMember />} />
                 <Route path='/ChangePassword' element={<ChangePassword />} />
                 <Route
                   path='/Registrations/:eventId'
@@ -101,6 +102,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path='/Dashboard' element={<CommitteeDashboard />} />
                 <Route path='/CreateEvent' element={<CreateEvent />} />
+                <Route path='/Unapproved' element={<UnapprovedEvents />} />
                 <Route path='/PastEvents' element={<ConvenorPastEvents />} />
                 <Route path='/EventLog' element={<ConvenorEventLog />} />
                 <Route path='/Members' element={<CommitteeMembers />} />
