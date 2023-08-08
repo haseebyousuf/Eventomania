@@ -2,23 +2,37 @@ import express from "express";
 import {
   getUnApprovedEvents,
   deleteEvent,
-  getEvents,
   togglePublish,
   approveEvent,
   getPublishedEvents,
   getApprovedEvents,
   sendCertificate,
+  getCommitteeUnApprovedEvents,
+  getCommitteeApprovedEvents,
 } from "../controllers/eventController.js";
+import { checkRole } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
-router.get("/unapprovedEvents", getUnApprovedEvents);
-router.get("/approvedEvents", getApprovedEvents);
-router.post("/approveEvent", approveEvent);
+router.get("/unapprovedEvents", checkRole(["admin"]), getUnApprovedEvents);
+router.post(
+  "/committeeUnapprovedEvents",
+  checkRole(["convenor", "member"]),
+  getCommitteeUnApprovedEvents
+);
+router.get("/approvedEvents", checkRole(["admin"]), getApprovedEvents);
+router.post(
+  "/committeeApprovedEvents",
+  checkRole(["convenor", "member"]),
+  getCommitteeApprovedEvents
+);
+router.post("/approveEvent", checkRole(["admin"]), approveEvent);
 router.get("/publishedEvents", getPublishedEvents);
-router.get("/getEvents", getEvents);
-router.post("/togglePublish", togglePublish);
-router.post("/deleteEvent", deleteEvent);
-router.post("/sendCertificate", sendCertificate);
-// router.get("/eventsPerMonth", eventsPerMonth)
+router.post("/togglePublish", checkRole(["admin"]), togglePublish);
+router.post("/deleteEvent", checkRole(["admin"]), deleteEvent);
+router.post(
+  "/sendCertificate",
+  checkRole(["admin", "member", "convenor"]),
+  sendCertificate
+);
 
 export default router;
