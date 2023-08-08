@@ -15,6 +15,7 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 
 import credentials from "./middleware/credentials.js";
+import corsOptions from "./config/corsOptions.js";
 
 import committeeRoutes from "./routes/committeeRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
@@ -24,7 +25,6 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 import { createEvent, uploadPhotos } from "./controllers/eventController.js";
 import { uploadReport } from "./controllers/eventController.js";
-import corsOptions from "./config/corsOptions.js";
 
 // CONFIGURATION
 const __filename = fileURLToPath(import.meta.url);
@@ -35,11 +35,11 @@ dotenv.config();
 const app = express();
 app.use(cookieParser());
 app.use(credentials);
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(cors(corsOptions));
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(helmet());
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
