@@ -10,12 +10,14 @@ import {
   deleteConvenor,
   deleteMember,
   changePassword,
+  logout,
 } from "../controllers/adminController.js";
 import { checkRole } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.post("/verify", verifyAdmin);
+router.post("/logout", logout);
 router.post("/createAdmin", createAdmin);
 router.get("/convenors", checkRole(["admin"]), getConvenors);
 router.post("/addConvenor", checkRole(["admin"]), addConvenor);
