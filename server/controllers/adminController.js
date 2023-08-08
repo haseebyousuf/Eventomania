@@ -23,6 +23,9 @@ export const createAdmin = async (req, res) => {
   }
 };
 
+//@desc     login user
+//@route    POST /admin/login
+//@access   Public
 export const verifyAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -35,6 +38,21 @@ export const verifyAdmin = async (req, res) => {
     console.log(user._id);
     generateToken(res, user._id);
     res.status(201).json({ user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+//@desc     logout user
+//@route    POST /admin/logout
+//@access   Public
+export const logout = async (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      expires: new Date(0),
+    });
+    res.status(200).json({ message: "User Logged Out" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
