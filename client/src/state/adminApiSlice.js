@@ -10,6 +10,13 @@ export const adminApiSlice = api.injectEndpoints({
       }),
       providesTags: ["Admins"],
     }),
+    logout: build.mutation({
+      query: (data) => ({
+        url: `admin/logout`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     convenors: build.query({
       query: () => `admin/convenors`,
       providesTags: ["Admins"],
@@ -76,6 +83,7 @@ export const adminApiSlice = api.injectEndpoints({
 
 export const {
   useLoginMutation,
+  useLogoutMutation,
   useConvenorsQuery,
   useAddConvenorMutation,
   useDeleteConvenorMutation,
