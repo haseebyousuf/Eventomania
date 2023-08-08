@@ -10,6 +10,7 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import PasswordIcon from "@mui/icons-material/Password";
+
 export const adminNavItems = [
   {
     text: "Dashboard",
@@ -72,6 +73,7 @@ export const adminNavItems = [
     icon: <PasswordIcon />,
   },
 ];
+
 export const convenorNavItems = [
   {
     text: "Dashboard",
@@ -83,6 +85,10 @@ export const convenorNavItems = [
   },
   {
     text: "Create Event",
+    icon: <EventOutlined />,
+  },
+  {
+    text: "Unapproved",
     icon: <EventOutlined />,
   },
   {
@@ -114,6 +120,7 @@ export const convenorNavItems = [
     icon: <PasswordIcon />,
   },
 ];
+
 export const memberNavItems = [
   {
     text: "Dashboard",
@@ -125,6 +132,10 @@ export const memberNavItems = [
   },
   {
     text: "Create Event",
+    icon: <EventOutlined />,
+  },
+  {
+    text: "Unapproved",
     icon: <EventOutlined />,
   },
   {
