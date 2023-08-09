@@ -28,7 +28,6 @@ export const eventApiSlice = api.injectEndpoints({
         formData: true,
       }),
       providesTags: ["Events"],
-      invalidatesTags: ["Events"],
     }),
     approvedEvents: build.query({
       query: () => `events/approvedEvents`,
@@ -42,7 +41,6 @@ export const eventApiSlice = api.injectEndpoints({
         formData: true,
       }),
       providesTags: ["Events"],
-      invalidatesTags: ["Events"],
     }),
     approveEvent: build.mutation({
       query: (data) => ({
