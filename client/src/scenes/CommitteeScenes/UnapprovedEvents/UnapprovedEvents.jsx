@@ -40,17 +40,6 @@ const UnapprovedEvents = () => {
       flex: 1,
     },
     {
-      field: "committee",
-      headerName: "Organized By",
-      minWidth: 150,
-      flex: 1,
-      valueGetter: (params) => params.value[0].name,
-      valueFormatter: ({ value }) => value[0].name,
-      renderCell: (params) => {
-        return params.row.committee[0].name;
-      },
-    },
-    {
       field: "createdBy",
       headerName: "Created By",
       minWidth: 150,
