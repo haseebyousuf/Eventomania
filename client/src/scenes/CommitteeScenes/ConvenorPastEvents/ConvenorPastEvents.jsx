@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import SendIcon from "@mui/icons-material/Send";
-import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -19,6 +18,10 @@ import {
   useCommitteeApprovedEventsMutation,
   useSendCertificatesMutation,
 } from "state/eventApiSlice";
+
+const filterData = (data) => {
+  return data.filter((event) => moment(event.startDate).isBefore(moment()));
+};
 
 const ConvenorPastEvents = () => {
   const theme = useTheme();
@@ -39,7 +42,8 @@ const ConvenorPastEvents = () => {
       const res = await getApprovedEvents({
         committeeId: user.committeeId,
       }).unwrap();
-      setEvents(res);
+      const filteredData = filterData(res);
+      setEvents(filteredData);
     };
     getEvents();
   }, [getApprovedEvents, user.committeeId]);
@@ -128,30 +132,9 @@ const ConvenorPastEvents = () => {
               >
                 GENERATED
               </Button>
-            ) : moment(new Date(params.row.startDate)).isAfter(moment()) ? (
-              <Button
-                disabled
-                variant='contained'
-                color='warning'
-                endIcon={<HourglassBottomIcon />}
-                sx={{
-                  minWidth: "9rem",
-                  color: "#fff",
-                  "&.Mui-disabled": {
-                    opacity: 0.9,
-                    backgroundColor: "#ffa726",
-                    color: "#fff",
-                  },
-                }}
-              >
-                Pending
-              </Button>
             ) : (
               <Box>
-                <UploadReport
-                  //  getEvents={getEvents}
-                  id={params.row._id}
-                />
+                <UploadReport id={params.row._id} />
               </Box>
             )}
           </Box>
@@ -183,24 +166,6 @@ const ConvenorPastEvents = () => {
                 }}
               >
                 Generated
-              </Button>
-            ) : moment(new Date(params.row.startDate)).isAfter(moment()) ? (
-              <Button
-                disabled
-                variant='contained'
-                color='warning'
-                endIcon={<HourglassBottomIcon />}
-                sx={{
-                  minWidth: "9rem",
-                  color: "#fff",
-                  "&.Mui-disabled": {
-                    opacity: 0.9,
-                    backgroundColor: "#ffa726",
-                    color: "#fff",
-                  },
-                }}
-              >
-                PENDING
               </Button>
             ) : (
               <Button
@@ -247,24 +212,6 @@ const ConvenorPastEvents = () => {
               >
                 UPLOADED
               </Button>
-            ) : moment(new Date(params.row.startDate)).isAfter(moment()) ? (
-              <Button
-                disabled
-                variant='contained'
-                color='warning'
-                endIcon={<HourglassBottomIcon />}
-                sx={{
-                  minWidth: "9rem",
-                  color: "#fff",
-                  "&.Mui-disabled": {
-                    opacity: 0.9,
-                    backgroundColor: "#ffa726",
-                    color: "#fff",
-                  },
-                }}
-              >
-                Pending
-              </Button>
             ) : (
               <Box>
                 <UploadPhotos
@@ -282,13 +229,7 @@ const ConvenorPastEvents = () => {
       headerName: "Actions",
       type: "actions",
       width: 100,
-      renderCell: (params) => (
-        <EventActions
-          //  setData={setData}
-          data={events}
-          {...{ params }}
-        />
-      ),
+      renderCell: (params) => <EventActions users={users} {...{ params }} />,
     },
   ];
 
