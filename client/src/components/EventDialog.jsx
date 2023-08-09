@@ -68,10 +68,11 @@ const EventDialog = ({
         <Box
           padding='1rem'
           width='100%'
-          height='100vh'
           sx={{
             backgroundColor: theme.palette.background.default,
             margin: "auto",
+            display: "block",
+            overflow: "auto",
           }}
         >
           {params && (
