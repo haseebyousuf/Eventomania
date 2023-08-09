@@ -49,14 +49,13 @@ const ConvenorEventLog = () => {
       flex: 1,
     },
     {
-      field: "committee",
-      headerName: "Organized By",
-      minWidth: 250,
-      type: "string",
-      flex: 0.6,
+      field: "createdBy",
+      headerName: "Created By",
+      minWidth: 120,
+      flex: 1,
       valueFormatter: ({ value }) => value[0].name,
       renderCell: (params) => {
-        return params.row.committee[0].name;
+        return params.row.createdBy[0].name;
       },
     },
     {
