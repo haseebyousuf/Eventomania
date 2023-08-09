@@ -28,9 +28,11 @@ import {
   Members,
   CommitteeMembers,
   ChangePassword,
+  UpcomingEvents,
+  UpcomingCommitteeEvents,
+  UnapprovedEvents,
 } from "./scenes";
 import { ToastContainer } from "react-toastify";
-import UnapprovedEvents from "scenes/CommitteeScenes/UnapprovedEvents/UnapprovedEvents";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -68,6 +70,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path='/Dashboard' element={<Dashboard />} />
                 <Route path='/ApproveEvents' element={<ApproveEvents />} />
+                <Route path='/UpcomingEvents' element={<UpcomingEvents />} />
                 <Route path='/PastEvents' element={<PastEvents />} />
                 <Route path='/EventLog' element={<AdminEventLog />} />
                 <Route path='/ViewCommittees' element={<AllCommittees />} />
@@ -88,6 +91,10 @@ function App() {
                 <Route path='/Dashboard' element={<CommitteeDashboard />} />
                 <Route path='/CreateEvent' element={<CreateEvent />} />
                 <Route path='/Unapproved' element={<UnapprovedEvents />} />
+                <Route
+                  path='/UpcomingEvents'
+                  element={<UpcomingCommitteeEvents />}
+                />
                 <Route path='/PastEvents' element={<ConvenorPastEvents />} />
                 <Route path='/EventLog' element={<ConvenorEventLog />} />
                 <Route path='/Members' element={<CommitteeMembers />} />
