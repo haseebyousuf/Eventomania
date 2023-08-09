@@ -10,6 +10,8 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import Diversity2Icon from "@mui/icons-material/Diversity2";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import PasswordIcon from "@mui/icons-material/Password";
+import EventBusyIcon from "@mui/icons-material/EventBusy";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 
 export const adminNavItems = [
   {
@@ -23,6 +25,10 @@ export const adminNavItems = [
   {
     text: "Approve Events",
     icon: <EventOutlined />,
+  },
+  {
+    text: "Upcoming Events",
+    icon: <EventAvailableIcon />,
   },
   {
     text: "Past Events",
@@ -89,7 +95,11 @@ export const convenorNavItems = [
   },
   {
     text: "Unapproved",
-    icon: <EventOutlined />,
+    icon: <EventBusyIcon />,
+  },
+  {
+    text: "Upcoming Events",
+    icon: <EventAvailableIcon />,
   },
   {
     text: "Past Events",
@@ -136,7 +146,11 @@ export const memberNavItems = [
   },
   {
     text: "Unapproved",
-    icon: <EventOutlined />,
+    icon: <EventBusyIcon />,
+  },
+  {
+    text: "Upcoming Events",
+    icon: <EventAvailableIcon />,
   },
   {
     text: "Past Events",
