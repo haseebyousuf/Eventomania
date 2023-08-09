@@ -1,27 +1,7 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import Admin from "../models/Admin.js";
 import Committee from "../models/Committee.js";
 import generateToken from "../utils/generateToken.js";
-
-export const createAdmin = async (req, res) => {
-  try {
-    const { email, password, name, role, committee } = req.body;
-    const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
-    const newAdmin = new Admin({
-      email,
-      password: passwordHash,
-      name,
-      role,
-      committee,
-    });
-    const savedAdmin = await newAdmin.save();
-    res.status(201).json(savedAdmin);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
 //@desc     login user
 //@route    POST /admin/login
@@ -58,6 +38,9 @@ export const logout = async (req, res) => {
   }
 };
 
+//@desc     add a new convenor
+//@route    POST /admin/addConvenor
+//@access   private {admin}
 export const addConvenor = async (req, res) => {
   try {
     const { name, email, password, committeeId, committeeName, role, mobile } =
@@ -127,6 +110,47 @@ export const addConvenor = async (req, res) => {
   }
 };
 
+//@desc     get list of convenors
+//@route    GET /admin/convenors
+//@access   private {admin}
+export const getConvenors = async (req, res) => {
+  try {
+    const convenors = await Admin.find({ role: "convenor" }).select(
+      "-password"
+    );
+    res.status(200).json(convenors);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//@desc     delete a  convenor
+//@route    POST /admin/deleteConvenor
+//@access   private {admin}
+export const deleteConvenor = async (req, res) => {
+  try {
+    const { convenorId, committeeId } = req.body;
+    const deletedConvenor = await Admin.deleteOne({ _id: convenorId });
+    if (deletedConvenor) {
+      const filter = { _id: committeeId };
+      const update = { convenorName: "-", convenorId: "-" };
+      const updatedCommittee = await Committee.findOneAndUpdate(
+        filter,
+        update,
+        { new: true }
+      );
+      res.status(201).json({ msg: "Deleted Successfully" });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message, msg: error.message });
+  }
+};
+
+//@desc     add a new member
+//@route    POST /admin/addMember
+//@access   private {admin,convenor}
 export const addMember = async (req, res) => {
   try {
     const {
@@ -161,17 +185,9 @@ export const addMember = async (req, res) => {
   }
 };
 
-export const getConvenors = async (req, res) => {
-  try {
-    const convenors = await Admin.find({ role: "convenor" }).select(
-      "-password"
-    );
-    res.status(200).json(convenors);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
+//@desc     get list of members
+//@route    GET /admin/members
+//@access   private {admin}
 export const getMembers = async (req, res) => {
   try {
     const members = await Admin.find({ role: "member" }).select("-password");
@@ -181,27 +197,9 @@ export const getMembers = async (req, res) => {
   }
 };
 
-export const deleteConvenor = async (req, res) => {
-  try {
-    const { convenorId, committeeId } = req.body;
-    const deletedConvenor = await Admin.deleteOne({ _id: convenorId });
-    if (deletedConvenor) {
-      const filter = { _id: committeeId };
-      const update = { convenorName: "-", convenorId: "-" };
-      const updatedCommittee = await Committee.findOneAndUpdate(
-        filter,
-        update,
-        { new: true }
-      );
-      res.status(201).json({ msg: "Deleted Successfully" });
-    } else {
-      res.status(500).json({ error: error.message });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message, msg: error.message });
-  }
-};
-
+//@desc     delete a  member
+//@route    POST /admin/deleteMember
+//@access   private {admin,convenor}
 export const deleteMember = async (req, res) => {
   try {
     const { memberId } = req.body;
@@ -216,6 +214,9 @@ export const deleteMember = async (req, res) => {
   }
 };
 
+//@desc     get list of members of a particular committee
+//@route    POST /admin/committeeMembers
+//@access   private {convenor, member}
 export const getCommitteeMembers = async (req, res) => {
   try {
     const { committeeId } = req.body;
@@ -234,6 +235,9 @@ export const getCommitteeMembers = async (req, res) => {
   }
 };
 
+//@desc     changed password
+//@route    POST /admin/changePassword
+//@access   private {admin, convenor, member}
 export const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword, cNewPassword, userId } = req.body;
