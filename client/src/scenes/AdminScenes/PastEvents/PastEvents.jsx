@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Switch, Typography, useTheme } from "@mui/material";
+import { Box, Button, Switch, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { motion } from "framer-motion";
@@ -16,7 +16,10 @@ import { useGetUsersQuery } from "state/userApiSlice";
 
 const filterAndSortData = (data) => {
   return data
-    .filter((item) => item.isApproved === true)
+    .filter(
+      (event) =>
+        event.isApproved === true && moment(event.startDate).isBefore(moment())
+    )
     .sort((a, b) => moment(b.startDate) - moment(a.startDate));
 };
 
@@ -123,32 +126,42 @@ const PastEvents = () => {
     {
       field: "isPublished",
       headerName: "Status",
-      minWidth: 140,
+      minWidth: 160,
       flex: 0.3,
       valueGetter: (params) => params.row.status,
       renderCell: (params) => {
         return (
           <Box color='success'>
             {params.row.status ? (
-              <Typography
-                backgroundColor='#66bb6a'
-                variant='p'
-                color='#fff'
-                p={1}
-                borderRadius='5px'
+              <Button
+                disabled
+                variant='contained'
+                color='success'
+                sx={{
+                  width: "8.5rem",
+                  "&.Mui-disabled": {
+                    backgroundColor: "#388e3c",
+                    color: "#fff",
+                  },
+                }}
               >
-                Report Generated
-              </Typography>
+                COMPLETED
+              </Button>
             ) : (
-              <Typography
-                variant='p'
-                backgroundColor='#f44336'
-                color='#fff'
-                p={1}
-                borderRadius='5px'
+              <Button
+                disabled
+                variant='contained'
+                color='error'
+                sx={{
+                  width: "8.5rem",
+                  "&.Mui-disabled": {
+                    backgroundColor: "#f44336",
+                    color: "#fff",
+                  },
+                }}
               >
-                Report is Pending
-              </Typography>
+                REPORT PENDING
+              </Button>
             )}
           </Box>
         );
