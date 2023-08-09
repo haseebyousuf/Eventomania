@@ -1,13 +1,17 @@
+import moment from "moment";
 import Admin from "../models/Admin.js";
 import Committee from "../models/Committee.js";
 import Event from "../models/Event.js";
-import moment from "moment";
 
+//@desc     get admin dashboard stats
+//@route    GET /dashboard/adminDashboardStats
+//@access   private {admin}
 export const adminDashboardStats = async (req, res) => {
   try {
     const currentYear = moment().year(); // Get the current year
     const currentMonth = moment().month(); // Get the current month (0-11)
     const approvedEvents = await Event.find({ isApproved: true }).exec();
+
     //EVENTS PER COMMITTEE
     const eventData = {};
 
@@ -31,8 +35,7 @@ export const adminDashboardStats = async (req, res) => {
     const eventsPerCommittee = Object.values(eventData);
 
     //GET EVENTS PER MONTH
-    // Create an object to store the count of events per month
-    const eventsCountByMonth = {};
+    const eventsCountByMonth = {}; // Create an object to store the count of events per month
     for (const event of approvedEvents) {
       const startDate = moment(event.startDate);
       if (
@@ -59,14 +62,17 @@ export const adminDashboardStats = async (req, res) => {
 
     //END EVENTS PER MONTH
     const events = await Event.find().exec();
+
     const approvedEventsCount = events.filter(
       (event) =>
         event.isApproved && moment(event.startDate).year() === currentYear
     ).length;
+
     const unapprovedEventsCount = events.filter(
       (event) =>
         !event.isApproved && moment(event.startDate).year() === currentYear
     ).length;
+
     const upcomingEvents = events.filter(
       (event) =>
         (event.isApproved && moment(event.startDate).isAfter(moment())) ||
@@ -92,6 +98,9 @@ export const adminDashboardStats = async (req, res) => {
   }
 };
 
+//@desc     get committee dashboard stats
+//@route    POST /dashboard/committeeDashboardStats
+//@access   private {convenor,member}
 export const committeeDashboardStats = async (req, res) => {
   try {
     const currentYear = moment().year(); // Get the current year
@@ -114,6 +123,7 @@ export const committeeDashboardStats = async (req, res) => {
         moment(event.startDate).isAfter(moment()) ||
         moment(event.startDate).isSame(moment(), "day", "month", "year")
     );
+
     //EVENTS PER COMMITTEE
     const eventData = {};
 
@@ -135,10 +145,10 @@ export const committeeDashboardStats = async (req, res) => {
     });
 
     const eventsPerMember = Object.values(eventData);
-    //EVENTS PER MONTH OF COMMITTEE
 
-    // Create an object to store the count of events per month
-    const eventsCountByMonth = {};
+    //EVENTS PER MONTH OF COMMITTEE
+    const eventsCountByMonth = {}; //object to store count of events per month
+
     for (const event of approvedEvents) {
       const startDate = moment(event.startDate);
       if (
@@ -175,6 +185,7 @@ export const committeeDashboardStats = async (req, res) => {
       (event) =>
         !event.isApproved && moment(event.startDate).year() === currentYear
     ).length;
+
     const pendingReportCount = events.filter(
       (event) => event.isApproved && event.status === false
     ).length;
@@ -193,46 +204,9 @@ export const committeeDashboardStats = async (req, res) => {
       adminsCount,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error:
-          "An error occurred while fetching dashboard stats for the committee.",
-      });
-  }
-};
-
-export const eventsPerCommittee = async (req, res) => {
-  try {
-    const events = await Event.find({ isApproved: "true" }).exec();
-
-    const eventData = {};
-
-    events.forEach((event) => {
-      event.committee.forEach((committee) => {
-        const committeeId = committee.id;
-        const committeeName = committee.name;
-
-        if (!eventData[committeeId]) {
-          eventData[committeeId] = {
-            id: committeeId,
-            label: committeeName,
-            value: 0,
-          };
-        }
-
-        eventData[committeeId].value++;
-      });
+    res.status(500).json({
+      error:
+        "An error occurred while fetching dashboard stats for the committee.",
     });
-
-    const formattedData = Object.values(eventData);
-
-    res.status(200).json(formattedData);
-  } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "An error occurred while fetching events per committee.",
-      });
   }
 };
