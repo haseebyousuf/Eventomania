@@ -48,7 +48,7 @@ const EventActions = ({ params }) => {
       />
       <Tooltip title='View Event Details'>
         <IconButton onClick={handleOpenDialog}>
-          <RemoveRedEyeOutlinedIcon color='info' />
+          <RemoveRedEyeOutlinedIcon color='success' />
         </IconButton>
       </Tooltip>
       <Tooltip title='Delete This Event'>
