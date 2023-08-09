@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  createAdmin,
   getConvenors,
   verifyAdmin,
   addConvenor,
@@ -18,7 +17,6 @@ const router = express.Router();
 
 router.post("/verify", verifyAdmin);
 router.post("/logout", logout);
-router.post("/createAdmin", createAdmin);
 router.get("/convenors", checkRole(["admin"]), getConvenors);
 router.post("/addConvenor", checkRole(["admin"]), addConvenor);
 router.post("/deleteConvenor", checkRole(["admin"]), deleteConvenor);
