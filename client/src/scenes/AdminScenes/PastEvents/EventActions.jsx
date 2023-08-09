@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
+
 import { Delete } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,6 +16,7 @@ const EventActions = ({ users, params }) => {
   //RTK query
   const [deleteEvent] = useDeleteEventMutation();
   //hooks
+  const theme = useTheme();
   const navigate = useNavigate();
 
   //handlers
@@ -53,11 +55,14 @@ const EventActions = ({ users, params }) => {
       />
       <Tooltip title='View Event Details'>
         <IconButton onClick={handleOpenDialog}>
-          <VisibilityIcon color='info' />
+          <VisibilityIcon color='success' />
         </IconButton>
       </Tooltip>
       <Tooltip title='View Audience Details'>
         <IconButton
+          sx={{
+            color: theme.palette.secondary[300],
+          }}
           onClick={() => {
             navigate(`/Registrations/${params.row._id}`, {
               state: {
@@ -69,7 +74,7 @@ const EventActions = ({ users, params }) => {
             });
           }}
         >
-          <GroupsIcon color='success' />
+          <GroupsIcon />
         </IconButton>
       </Tooltip>
       <Tooltip title='Delete This Event'>
