@@ -1,6 +1,8 @@
-import Admin from "../models/Admin.js";
 import Committee from "../models/Committee.js";
 
+//@desc     create a new committee
+//@route    POST /committee/addCommittee
+//@access   private {admin}
 export const addCommittee = async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -12,6 +14,9 @@ export const addCommittee = async (req, res) => {
   }
 };
 
+//@desc     get list of committees
+//@route    GET /committee/getCommittees
+//@access   public
 export const getCommittees = async (req, res) => {
   try {
     const committees = await Committee.find();
@@ -21,6 +26,9 @@ export const getCommittees = async (req, res) => {
   }
 };
 
+//@desc     delete a committee
+//@route    POST /committee/deleteCommittee
+//@access   private {admin}
 export const deleteCommittee = async (req, res) => {
   try {
     const { committeeId } = req.body;
