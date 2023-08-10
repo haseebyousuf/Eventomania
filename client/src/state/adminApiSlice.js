@@ -16,6 +16,7 @@ export const adminApiSlice = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      providesTags: ["Admins"],
     }),
     convenors: build.query({
       query: () => `admin/convenors`,
