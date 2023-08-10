@@ -2,32 +2,20 @@ import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { useCommitteeUnapprovedEventsMutation } from "state/eventApiSlice";
+import { useCommitteeUnapprovedEventsQuery } from "state/eventApiSlice";
 import Header from "components/Header";
 import Actions from "./Actions";
 
 const UnapprovedEvents = () => {
   const theme = useTheme();
   const user = useSelector((state) => state.global.user);
-  //state
-  const [events, setEvents] = useState(null);
-  // rtk query
-  const [getUnApprovedEvents, { isLoading }] =
-    useCommitteeUnapprovedEventsMutation();
 
-  //useEffect
-  useEffect(() => {
-    const getEvents = async () => {
-      const res = await getUnApprovedEvents({
-        committeeId: user.committeeId,
-      }).unwrap();
-      setEvents(res);
-    };
-    getEvents();
-  }, [getUnApprovedEvents, user.committeeId]);
+  // rtk query
+  const { data: events, isLoading } = useCommitteeUnapprovedEventsQuery({
+    committeeId: user.committeeId,
+  });
 
   //sort function
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
@@ -50,7 +38,6 @@ const UnapprovedEvents = () => {
         return params.row.createdBy[0].name;
       },
     },
-
     {
       field: "venue",
       headerName: "Venue",
