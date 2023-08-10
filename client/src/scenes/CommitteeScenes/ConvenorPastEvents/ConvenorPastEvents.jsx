@@ -15,7 +15,7 @@ import Header from "components/Header";
 import UploadPhotos from "components/UploadPhotos";
 import { useGetUsersQuery } from "state/userApiSlice";
 import {
-  useCommitteeApprovedEventsMutation,
+  useCommitteeApprovedEventsQuery,
   useSendCertificatesMutation,
 } from "state/eventApiSlice";
 
@@ -32,21 +32,18 @@ const ConvenorPastEvents = () => {
   const [buttonDisabled, setButtonDisabled] = useState({});
 
   //rtk query
-  const [getApprovedEvents, { isLoading }] =
-    useCommitteeApprovedEventsMutation();
+  const { data, isLoading } = useCommitteeApprovedEventsQuery({
+    committeeId: user.committeeId,
+  });
   const { data: users } = useGetUsersQuery();
   const [sendCertificates] = useSendCertificatesMutation();
 
   useEffect(() => {
-    const getEvents = async () => {
-      const res = await getApprovedEvents({
-        committeeId: user.committeeId,
-      }).unwrap();
-      const filteredData = filterData(res);
+    if (!isLoading && data) {
+      const filteredData = filterData(data);
       setEvents(filteredData);
-    };
-    getEvents();
-  }, [getApprovedEvents, user.committeeId]);
+    }
+  }, [data, isLoading]);
 
   //handlers
   const handleCertificateSend = async (id) => {
