@@ -6,6 +6,9 @@ import Event from "../models/Event.js";
 import User from "../models/User.js";
 import { generateCertificate } from "../utils/generateCertificate.js";
 
+//@desc     create a new Event
+//@route    POST /event/createEvent
+//@access   private {convenor, member}
 export const createEvent = async (req, res) => {
   try {
     //get files from req.files
@@ -48,6 +51,10 @@ export const createEvent = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//@desc     upload report of an Event
+//@route    POST /event/uploadReport
+//@access   private {convenor, member}
 export const uploadReport = async (req, res) => {
   try {
     //get file from req.file
@@ -68,6 +75,10 @@ export const uploadReport = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//@desc     upload photos of an Event
+//@route    POST /event/uploadPhotos
+//@access   private {convenor, member}
 export const uploadPhotos = async (req, res) => {
   try {
     const uploadedPhotos = req.files;
@@ -97,14 +108,21 @@ export const uploadPhotos = async (req, res) => {
   }
 };
 
-export const getEvents = async (req, res) => {
-  try {
-    const events = await Event.find();
-    res.status(200).json(events);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+//@desc     upload photos of an Event
+//@route    POST /event/uploadPhotos
+//@access   private {convenor, member}
+// export const getEvents = async (req, res) => {
+//   try {
+//     const events = await Event.find();
+//     res.status(200).json(events);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
+//@desc     get a list of all unApproved events
+//@route    GET /events/unapprovedEvents
+//@access   private {admin}
 export const getUnApprovedEvents = async (req, res) => {
   try {
     const events = await Event.find({ isApproved: "false" });
@@ -113,6 +131,10 @@ export const getUnApprovedEvents = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//@desc     get a list of all unApproved events of a committee
+//@route    POST /events/committeeUnapprovedEvents
+//@access   private {convenor, member}
 export const getCommitteeUnApprovedEvents = async (req, res) => {
   try {
     const { committeeId } = req.body;
@@ -130,6 +152,9 @@ export const getCommitteeUnApprovedEvents = async (req, res) => {
   }
 };
 
+//@desc     get a list of all published events
+//@route    GET /events/publishedEvents
+//@access   public
 export const getPublishedEvents = async (req, res) => {
   try {
     const events = await Event.find({ isPublished: "true" });
@@ -138,6 +163,10 @@ export const getPublishedEvents = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//@desc     get a list of all approved events
+//@route    GET /events/approvedEvents
+//@access   private {admin}
 export const getApprovedEvents = async (req, res) => {
   try {
     const events = await Event.find({ isApproved: "true" });
@@ -146,6 +175,10 @@ export const getApprovedEvents = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//@desc     get a list of all approved events of a committee
+//@route    POST /events/committeeApprovedEvents
+//@access   private {convenor, member}
 export const getCommitteeApprovedEvents = async (req, res) => {
   try {
     const { committeeId } = req.body;
@@ -162,6 +195,10 @@ export const getCommitteeApprovedEvents = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//@desc     approve an event
+//@route    POST /events/approveEvent
+//@access   private {admin}
 export const approveEvent = async (req, res) => {
   try {
     const { id } = req.body;
@@ -176,6 +213,9 @@ export const approveEvent = async (req, res) => {
   }
 };
 
+//@desc     toggle whether an event should be published or not
+//@route    POST /events/togglePublish
+//@access   private {admin}
 export const togglePublish = async (req, res) => {
   try {
     const { id, isPublished } = req.body;
@@ -190,6 +230,9 @@ export const togglePublish = async (req, res) => {
   }
 };
 
+//@desc     delete an events
+//@route    POST /events/deleteEvent
+//@access   private {admin}
 export const deleteEvent = async (req, res) => {
   try {
     const { eventId } = req.body;
@@ -222,6 +265,9 @@ export const deleteEvent = async (req, res) => {
   }
 };
 
+//@desc     send certificates of an event
+//@route    POST /events/sendCertificate
+//@access   private {admin, convenor, member}
 export const sendCertificate = async (req, res) => {
   try {
     const { id } = req.body;
