@@ -5,7 +5,7 @@ import moment from "moment";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 
-import { useCommitteeApprovedEventsMutation } from "state/eventApiSlice";
+import { useCommitteeApprovedEventsQuery } from "state/eventApiSlice";
 import { useGetUsersQuery } from "state/userApiSlice";
 import Header from "components/Header";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
@@ -23,20 +23,16 @@ const ConvenorEventLog = () => {
 
   //rtk query
   const { data: users } = useGetUsersQuery();
-  const [getApprovedEvents, { isLoading }] =
-    useCommitteeApprovedEventsMutation();
+  const { data, isLoading } = useCommitteeApprovedEventsQuery({
+    committeeId: user.committeeId,
+  });
 
   useEffect(() => {
-    const getEvents = async () => {
-      const res = await getApprovedEvents({
-        committeeId: user.committeeId,
-      }).unwrap();
-      const filteredEvents = filterEvents(res);
-      setEvents(filteredEvents);
-    };
-
-    getEvents();
-  }, [getApprovedEvents, user.committeeId]);
+    if (!isLoading && data) {
+      const filteredData = filterEvents(data);
+      setEvents(filteredData);
+    }
+  }, [data, isLoading]);
 
   //sort function
   const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
