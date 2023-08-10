@@ -25,6 +25,7 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 import { createEvent, uploadPhotos } from "./controllers/eventController.js";
 import { uploadReport } from "./controllers/eventController.js";
+import { checkRole } from "./middleware/authMiddleware.js";
 
 // CONFIGURATION
 const __filename = fileURLToPath(import.meta.url);
@@ -108,15 +109,22 @@ const compressAndSavePhotos = async (req, res, next) => {
 // ROUTES WITH FILE UPLOADS
 app.post(
   "/event/createEvent",
+  checkRole(["convenor", "member"]),
   upload.fields([
     { name: "banner", maxCount: 1 },
     { name: "order", maxCount: 1 },
   ]),
   createEvent
 );
-app.post("/event/uploadReport", upload.single("report"), uploadReport);
+app.post(
+  "/event/uploadReport",
+  checkRole(["convenor", "member"]),
+  upload.single("report"),
+  uploadReport
+);
 app.post(
   "/event/uploadPhotos",
+  checkRole(["convenor", "member"]),
   upload.array("photos"),
   compressAndSavePhotos,
   uploadPhotos
