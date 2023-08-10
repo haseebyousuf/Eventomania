@@ -34,7 +34,7 @@ const isNotPast = (value) => {
 // Custom validation method for ensuring the end date is after the start date
 const isEndDateAfterStartDate = (endDate, options) => {
   const { startDate } = options.parent;
-  return moment(startDate).isBefore(endDate);
+  return moment(new Date(startDate)).isBefore(new Date(endDate));
 };
 
 const eventSchema = yup.object().shape({

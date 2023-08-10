@@ -18,7 +18,8 @@ const AllCommittees = () => {
   const { data, isLoading } = useCommitteesQuery();
   const [deleteCommittee] = useDeleteCommitteeMutation();
   //sort function
-  const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+  const dayInMonthComparator = (v1, v2) =>
+    moment(new Date(v1)) - moment(new Date(v2));
 
   //deleteHandler
   const handleDelete = async (id) => {
@@ -62,9 +63,10 @@ const AllCommittees = () => {
       minWidth: 100,
       flex: 0.5,
       valueGetter: (params) => params.row.startDate,
-      valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) =>
+        moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
-        return moment(params.row.updatedAt).format("MMMM Do YYYY");
+        return moment(new Date(params.row.updatedAt)).format("MMMM Do YYYY");
       },
       sortComparator: dayInMonthComparator,
     },

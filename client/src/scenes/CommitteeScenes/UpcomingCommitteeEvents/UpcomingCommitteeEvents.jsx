@@ -12,7 +12,9 @@ import { useGetUsersQuery } from "state/userApiSlice";
 import { useCommitteeApprovedEventsQuery } from "state/eventApiSlice";
 
 const filterData = (data) => {
-  return data.filter((event) => moment(event.startDate).isAfter(moment()));
+  return data.filter((event) =>
+    moment(new Date(event.startDate)).isAfter(moment())
+  );
 };
 
 const UpcomingCommitteeEvents = () => {

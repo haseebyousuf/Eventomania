@@ -14,9 +14,12 @@ const filterAndSortData = (data) => {
   return data
     .filter(
       (event) =>
-        event.isApproved === true && moment(event.startDate).isAfter(moment())
+        event.isApproved === true &&
+        moment(new Date(event.startDate)).isAfter(moment())
     )
-    .sort((a, b) => moment(b.startDate) - moment(a.startDate));
+    .sort(
+      (a, b) => moment(new Date(b.startDate)) - moment(new Date(a.startDate))
+    );
 };
 
 const UpcomingEvents = () => {
@@ -39,7 +42,8 @@ const UpcomingEvents = () => {
   const theme = useTheme();
 
   //sort function
-  const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+  const dayInMonthComparator = (v1, v2) =>
+    moment(new Date(v1)) - moment(new Date(v2));
 
   const columns = [
     {
@@ -76,9 +80,10 @@ const UpcomingEvents = () => {
       minWidth: 120,
       flex: 0.8,
       valueGetter: (params) => params.row.startDate,
-      valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) =>
+        moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
-        return moment(params.row.startDate).format("MMMM Do YYYY");
+        return moment(new Date(params.row.startDate)).format("MMMM Do YYYY");
       },
       sortComparator: dayInMonthComparator,
     },

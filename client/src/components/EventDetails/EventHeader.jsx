@@ -66,10 +66,12 @@ const EventHeader = ({
           <TodayIcon color='secondary' />{" "}
           <Typography fontSize={!isNonMobile && "1rem"}>
             {isNonMobile
-              ? `${moment(startDate).format("MMMM Do YYYY, h:mm A")} - ${moment(
-                  endDate
-                ).format("MMMM Do YYYY, h:mm A")}`
-              : moment(startDate).format("MMMM Do YYYY, h:mm A")}
+              ? `${moment(new Date(startDate)).format(
+                  "MMMM Do YYYY, h:mm A"
+                )} - ${moment(new Date(endDate)).format(
+                  "MMMM Do YYYY, h:mm A"
+                )}`
+              : moment(new Date(startDate)).format("MMMM Do YYYY, h:mm A")}
           </Typography>
         </Item>
         {!isNonMobile && (
@@ -82,7 +84,7 @@ const EventHeader = ({
           >
             <EventIcon color='secondary' />{" "}
             <Typography fontSize={!isNonMobile && "1rem"}>
-              {moment(endDate).format("MMMM Do YYYY, h:mm A")}
+              {moment(new Date(endDate)).format("MMMM Do YYYY, h:mm A")}
             </Typography>
           </Item>
         )}

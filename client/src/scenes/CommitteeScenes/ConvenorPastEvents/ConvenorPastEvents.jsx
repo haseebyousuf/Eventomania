@@ -20,7 +20,9 @@ import {
 } from "state/eventApiSlice";
 
 const filterData = (data) => {
-  return data.filter((event) => moment(event.startDate).isBefore(moment()));
+  return data.filter((event) =>
+    moment(new Date(event.startDate)).isBefore(moment())
+  );
 };
 
 const ConvenorPastEvents = () => {

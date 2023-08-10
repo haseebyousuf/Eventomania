@@ -13,7 +13,9 @@ import { useGetUsersQuery } from "state/userApiSlice";
 const filterAndSortData = (data) => {
   return data
     .filter((item) => item.status === true)
-    .sort((a, b) => moment(b.startDate) - moment(a.startDate));
+    .sort(
+      (a, b) => moment(new Date(b.startDate)) - moment(new Date(a.startDate))
+    );
 };
 
 const AdminEventLog = () => {
@@ -32,7 +34,8 @@ const AdminEventLog = () => {
   }, [data]);
 
   //Function to sort table on the basis of date
-  const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+  const dayInMonthComparator = (v1, v2) =>
+    moment(new Date(v1)) - moment(new Date(v2));
 
   const columns = [
     {
@@ -57,9 +60,10 @@ const AdminEventLog = () => {
       minWidth: 150,
       flex: 0.3,
       valueGetter: (params) => params.row.startDate,
-      valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) =>
+        moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
-        return moment(params.row.startDate).format("MMMM Do YYYY");
+        return moment(new Date(params.row.startDate)).format("MMMM Do YYYY");
       },
       sortComparator: dayInMonthComparator,
     },

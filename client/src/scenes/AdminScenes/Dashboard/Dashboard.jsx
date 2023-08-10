@@ -41,9 +41,9 @@ const Dashboard = () => {
       flex: 1,
       sortable: false,
       valueGetter: (params) => params.row.startDate,
-      valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) => moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
-        return moment(params.row.startDate).format("MMMM Do YYYY");
+        return moment(new Date(params.row.startDate)).format("MMMM Do YYYY");
       },
     },
     {

@@ -83,7 +83,7 @@ const EventCard = ({ event, isPast }) => {
               paddingBottom='0.6rem'
             >
               <span style={{ fontWeight: "bold" }}>Start Time: </span>
-              {moment(event.startDate).format("MMMM Do YYYY, h:mm A")}
+              {moment(new Date(event.startDate)).format("MMMM Do YYYY, h:mm A")}
             </Typography>
             <Typography
               fontSize='0.8rem'
@@ -91,7 +91,7 @@ const EventCard = ({ event, isPast }) => {
               color={theme.palette.secondary}
             >
               <span style={{ fontWeight: "bold" }}>End Time: </span>
-              {moment(event.endDate).format("MMMM Do YYYY, h:mm A")}
+              {moment(new Date(event.endDate)).format("MMMM Do YYYY, h:mm A")}
             </Typography>
           </Box>
         </CardContent>

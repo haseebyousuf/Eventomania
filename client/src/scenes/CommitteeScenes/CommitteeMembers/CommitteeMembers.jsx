@@ -66,7 +66,7 @@ const CommitteeMembers = () => {
       minWidth: 120,
       flex: 1,
       renderCell: (params) => {
-        return moment(params.row.createdAt).format("MMMM Do YYYY");
+        return moment(new Date(params.row.createdAt)).format("MMMM Do YYYY");
       },
     },
     user.role === "convenor" && {

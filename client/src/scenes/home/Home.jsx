@@ -18,8 +18,13 @@ const Home = () => {
       setUpcomingEvents(
         events.filter((item) => {
           if (
-            moment(item.startDate).isAfter(moment()) ||
-            moment(item.startDate).isSame(moment(), "day", "month", "year")
+            moment(new Date(item.startDate)).isAfter(moment()) ||
+            moment(new Date(item.startDate)).isSame(
+              moment(),
+              "day",
+              "month",
+              "year"
+            )
           ) {
             return true;
           } else {
@@ -30,16 +35,25 @@ const Home = () => {
       setFilteredUpcomingEvents(
         events.filter(
           (item) =>
-            moment(item.startDate).isAfter(moment()) ||
-            moment(item.startDate).isSame(moment(), "day", "month", "year")
+            moment(new Date(item.startDate)).isAfter(moment()) ||
+            moment(new Date(item.startDate)).isSame(
+              moment(),
+              "day",
+              "month",
+              "year"
+            )
         )
       );
       setPastEvents(
-        events.filter((item) => moment(item.startDate).isBefore(moment()))
+        events.filter((item) =>
+          moment(new Date(item.startDate)).isBefore(moment())
+        )
       );
 
       setFilteredPastEvents(
-        events.filter((item) => moment(item.startDate).isBefore(moment()))
+        events.filter((item) =>
+          moment(new Date(item.startDate)).isBefore(moment())
+        )
       );
     }
   }, [events, isLoading]);

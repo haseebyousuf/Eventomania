@@ -30,7 +30,8 @@ const ApproveEvents = () => {
     }
   };
   //sort function
-  const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+  const dayInMonthComparator = (v1, v2) =>
+    moment(new Date(v1)) - moment(new Date(v2));
 
   const columns = [
     {
@@ -74,9 +75,12 @@ const ApproveEvents = () => {
       minWidth: 160,
       flex: 0.5,
       valueGetter: (params) => params.row.startDate,
-      valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) =>
+        moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
-        return moment(params.row.startDate).format("MMMM Do YYYY, h:mm A");
+        return moment(new Date(params.row.startDate)).format(
+          "MMMM Do YYYY, h:mm A"
+        );
       },
       sortComparator: dayInMonthComparator,
     },
@@ -86,9 +90,12 @@ const ApproveEvents = () => {
       minWidth: 160,
       flex: 0.5,
       valueGetter: (params) => params.row.startDate,
-      valueFormatter: ({ value }) => moment(value).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) =>
+        moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
-        return moment(params.row.endDate).format("MMMM Do YYYY, h:mm A");
+        return moment(new Date(params.row.endDate)).format(
+          "MMMM Do YYYY, h:mm A"
+        );
       },
       sortComparator: dayInMonthComparator,
     },

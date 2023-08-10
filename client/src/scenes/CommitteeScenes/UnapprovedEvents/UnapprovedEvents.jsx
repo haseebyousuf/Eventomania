@@ -18,7 +18,8 @@ const UnapprovedEvents = () => {
   });
 
   //sort function
-  const dayInMonthComparator = (v1, v2) => moment(v1) - moment(v2);
+  const dayInMonthComparator = (v1, v2) =>
+    moment(new Date(v1)) - moment(new Date(v2));
 
   const columns = [
     {
