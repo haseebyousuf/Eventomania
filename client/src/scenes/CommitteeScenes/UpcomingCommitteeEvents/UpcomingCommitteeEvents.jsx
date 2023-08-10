@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import Actions from "./Actions";
 import Header from "components/Header";
 import { useGetUsersQuery } from "state/userApiSlice";
-import { useCommitteeApprovedEventsMutation } from "state/eventApiSlice";
+import { useCommitteeApprovedEventsQuery } from "state/eventApiSlice";
 
 const filterData = (data) => {
   return data.filter((event) => moment(event.startDate).isAfter(moment()));
@@ -23,20 +23,17 @@ const UpcomingCommitteeEvents = () => {
   const [events, setEvents] = useState(null);
 
   //rtk query
-  const [getApprovedEvents, { isLoading }] =
-    useCommitteeApprovedEventsMutation();
+  const { data, isLoading } = useCommitteeApprovedEventsQuery({
+    committeeId: user.committeeId,
+  });
   const { data: users } = useGetUsersQuery();
 
   useEffect(() => {
-    const getEvents = async () => {
-      const res = await getApprovedEvents({
-        committeeId: user.committeeId,
-      }).unwrap();
-      const filteredData = filterData(res);
+    if (!isLoading && data) {
+      const filteredData = filterData(data);
       setEvents(filteredData);
-    };
-    getEvents();
-  }, [getApprovedEvents, user.committeeId]);
+    }
+  }, [data, isLoading]);
 
   const columns = [
     {
