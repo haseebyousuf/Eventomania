@@ -63,7 +63,8 @@ const CommitteeMembers = () => {
     {
       field: "createdAt",
       headerName: "Created At",
-      minWidth: 100,
+      minWidth: 120,
+      flex: 1,
       renderCell: (params) => {
         return moment(params.row.createdAt).format("MMMM Do YYYY");
       },
