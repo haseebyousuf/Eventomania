@@ -41,7 +41,8 @@ const Dashboard = () => {
       flex: 1,
       sortable: false,
       valueGetter: (params) => params.row.startDate,
-      valueFormatter: ({ value }) => moment(new Date(value)).format("Do MMMM YYYY"),
+      valueFormatter: ({ value }) =>
+        moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
         return moment(new Date(params.row.startDate)).format("MMMM Do YYYY");
       },
@@ -66,7 +67,7 @@ const Dashboard = () => {
           component={motion.div}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, ease: "easeInOut" }}
+          transition={{ delay: 0.1, ease: "easeInOut" }}
         >
           <Header title='DASHBOARD' subtitle='Welcome to your dashboard' />
 

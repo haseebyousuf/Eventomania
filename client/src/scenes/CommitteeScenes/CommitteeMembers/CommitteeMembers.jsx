@@ -88,7 +88,7 @@ const CommitteeMembers = () => {
       component={motion.div}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: 0.3, ease: "easeInOut" }}
+      transition={{ delay: 0.1, ease: "easeInOut" }}
     >
       <Header
         title='MEMBERS'
