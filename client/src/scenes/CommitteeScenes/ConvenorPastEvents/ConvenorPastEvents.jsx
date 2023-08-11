@@ -48,11 +48,12 @@ const ConvenorPastEvents = () => {
   }, [data, isLoading]);
 
   //handlers
-  const handleCertificateSend = async (id) => {
+  const handleCertificateSend = async (id, date) => {
     setButtonDisabled({ ...buttonDisabled, [id]: true });
     try {
+      const eventDate = moment(new Date(date)).format("Do MMMM YYYY");
       const promise = toast.promise(
-        sendCertificates({ id })
+        sendCertificates({ id, eventDate })
           .unwrap()
           .then((response) => response.data),
         {
@@ -176,7 +177,9 @@ const ConvenorPastEvents = () => {
                   minWidth: "9rem",
                   color: "#fff",
                 }}
-                onClick={() => handleCertificateSend(params.row._id)}
+                onClick={() =>
+                  handleCertificateSend(params.row._id, params.row.startDate)
+                }
               >
                 SEND NOW
               </Button>
