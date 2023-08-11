@@ -1,9 +1,10 @@
 import fs from "fs";
 import moment from "moment";
-import nodemailer from "nodemailer";
 
+import Admin from "../models/Admin.js";
 import Event from "../models/Event.js";
 import User from "../models/User.js";
+import { sendEmail } from "../utils/sendEmail.js";
 import { generateCertificate } from "../utils/generateCertificate.js";
 
 //@desc     create a new Event
@@ -30,7 +31,7 @@ export const createEvent = async (req, res) => {
     //parse committee and creator details
     const parsedCommittee = JSON.parse(committee);
     const parsedCreator = JSON.parse(createdBy);
-    //save data to db
+    // save data to db
     const newEvent = new Event({
       name,
       venue,
@@ -45,7 +46,25 @@ export const createEvent = async (req, res) => {
       createdBy: parsedCreator,
     });
     const savedEvent = await newEvent.save();
-    //send success response
+    const committeeId = parsedCommittee.id;
+    const convenor = await Admin.findOne({ committeeId }).select("email");
+    const admin = await Admin.findOne({ role: "admin" }).select("email");
+    const convenorMailOptions = {
+      from: "Eventomania <eventomaniasp@gmail.com>",
+      to: convenor.email,
+      subject: `New Event Created - ${name}`,
+      text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review the event under Unapproved Events Section.\nRegards Team Eventomania.`,
+    };
+    sendEmail(convenorMailOptions);
+
+    const adminMailOptions = {
+      from: "Eventomania <eventomaniasp@gmail.com>",
+      to: admin.email,
+      subject: `New Event Created - ${name}`,
+      text: `Hi,\n\nA new event has been created.\n\nEvent Name: ${name}.\nCreated By: ${parsedCreator.name}.\n\nPlease Login to review or Approve the event under Approve Events Section.\nRegards Team Eventomania.`,
+    };
+    sendEmail(adminMailOptions);
+
     res.status(201).json(savedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -270,27 +289,20 @@ export const deleteEvent = async (req, res) => {
 //@access   private {admin, convenor, member}
 export const sendCertificate = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id, eventDate } = req.body;
 
     try {
       const users = await User.find({ "event.id": id });
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.MAIL,
-          pass: process.env.MAIL_PASS,
-        },
-      });
-
       for (const user of users) {
         const certificate = await generateCertificate(
           user.name,
-          user.event[0].name
+          user.event[0].name,
+          eventDate
         );
 
         if (user.email) {
           const mailOptions = {
-            from: "eventomaniasp@gmail.com",
+            from: "Eventomania <eventomaniasp@gmail.com>",
             to: user.email,
             subject: `Event Certificate - ${user.event[0].name}`,
             text: `Dear ${user.name},\n\nThank You!\nFor attending the event "${user.event[0].name}". Attached to this email is your certificate.\n\nBest regards,\nTeam Eventomania .`,
@@ -301,7 +313,7 @@ export const sendCertificate = async (req, res) => {
               },
             ],
           };
-          await transporter.sendMail(mailOptions);
+          sendEmail(mailOptions);
         }
       }
       const filter = { _id: id };
