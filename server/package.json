@@ -28,7 +28,7 @@
     "multer-gridfs-storage": "^5.0.2",
     "nodemailer": "^6.9.4",
     "nodemon": "^2.0.20",
-    "pdfkit": "^0.13.0",
+    "pdf-lib": "^1.17.1",
     "sharp": "^0.32.3",
     "uuid": "^9.0.0"
   }
