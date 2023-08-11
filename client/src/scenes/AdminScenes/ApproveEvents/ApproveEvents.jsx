@@ -66,20 +66,20 @@ const ApproveEvents = () => {
     {
       field: "venue",
       headerName: "Venue",
-      minWidth: 180,
+      minWidth: 150,
       flex: 1,
     },
     {
       field: "startDate",
       headerName: "Starts On",
       minWidth: 160,
-      flex: 0.5,
+      flex: 1,
       valueGetter: (params) => params.row.startDate,
       valueFormatter: ({ value }) =>
         moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
         return moment(new Date(params.row.startDate)).format(
-          "MMMM Do YYYY, h:mm A"
+          "Do MMM YYYY, h:mm A"
         );
       },
       sortComparator: dayInMonthComparator,
@@ -88,13 +88,13 @@ const ApproveEvents = () => {
       field: "endDate",
       headerName: "Ends On",
       minWidth: 160,
-      flex: 0.5,
+      flex: 1,
       valueGetter: (params) => params.row.startDate,
       valueFormatter: ({ value }) =>
         moment(new Date(value)).format("Do MMMM YYYY"),
       renderCell: (params) => {
         return moment(new Date(params.row.endDate)).format(
-          "MMMM Do YYYY, h:mm A"
+          "Do MMM YYYY, h:mm A"
         );
       },
       sortComparator: dayInMonthComparator,
