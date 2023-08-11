@@ -43,7 +43,7 @@ const Convenors = () => {
       headerName: "Created At",
       minWidth: 100,
       renderCell: (params) => {
-        return moment(new Date(params.row.createdAt)).format("MMMM Do YYYY");
+        return moment(new Date(params.row.createdAt)).format("Do MMM YYYY");
       },
     },
     {
