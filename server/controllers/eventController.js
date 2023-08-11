@@ -162,7 +162,7 @@ export const getCommitteeUnApprovedEvents = async (req, res) => {
       "committee.id": committeeId,
     });
     const sortedEvents = events.sort(
-      (a, b) => moment(b.startDate) - moment(a.startDate)
+      (a, b) => moment(new Date(b.startDate)) - moment(new Date(a.startDate))
     );
     if (!events) res.status(401).json({ error: "No Events found" });
     res.status(200).json(sortedEvents);
@@ -206,7 +206,7 @@ export const getCommitteeApprovedEvents = async (req, res) => {
       "committee.id": committeeId,
     });
     const sortedEvents = events.sort(
-      (a, b) => moment(b.startDate) - moment(a.startDate)
+      (a, b) => moment(new Date(b.startDate)) - moment(new Date(a.startDate))
     );
     if (!events) res.status(401).json({ error: "No Events found" });
     res.status(200).json(sortedEvents);
