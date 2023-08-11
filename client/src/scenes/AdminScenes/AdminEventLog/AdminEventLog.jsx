@@ -61,9 +61,9 @@ const AdminEventLog = () => {
       flex: 0.3,
       valueGetter: (params) => params.row.startDate,
       valueFormatter: ({ value }) =>
-        moment(new Date(value)).format("Do MMMM YYYY"),
+        moment(new Date(value)).format("Do MMM YYYY"),
       renderCell: (params) => {
-        return moment(new Date(params.row.startDate)).format("MMMM Do YYYY");
+        return moment(new Date(params.row.startDate)).format("Do MMM YYYY");
       },
       sortComparator: dayInMonthComparator,
     },
