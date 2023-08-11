@@ -11,6 +11,8 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
+import EventIcon from "@mui/icons-material/Event";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -81,17 +83,31 @@ const EventCard = ({ event, isPast }) => {
               textDecoration='underline'
               color={theme.palette.secondary}
               paddingBottom='0.6rem'
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+              }}
             >
-              <span style={{ fontWeight: "bold" }}>Start Time: </span>
-              {moment(new Date(event.startDate)).format("MMMM Do YYYY, h:mm A")}
+              <span style={{ fontWeight: "bold" }}>
+                <EventIcon color='secondary' />{" "}
+              </span>
+              {moment(new Date(event.startDate)).format("Do MMM YYYY, h:mm A")}
             </Typography>
             <Typography
               fontSize='0.8rem'
               textDecoration='underline'
               color={theme.palette.secondary}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+              }}
             >
-              <span style={{ fontWeight: "bold" }}>End Time: </span>
-              {moment(new Date(event.endDate)).format("MMMM Do YYYY, h:mm A")}
+              <span style={{ fontWeight: "bold" }}>
+                <LocationOnIcon color='secondary' />{" "}
+              </span>
+              {event.venue}
             </Typography>
           </Box>
         </CardContent>
