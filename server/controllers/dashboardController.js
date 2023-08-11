@@ -37,7 +37,7 @@ export const adminDashboardStats = async (req, res) => {
     //GET EVENTS PER MONTH
     const eventsCountByMonth = {}; // Create an object to store the count of events per month
     for (const event of approvedEvents) {
-      const startDate = moment(event.startDate);
+      const startDate = moment(new Date(event.startDate));
       if (
         startDate.year() === currentYear &&
         startDate.month() <= currentMonth
@@ -52,10 +52,12 @@ export const adminDashboardStats = async (req, res) => {
     }
 
     // Generate an array of month names up to the current month
-    const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
-
+    // const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
+    const lastSixMonths = Array.from({ length: 8 }, (_, index) =>
+      moment().subtract(index, "months").format("MMM")
+    ).reverse();
     // Format data for Nivo line chart
-    const eventsPerMonth = allMonths.map((month) => ({
+    const eventsPerMonth = lastSixMonths.map((month) => ({
       x: month,
       y: eventsCountByMonth[month] || 0,
     }));
@@ -65,18 +67,26 @@ export const adminDashboardStats = async (req, res) => {
 
     const approvedEventsCount = events.filter(
       (event) =>
-        event.isApproved && moment(event.startDate).year() === currentYear
+        event.isApproved &&
+        moment(new Date(event.startDate)).year() === currentYear
     ).length;
 
     const unapprovedEventsCount = events.filter(
       (event) =>
-        !event.isApproved && moment(event.startDate).year() === currentYear
+        !event.isApproved &&
+        moment(new Date(event.startDate)).year() === currentYear
     ).length;
 
     const upcomingEvents = events.filter(
       (event) =>
-        (event.isApproved && moment(event.startDate).isAfter(moment())) ||
-        moment(event.startDate).isSame(moment(), "day", "month", "year")
+        (event.isApproved &&
+          moment(new Date(event.startDate)).isAfter(moment())) ||
+        moment(new Date(event.startDate)).isSame(
+          moment(),
+          "day",
+          "month",
+          "year"
+        )
     );
 
     const adminsCount = await Admin.countDocuments().exec();
@@ -120,8 +130,13 @@ export const committeeDashboardStats = async (req, res) => {
 
     const upcomingEvents = approvedEvents.filter(
       (event) =>
-        moment(event.startDate).isAfter(moment()) ||
-        moment(event.startDate).isSame(moment(), "day", "month", "year")
+        moment(new Date(event.startDate)).isAfter(moment()) ||
+        moment(new Date(event.startDate)).isSame(
+          moment(),
+          "day",
+          "month",
+          "year"
+        )
     );
 
     //EVENTS PER COMMITTEE
@@ -150,7 +165,7 @@ export const committeeDashboardStats = async (req, res) => {
     const eventsCountByMonth = {}; //object to store count of events per month
 
     for (const event of approvedEvents) {
-      const startDate = moment(event.startDate);
+      const startDate = moment(new Date(event.startDate));
       if (
         startDate.year() === currentYear &&
         startDate.month() <= currentMonth
@@ -165,10 +180,12 @@ export const committeeDashboardStats = async (req, res) => {
     }
 
     // Generate an array of month names up to the current month
-    const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
-
+    // const allMonths = moment.monthsShort().slice(0, currentMonth + 1);
+    const lastSixMonths = Array.from({ length: 8 }, (_, index) =>
+      moment().subtract(index, "months").format("MMM")
+    ).reverse();
     // Format data for Nivo line chart
-    const eventsPerMonth = allMonths.map((month) => ({
+    const eventsPerMonth = lastSixMonths.map((month) => ({
       x: month,
       y: eventsCountByMonth[month] || 0,
     }));
@@ -178,12 +195,14 @@ export const committeeDashboardStats = async (req, res) => {
 
     const approvedEventsCount = events.filter(
       (event) =>
-        event.isApproved && moment(event.startDate).year() === currentYear
+        event.isApproved &&
+        moment(new Date(event.startDate)).year() === currentYear
     ).length;
 
     const unapprovedEventsCount = events.filter(
       (event) =>
-        !event.isApproved && moment(event.startDate).year() === currentYear
+        !event.isApproved &&
+        moment(new Date(event.startDate)).year() === currentYear
     ).length;
 
     const pendingReportCount = events.filter(
