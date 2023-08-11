@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { themeSettings } from "theme";
 import { adminRoutes, committeeRoutes } from "routesConfig";
 const Home = lazy(() => import("./scenes/Home/Home"));
+const About = lazy(() => import("./scenes/About/About"));
 const Login = lazy(() => import("./scenes/Login/Login"));
 const EventDetails = lazy(() =>
   import("./components/EventDetails/EventDetails")
@@ -65,6 +66,14 @@ function App() {
                 ) : (
                   <Navigate to='/Dashboard' />
                 )
+              }
+            />
+            <Route
+              path='/About'
+              element={
+                <Suspense fallback={<div></div>}>
+                  <About />
+                </Suspense>
               }
             />
             {isAdmin && adminRoutes()}
