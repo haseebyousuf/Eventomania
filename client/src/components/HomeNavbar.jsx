@@ -9,8 +9,6 @@ import {
   AppBar,
   Box,
   IconButton,
-  Tabs,
-  Tab,
   Toolbar,
   Typography,
   useTheme,
@@ -22,7 +20,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setMode } from "state";
@@ -34,12 +32,8 @@ const navItems = [
     link: "/",
   },
   {
-    text: "COMMITTEES",
-    link: "/committees",
-  },
-  {
     text: "ABOUT",
-    link: "/about",
+    link: "/About",
   },
 ];
 
@@ -47,19 +41,21 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const isAuth = Boolean(useSelector((state) => state.global.user));
 
   //states
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [value, setValue] = useState(0);
+  const [active, setActive] = useState("");
 
   //useEffect
   useEffect(() => {
+    setActive(pathname);
     if (isNonMobile) {
       setIsSidebarOpen(false);
     }
-  }, [isNonMobile]);
+  }, [isNonMobile, pathname]);
 
   return (
     <AppBar
@@ -87,9 +83,11 @@ const Navbar = () => {
             gap='0.5rem'
           >
             <Typography
-              sx={{ fontSize: "1.5rem" }}
+              color={theme.palette.secondary.main}
+              sx={{ fontSize: "1.5rem", cursor: "pointer" }}
               variant='h1'
               fontWeight='bold'
+              onClick={() => navigate("/")}
             >
               EVENTOMANIA
             </Typography>
@@ -98,24 +96,31 @@ const Navbar = () => {
         {/* RIGHT SIDE */}
         {isNonMobile ? (
           <FlexBetween gap='1.5rem'>
-            <Tabs
-              value={value}
-              onChange={(e, value) => setValue(value)}
-              indicatorColor='secondary'
-              textColor='secondary'
-            >
+            <FlexBetween>
               {navItems.map(({ text, link }) => {
+                const isActive = active === link;
                 return (
-                  <Tab
-                    onClick={() => {
-                      navigate(link);
-                    }}
-                    label={text}
-                    key={text}
-                  />
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton
+                      onClick={() => {
+                        navigate(link);
+                        setActive(link);
+                      }}
+                      sx={{
+                        borderBottom: isActive
+                          ? `2px solid ${theme.palette.secondary.main}`
+                          : "2px solid transparent",
+                        color: isActive
+                          ? theme.palette.secondary.main
+                          : theme.palette.secondary.main,
+                      }}
+                    >
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
                 );
               })}
-            </Tabs>
+            </FlexBetween>
             {isAuth ? (
               <Button
                 sx={{
@@ -188,32 +193,21 @@ const Navbar = () => {
             </FlexBetween>
           </Box>
           <List>
-            {navItems.map(({ text }) => {
+            {navItems.map(({ text, link }) => {
+              const isActive = active === link;
               return (
                 <ListItem key={text} disablePadding>
                   <ListItemButton
                     onClick={() => {
-                      // navigate(`/${lcText}`);
-                      // setActive(lcText);
-                      if (!isNonMobile) {
-                        setIsSidebarOpen(!isSidebarOpen);
-                      }
+                      navigate(link);
+                      setActive(link);
                     }}
-                    // sx={{
-                    //   backgroundColor:
-                    //     active === lcText
-                    //       ? theme.palette.secondary[300]
-                    //       : "transparent",
-                    //   color:
-                    //     active === lcText
-                    //       ? theme.palette.primary[600]
-                    //       : theme.palette.secondary[100],
-                    // }}
+                    sx={{
+                      color: theme.palette.secondary.main,
+                    }}
                   >
+                    {isActive && <ChevronRight />}
                     <ListItemText primary={text} />
-                    {/* {active === lcText && (
-                        <ChevronRightOutlined sx={{ ml: "auto" }} />
-                      )} */}
                   </ListItemButton>
                 </ListItem>
               );
