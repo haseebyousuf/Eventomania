@@ -1,38 +1,17 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-import { useMemo } from "react";
+import { useMemo, lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { themeSettings } from "theme";
-import {
-  Home,
-  Dashboard,
-  Layout,
-  AddCommittees,
-  Login,
-  AllCommittees,
-  Convenors,
-  AddConvenor,
-  CreateEvent,
-  ApproveEvents,
-  EventDetails,
-  PastEvents,
-  ConvenorPastEvents,
-  AdminEventLog,
-  AudienceDetails,
-  ConvenorEventLog,
-  CommitteeDashboard,
-  AddMember,
-  AddCommitteeMember,
-  Members,
-  CommitteeMembers,
-  ChangePassword,
-  UpcomingEvents,
-  UpcomingCommitteeEvents,
-  UnapprovedEvents,
-} from "./scenes";
 import { ToastContainer } from "react-toastify";
+import { themeSettings } from "theme";
+import { adminRoutes, committeeRoutes } from "routesConfig";
+const Home = lazy(() => import("./scenes/Home/Home"));
+const Login = lazy(() => import("./scenes/Login/Login"));
+const EventDetails = lazy(() =>
+  import("./components/EventDetails/EventDetails")
+);
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -60,54 +39,36 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route path='*' element={<Navigate to='/' />} />
-            <Route path='/' element={<Home />} />
-            <Route path='/EventDetails/:eventId' element={<EventDetails />} />
+            <Route
+              path='/'
+              element={
+                <Suspense>
+                  <Home />
+                </Suspense>
+              }
+            />
+            <Route
+              path='/EventDetails/:eventId'
+              element={
+                <Suspense fallback={<div></div>}>
+                  <EventDetails />
+                </Suspense>
+              }
+            />
             <Route
               path='/Login'
-              element={!isAuth ? <Login /> : <Navigate to='/Dashboard' />}
+              element={
+                !isAuth ? (
+                  <Suspense fallback={<div></div>}>
+                    <Login />
+                  </Suspense>
+                ) : (
+                  <Navigate to='/Dashboard' />
+                )
+              }
             />
-            {isAdmin && (
-              <Route element={<Layout />}>
-                <Route path='/Dashboard' element={<Dashboard />} />
-                <Route path='/ApproveEvents' element={<ApproveEvents />} />
-                <Route path='/UpcomingEvents' element={<UpcomingEvents />} />
-                <Route path='/PastEvents' element={<PastEvents />} />
-                <Route path='/EventLog' element={<AdminEventLog />} />
-                <Route path='/ViewCommittees' element={<AllCommittees />} />
-                <Route path='/AddCommittees' element={<AddCommittees />} />
-                <Route path='/Convenors' element={<Convenors />} />
-                <Route path='/AddConvenors' element={<AddConvenor />} />
-                <Route path='/Members' element={<Members />} />
-                <Route path='/AddMember' element={<AddMember />} />
-                <Route path='/ChangePassword' element={<ChangePassword />} />
-                <Route
-                  path='/Registrations/:eventId'
-                  element={<AudienceDetails />}
-                />
-              </Route>
-            )}
-            {(isConvenor || isMember) && (
-              <Route element={<Layout />}>
-                <Route path='/Dashboard' element={<CommitteeDashboard />} />
-                <Route path='/CreateEvent' element={<CreateEvent />} />
-                <Route path='/Unapproved' element={<UnapprovedEvents />} />
-                <Route
-                  path='/UpcomingEvents'
-                  element={<UpcomingCommitteeEvents />}
-                />
-                <Route path='/PastEvents' element={<ConvenorPastEvents />} />
-                <Route path='/EventLog' element={<ConvenorEventLog />} />
-                <Route path='/Members' element={<CommitteeMembers />} />
-                <Route path='/ChangePassword' element={<ChangePassword />} />
-                <Route
-                  path='/Registrations/:eventId'
-                  element={<AudienceDetails />}
-                />
-                {isConvenor && (
-                  <Route path='/AddMember' element={<AddCommitteeMember />} />
-                )}
-              </Route>
-            )}
+            {isAdmin && adminRoutes()}
+            {(isConvenor || isMember) && committeeRoutes(isConvenor)}
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
