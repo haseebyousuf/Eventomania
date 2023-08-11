@@ -1,217 +1,65 @@
-import PDFDocument from "pdfkit";
-import path from "path";
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import fs from "fs/promises";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
-export async function generateCertificate(name, eventName) {
-  return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({
-      layout: "landscape",
-      size: "A4",
-    });
+export async function generateCertificate(name, eventName, date) {
+  const pdfPath = "./utils/certificate.pdf";
+  const existingPdfBytes = await fs.readFile(pdfPath);
 
-    // Helper to move to next line
-    function jumpLine(lines) {
-      for (let index = 0; index < lines; index++) {
-        doc.moveDown();
-      }
-    }
-    const buffers = [];
+  const pdfDoc = await PDFDocument.load(existingPdfBytes);
+  const TimesRoman = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+  const TimesRomanBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
 
-    doc.on("data", (buffer) => buffers.push(buffer));
-    doc.on("end", () => resolve(Buffer.concat(buffers)));
+  const pages = pdfDoc.getPages();
+  const firstPage = pages[0];
+  const { width, height } = firstPage.getSize();
 
-    doc.rect(0, 0, doc.page.width, doc.page.height).fill("#fff");
+  const nameWidth = TimesRoman.widthOfTextAtSize(name.toUpperCase(), 30);
+  const nameHeight = 30;
 
-    doc.fontSize(10);
-
-    // Margin
-    const distanceMargin = 18;
-
-    doc
-      .fillAndStroke("#0e8cc3")
-      .lineWidth(20)
-      .lineJoin("round")
-      .rect(
-        distanceMargin,
-        distanceMargin,
-        doc.page.width - distanceMargin * 2,
-        doc.page.height - distanceMargin * 2
-      )
-      .stroke();
-
-    // Header
-    const maxWidth = 140;
-    const maxHeight = 70;
-
-    const logoImagePath = path.join(__dirname, "./logo.png");
-
-    doc.image(logoImagePath, doc.page.width / 2 - maxWidth / 2, 60, {
-      fit: [maxWidth, maxHeight],
-      align: "center",
-    });
-
-    jumpLine(6);
-    const font1Path = path.join(__dirname, "./fonts/NotoSansJP-Light.otf");
-
-    doc
-      .font(font1Path)
-      .fontSize(16)
-      .fill("#021c27")
-      .text("Sri Pratap College Srinagar", {
-        align: "center",
-      });
-
-    jumpLine(2);
-
-    // Content
-    const font2Path = path.join(__dirname, "./fonts/NotoSansJP-Regular.otf");
-
-    doc
-      .font(font2Path)
-      .fontSize(20)
-      .fill("#021c27")
-      .text("CERTIFICATE OF PARTICIPATION", {
-        align: "center",
-      });
-
-    jumpLine(1);
-
-    doc.font(font1Path).fontSize(14).fill("#021c27").text("Present to", {
-      align: "center",
-    });
-
-    jumpLine(1);
-    const boldPath = path.join(__dirname, "./fonts/NotoSansJP-Bold.otf");
-
-    doc.font(boldPath).fontSize(30).fill("#021c27").text(name.toUpperCase(), {
-      align: "center",
-    });
-
-    jumpLine(1);
-
-    doc
-      .font(font1Path)
-      .fontSize(16)
-      .fill("#021c27")
-      .text(`for successfully attending the ${eventName}.`, {
-        align: "center",
-      });
-
-    // jumpLine(7);
-
-    // doc.lineWidth(1);
-
-    // Signatures
-    // const lineSize = 174;
-    // const signatureHeight = 390;
-
-    // doc.fillAndStroke("#021c27");
-    // doc.strokeOpacity(0.2);
-
-    // const startLine1 = 128;
-    // const endLine1 = 128 + lineSize;
-    // doc
-    //   .moveTo(startLine1, signatureHeight)
-    //   .lineTo(endLine1, signatureHeight)
-    //   .stroke();
-
-    // const startLine2 = endLine1 + 32;
-    // const endLine2 = startLine2 + lineSize;
-    // doc
-    //   .moveTo(startLine2, signatureHeight)
-    //   .lineTo(endLine2, signatureHeight)
-    //   .stroke();
-
-    // const startLine3 = endLine2 + 32;
-    // const endLine3 = startLine3 + lineSize;
-    // doc
-    //   .moveTo(startLine3, signatureHeight)
-    //   .lineTo(endLine3, signatureHeight)
-    //   .stroke();
-
-    // doc
-    //   .font("fonts/NotoSansJP-Bold.otf")
-    //   .fontSize(10)
-    //   .fill("#021c27")
-    //   .text("John Doe", startLine1, signatureHeight + 10, {
-    //     columns: 1,
-    //     columnGap: 0,
-    //     height: 40,
-    //     width: lineSize,
-    //     align: "center",
-    //   });
-
-    // doc
-    //   .font("fonts/NotoSansJP-Light.otf")
-    //   .fontSize(10)
-    //   .fill("#021c27")
-    //   .text("Associate Professor", startLine1, signatureHeight + 25, {
-    //     columns: 1,
-    //     columnGap: 0,
-    //     height: 40,
-    //     width: lineSize,
-    //     align: "center",
-    //   });
-
-    // doc
-    //   .font("fonts/NotoSansJP-Bold.otf")
-    //   .fontSize(10)
-    //   .fill("#021c27")
-    //   .text("Student Name", startLine2, signatureHeight + 10, {
-    //     columns: 1,
-    //     columnGap: 0,
-    //     height: 40,
-    //     width: lineSize,
-    //     align: "center",
-    //   });
-
-    // doc
-    //   .font("fonts/NotoSansJP-Light.otf")
-    //   .fontSize(10)
-    //   .fill("#021c27")
-    //   .text("Student", startLine2, signatureHeight + 25, {
-    //     columns: 1,
-    //     columnGap: 0,
-    //     height: 40,
-    //     width: lineSize,
-    //     align: "center",
-    //   });
-
-    // doc
-    //   .font("fonts/NotoSansJP-Bold.otf")
-    //   .fontSize(10)
-    //   .fill("#021c27")
-    //   .text("Jane Doe", startLine3, signatureHeight + 10, {
-    //     columns: 1,
-    //     columnGap: 0,
-    //     height: 40,
-    //     width: lineSize,
-    //     align: "center",
-    //   });
-
-    // doc
-    //   .font("fonts/NotoSansJP-Light.otf")
-    //   .fontSize(10)
-    //   .fill("#021c27")
-    //   .text("Director", startLine3, signatureHeight + 25, {
-    //     columns: 1,
-    //     columnGap: 0,
-    //     height: 40,
-    //     width: lineSize,
-    //     align: "center",
-    //   });
-
-    // jumpLine(4);
-
-    // Footer
-    // const bottomHeight = doc.page.height - 100;
-
-    // doc.image("assets/qr.png", doc.page.width / 2 - 30, bottomHeight, {
-    //   fit: [60, 60],
-    // });
-
-    doc.end();
+  const xName = (width - nameWidth) / 2;
+  const yName = (height - nameHeight) / 2;
+  firstPage.drawText(name.toUpperCase(), {
+    x: xName,
+    y: yName - 75,
+    size: 30,
+    font: TimesRoman,
+    color: rgb(0.019, 0.17, 0.43),
   });
+
+  const eventNameWidth = TimesRomanBold.widthOfTextAtSize(eventName, 20);
+  const eventNameHeight = 20;
+
+  const xEvent = (width - eventNameWidth) / 2;
+  const yEvent = (height - eventNameHeight) / 2;
+
+  firstPage.drawText(eventName, {
+    x: xEvent,
+    y: yEvent - 148,
+    size: 20,
+    font: TimesRomanBold,
+    color: rgb(0.019, 0.17, 0.43),
+  });
+
+  const dateHeight = 17;
+
+  const yDate = (height - dateHeight) / 2;
+
+  firstPage.drawText(`${date}.`, {
+    x: 375.4 + 169,
+    y: yDate - 183,
+    size: 17,
+    font: TimesRomanBold,
+    color: rgb(0.019, 0.17, 0.43),
+  });
+  const pdfBytes = await pdfDoc.save();
+  return pdfBytes;
+  // Save the modified PDF
+  // const outputPath = "./utils/modified.pdf";
+  // await fs.writeFile(outputPath, pdfBytes);
 }
+
+// generateCertificate2("HASEEB YOUSUF", "NAAC Visit", "3rd May 2023").catch(
+//   (error) => {
+//     console.error("Error modifying PDF:", error);
+//   }
+// );
