@@ -1,8 +1,6 @@
 import { useTheme } from "@emotion/react";
-import { Box } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import React, { useMemo } from "react";
-import { Rings } from "react-loader-spinner";
 
 const OverallStats = ({ data }) => {
   const theme = useTheme();
@@ -22,7 +20,7 @@ const OverallStats = ({ data }) => {
 
   return (
     <>
-      {data ? (
+      {data && (
         <ResponsiveLine
           data={totalEventsLine}
           theme={{
@@ -105,26 +103,6 @@ const OverallStats = ({ data }) => {
           legends={undefined}
           motionConfig='slow'
         />
-      ) : (
-        <Box
-          sx={{
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Rings
-            height='100'
-            width='100'
-            color={theme.palette.secondary.main}
-            radius='6'
-            wrapperStyle={{}}
-            wrapperClass=''
-            visible={true}
-            ariaLabel='rings-loading'
-          />
-        </Box>
       )}
     </>
   );

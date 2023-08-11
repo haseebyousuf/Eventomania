@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { Box, Typography, useTheme } from "@mui/material";
-import { Rings } from "react-loader-spinner";
 
 const BreakdownChart = ({ data }) => {
   const theme = useTheme();
@@ -39,7 +38,7 @@ const BreakdownChart = ({ data }) => {
       minWidth='325px'
       position='relative'
     >
-      {data ? (
+      {data && (
         <ResponsivePie
           data={pieData}
           theme={{
@@ -101,26 +100,6 @@ const BreakdownChart = ({ data }) => {
           }}
           legends={[]}
         />
-      ) : (
-        <Box
-          sx={{
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Rings
-            height='100'
-            width='100'
-            color={theme.palette.secondary.main}
-            radius='6'
-            wrapperStyle={{}}
-            wrapperClass=''
-            visible={true}
-            ariaLabel='rings-loading'
-          />
-        </Box>
       )}
       <Box
         position='absolute'
