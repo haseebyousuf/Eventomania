@@ -13,6 +13,7 @@ import Header from "components/Header";
 import BreakdownChart from "components/BreakdownChart";
 import StatBox from "components/StatBox";
 import OverallStats from "components/OverallStats";
+import Footer from "components/Footer";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -206,6 +207,7 @@ const Dashboard = () => {
               </Typography>
             </Box>
           </Box>
+          <Footer />
         </Box>
       ) : (
         <DashboardShimmer isNonMediumScreens={isNonMediumScreens} />
