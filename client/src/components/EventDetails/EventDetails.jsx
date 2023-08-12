@@ -18,6 +18,7 @@ import EventDescription from "./EventDescription";
 
 import Register from "./Register";
 import EventImages from "../EventImages";
+import Footer from "components/Footer";
 
 const EventDetails = () => {
   const location = useLocation();
@@ -37,7 +38,7 @@ const EventDetails = () => {
   }, []);
 
   return (
-    <Box height='100vh'>
+    <Box>
       <HomeNavbar />
       {event && (
         <Grid width='90%' margin='auto' container spacing={2}>
@@ -109,6 +110,7 @@ const EventDetails = () => {
                 </Card>
               )}
             </Box>
+            {!isNonMobile && <Footer />}
           </Grid>
         </Grid>
       )}
