@@ -29,7 +29,7 @@ const EventDescription = ({ description }) => {
           }}
         >
           <CardContent>
-            <Typography textAlign='justify' fontSize='1rem'>
+            <Typography textAlign='left' fontSize='1rem'>
               {description}
             </Typography>
           </CardContent>
