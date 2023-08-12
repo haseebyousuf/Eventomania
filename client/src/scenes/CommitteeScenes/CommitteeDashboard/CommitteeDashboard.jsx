@@ -14,6 +14,7 @@ import StatBox from "components/StatBox";
 import OverallStats from "components/OverallStats";
 import BreakdownChart from "components/BreakdownChart";
 import DashboardShimmer from "components/DashboardShimmer";
+import Footer from "components/Footer";
 
 const CommitteeDashboard = () => {
   const theme = useTheme();
@@ -218,6 +219,7 @@ const CommitteeDashboard = () => {
               </Typography>
             </Box>
           </Box>
+          <Footer />
         </Box>
       ) : (
         <DashboardShimmer isNonMediumScreens={isNonMediumScreens} />
