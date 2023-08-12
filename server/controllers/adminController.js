@@ -9,12 +9,13 @@ import generateToken from "../utils/generateToken.js";
 export const verifyAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const admin = await Admin.findOne({ email: email });
+    const lcEmail = email.toLowerCase();
+    const admin = await Admin.findOne({ email: lcEmail });
     if (!admin) return res.status(400).json({ msg: "Admin does not exist. " });
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid Credentials. " });
-    const user = await Admin.findOne({ email: email }).select("-password");
+    const user = await Admin.findOne({ email: lcEmail }).select("-password");
     console.log(user._id);
     generateToken(res, user._id);
     res.status(201).json({ user });
@@ -45,7 +46,8 @@ export const addConvenor = async (req, res) => {
   try {
     const { name, email, password, committeeId, committeeName, role, mobile } =
       req.body;
-    const user = await Admin.findOne({ email: email });
+    const lcEmail = email.toLowerCase();
+    const user = await Admin.findOne({ email: lcEmail });
     if (user) {
       res.status(409).json({ error: "Email already exits" });
     } else {
@@ -57,7 +59,7 @@ export const addConvenor = async (req, res) => {
       if (existingConvenor) {
         const filterAdmin = { committeeId: committeeId };
         const updateAdmin = {
-          email,
+          email: lcEmail,
           password: passwordHash,
           name,
           role,
@@ -83,7 +85,7 @@ export const addConvenor = async (req, res) => {
         res.status(201).json({ updatedConvenor, updatedCommittee });
       } else {
         const newConvenor = new Admin({
-          email,
+          email: lcEmail,
           password: passwordHash,
           name,
           role,
@@ -162,14 +164,16 @@ export const addMember = async (req, res) => {
       role,
       mobile,
     } = req.body;
-    const user = await Admin.findOne({ email: memberEmail });
+    const lcEmail = memberEmail.toLowerCase();
+
+    const user = await Admin.findOne({ email: lcEmail });
     if (user) {
       res.status(400).json({ msg: "Email already exits" });
     } else {
       const salt = await bcrypt.genSalt();
       const passwordHash = await bcrypt.hash(memberPassword, salt);
       const newMember = new Admin({
-        email: memberEmail,
+        email: lcEmail,
         password: passwordHash,
         name: memberName,
         role,
