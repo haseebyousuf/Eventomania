@@ -1,10 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 
 import HomeNavbar from "../../components/HomeNavbar";
 import EventContainer from "components/EventContainer";
 import { usePublishedEventsQuery } from "state/eventApiSlice";
+import Footer from "components/Footer";
 
 const Home = () => {
   const [upcomingEvents, setUpcomingEvents] = useState(null);
@@ -12,6 +13,8 @@ const Home = () => {
   const [filteredPastEvents, setFilteredPastEvents] = useState(null);
   const [filteredUpcomingEvents, setFilteredUpcomingEvents] = useState(null);
   const { data: events, isLoading } = usePublishedEventsQuery();
+
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   useEffect(() => {
     if (!isLoading && events && events.length > 0) {
@@ -59,11 +62,7 @@ const Home = () => {
   }, [events, isLoading]);
 
   return (
-    <Box
-      sx={{
-        height: "100vh",
-      }}
-    >
+    <Box sx={{ display: "block", overflow: "auto" }}>
       <HomeNavbar />
       <EventContainer
         title='UPCOMING EVENTS'
@@ -79,6 +78,9 @@ const Home = () => {
         events={pastEvents}
         isPast={true}
       />
+      <Box sx={{ marginX: isNonMobile ? "5rem" : "2rem" }}>
+        <Footer />
+      </Box>
     </Box>
   );
 };
