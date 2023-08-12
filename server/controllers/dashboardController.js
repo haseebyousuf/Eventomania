@@ -61,11 +61,11 @@ export const adminDashboardStats = async (req, res) => {
       x: month,
       y: eventsCountByMonth[month] || 0,
     }));
-    const lastThreeMonths = Array.from({ length: 3 }, (_, index) =>
+    const lastFiveMonths = Array.from({ length: 5 }, (_, index) =>
       moment().subtract(index, "months").format("MMM")
     ).reverse();
     // Format data for Nivo line chart
-    const eventsPerMonthMobile = lastThreeMonths.map((month) => ({
+    const eventsPerMonthMobile = lastFiveMonths.map((month) => ({
       x: month,
       y: eventsCountByMonth[month] || 0,
     }));
@@ -197,11 +197,11 @@ export const committeeDashboardStats = async (req, res) => {
       x: month,
       y: eventsCountByMonth[month] || 0,
     }));
-    const lastThreeMonths = Array.from({ length: 3 }, (_, index) =>
+    const lastFiveMonths = Array.from({ length: 5 }, (_, index) =>
       moment().subtract(index, "months").format("MMM")
     ).reverse();
     // Format data for Nivo line chart
-    const eventsPerMonthMobile = lastThreeMonths.map((month) => ({
+    const eventsPerMonthMobile = lastFiveMonths.map((month) => ({
       x: month,
       y: eventsCountByMonth[month] || 0,
     }));
