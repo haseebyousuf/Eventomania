@@ -59,7 +59,12 @@ const OverallStats = ({ data }) => {
               },
             },
           }}
-          margin={{ top: 20, right: 50, bottom: 50, left: 70 }}
+          margin={{
+            top: 20,
+            right: 20,
+            bottom: isNonMobile ? 45 : 30,
+            left: isNonMobile ? 45 : 20,
+          }}
           xScale={{ type: "point" }}
           yScale={{
             type: "linear",
