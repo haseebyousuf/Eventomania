@@ -19,6 +19,7 @@ import Footer from "components/Footer";
 const CommitteeDashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+  const isNonMobile = useMediaQuery("(min-width: 700px)");
   const user = useSelector((state) => state.global.user);
 
   //state
@@ -81,7 +82,7 @@ const CommitteeDashboard = () => {
   return (
     <>
       {data ? (
-        <Box m='1.5rem 2.5rem'>
+        <Box m={isNonMobile ? "1.5rem 2.5rem" : "1.5rem 1.8rem"}>
           <Header title='DASHBOARD' subtitle='Welcome to your dashboard' />
 
           <Box
@@ -130,7 +131,11 @@ const CommitteeDashboard = () => {
               p='1rem 0rem'
               borderRadius='0.55rem'
             >
-              <OverallStats data={data.eventsPerMonth} />
+              <OverallStats
+                data={
+                  isNonMobile ? data.eventsPerMonth : data.eventsPerMonthMobile
+                }
+              />
             </Box>
             <StatBox
               title='Management'

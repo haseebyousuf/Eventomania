@@ -119,7 +119,11 @@ const Dashboard = () => {
               p='1rem'
               borderRadius='0.55rem'
             >
-              <OverallStats data={data.eventsPerMonth} />
+              <OverallStats
+                data={
+                  isNonMobile ? data.eventsPerMonth : data.eventsPerMonthMobile
+                }
+              />
             </Box>
             <StatBox
               title='Management'
