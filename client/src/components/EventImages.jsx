@@ -12,7 +12,7 @@ const EventImages = ({ photos }) => {
   });
 
   return (
-    <Box minHeight='20rem' marginBottom='1rem'>
+    <Box sx={{ display: "block", overflow: "auto" }} marginBottom='1rem'>
       <ImageGallery
         items={images}
         showNav={true}
