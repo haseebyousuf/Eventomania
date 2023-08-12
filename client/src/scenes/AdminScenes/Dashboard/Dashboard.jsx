@@ -18,6 +18,7 @@ import Footer from "components/Footer";
 const Dashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
+  const isNonMobile = useMediaQuery("(min-width: 700px)");
 
   //rtk query
   const { data, isLoading } = useAdminDashboardStatsQuery();
@@ -64,7 +65,7 @@ const Dashboard = () => {
     <>
       {data ? (
         <Box
-          m='1.5rem 2.5rem'
+          m={isNonMobile ? "1.5rem 2.5rem" : "1.5rem 1.8rem"}
           component={motion.div}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
