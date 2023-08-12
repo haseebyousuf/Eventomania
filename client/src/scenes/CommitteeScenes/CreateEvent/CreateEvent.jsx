@@ -106,7 +106,7 @@ const CreateEvent = () => {
   return (
     <Box overflow='scroll'>
       <Box
-        m={isNonMobile ? "1rem 2.5rem" : "1rem"}
+        m={isNonMobile ? "1.5rem 2.5rem" : "1.5rem"}
         position='relative'
         component={motion.div}
         initial={{ opacity: 0 }}
@@ -202,12 +202,13 @@ const CreateEvent = () => {
                       transition={{ delay: 0.4 }}
                       exit={{ y: 20, opacity: 0 }}
                       sx={{
-                        width: isNonMobile ? "100%" : "auto",
+                        width: "100%",
                         display: "flex",
                         justifyContent: isNonMobile
                           ? "space-between"
                           : "center",
                         flexWrap: "Wrap",
+                        gap: 2,
                       }}
                     >
                       <LocalizationProvider dateAdapter={AdapterMoment}>
