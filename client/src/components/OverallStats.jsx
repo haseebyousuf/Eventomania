@@ -1,8 +1,11 @@
 import { useTheme } from "@emotion/react";
+import { useMediaQuery } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import React, { useMemo } from "react";
 
 const OverallStats = ({ data }) => {
+  const isNonMobile = useMediaQuery("(min-width: 700px)");
+
   const theme = useTheme();
   const totalEventsLine = useMemo(() => {
     if (data) {
@@ -78,7 +81,7 @@ const OverallStats = ({ data }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: "Month",
+            legend: isNonMobile ? "Month" : "",
             legendOffset: 36,
             legendPosition: "middle",
           }}
@@ -88,7 +91,7 @@ const OverallStats = ({ data }) => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: "Events",
+            legend: isNonMobile ? "Events" : "",
             legendOffset: -40,
             legendPosition: "middle",
           }}
