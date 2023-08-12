@@ -61,7 +61,14 @@ export const adminDashboardStats = async (req, res) => {
       x: month,
       y: eventsCountByMonth[month] || 0,
     }));
-
+    const lastThreeMonths = Array.from({ length: 3 }, (_, index) =>
+      moment().subtract(index, "months").format("MMM")
+    ).reverse();
+    // Format data for Nivo line chart
+    const eventsPerMonthMobile = lastThreeMonths.map((month) => ({
+      x: month,
+      y: eventsCountByMonth[month] || 0,
+    }));
     //END EVENTS PER MONTH
     const events = await Event.find().exec();
 
@@ -96,6 +103,7 @@ export const adminDashboardStats = async (req, res) => {
       upcomingEvents,
       eventsPerCommittee,
       eventsPerMonth,
+      eventsPerMonthMobile,
       approvedEventsCount,
       unapprovedEventsCount,
       adminsCount,
@@ -189,6 +197,14 @@ export const committeeDashboardStats = async (req, res) => {
       x: month,
       y: eventsCountByMonth[month] || 0,
     }));
+    const lastThreeMonths = Array.from({ length: 3 }, (_, index) =>
+      moment().subtract(index, "months").format("MMM")
+    ).reverse();
+    // Format data for Nivo line chart
+    const eventsPerMonthMobile = lastThreeMonths.map((month) => ({
+      x: month,
+      y: eventsCountByMonth[month] || 0,
+    }));
     //END OF EVENTS PER MONTH OF COMMITTEE
 
     const events = await Event.find({ "committee.id": committeeId }).exec();
@@ -217,6 +233,7 @@ export const committeeDashboardStats = async (req, res) => {
       approvedEventsCount,
       upcomingEvents,
       eventsPerMonth,
+      eventsPerMonthMobile,
       eventsPerMember,
       unapprovedEventsCount,
       pendingReportCount,
