@@ -44,7 +44,7 @@ const EventCard = ({ event, isPast }) => {
         }}
       >
         <CardMedia
-          image={`${process.env.REACT_APP_BASE_URL}/assets/${event.bannerName}`}
+          image={`${process.env.REACT_APP_BASE_URL}assets/${event.bannerName}`}
           title='Event Banner'
           crossOrigin='anonymous'
           sx={{

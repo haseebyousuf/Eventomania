@@ -109,7 +109,7 @@ const EventDialog = ({
                   >
                     <Link
                       style={{ textDecoration: "none", color: "black" }}
-                      to={`${process.env.REACT_APP_BASE_URL}/assets/${params.row.orderName}`}
+                      to={`${process.env.REACT_APP_BASE_URL}assets/${params.row.orderName}`}
                       target='_blank'
                       rel='noreferrer'
                     >

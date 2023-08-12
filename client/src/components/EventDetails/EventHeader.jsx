@@ -34,7 +34,7 @@ const EventHeader = ({
   return (
     <>
       <img
-        src={`${process.env.REACT_APP_BASE_URL}/assets/${banner}`}
+        src={`${process.env.REACT_APP_BASE_URL}assets/${banner}`}
         alt='banner'
         width={isNonMobile ? "90%" : "100%"}
       />
