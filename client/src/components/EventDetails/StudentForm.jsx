@@ -92,7 +92,8 @@ const StudentForm = ({ eventDetails }) => {
             <TextField
               component={motion.div}
               initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
               transition={{ delay: 0.13 * index }}
               exit={{ y: 20, opacity: 0 }}
               key={input.name}
