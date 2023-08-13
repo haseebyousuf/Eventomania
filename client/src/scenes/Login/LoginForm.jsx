@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 
 import { useLoginMutation } from "state/adminApiSlice";
 import { setLogin } from "state";
+import AnimateText from "animations/AnimateText";
 
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
@@ -78,7 +79,7 @@ const LoginForm = () => {
                   flexDirection='column'
                   p='0.5rem'
                 >
-                  <Typography
+                  {/* <Typography
                     fontSize='1.8rem'
                     textDecoration='underline'
                     fontWeight='bold'
@@ -86,14 +87,15 @@ const LoginForm = () => {
                     color={theme.palette.secondary.main}
                   >
                     EVENTOMANIA
-                  </Typography>
+                  </Typography> */}
                   <Typography
-                    fontSize='1.5rem'
+                    fontSize='1.8rem'
                     textDecoration='underline'
                     fontWeight='bold'
-                    color={theme.palette.secondary}
+                    p='1rem 0rem 1rem 0rem'
+                    color={theme.palette.secondary.main}
                   >
-                    Hello Admin 👋
+                    <AnimateText text='Hello Admin 👋' delayValue={0.07} />
                   </Typography>
                   <Typography
                     fontSize='1rem'
