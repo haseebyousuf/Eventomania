@@ -11,7 +11,9 @@ const Layout = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   //state
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(
+    isNonMobile ? true : false
+  );
 
   return (
     <Box
