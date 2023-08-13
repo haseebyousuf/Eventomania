@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
-  Card,
-  CardContent,
   Divider,
   Grid,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { motion } from "framer-motion";
 
 import HomeNavbar from "../HomeNavbar";
 import EventHeader from "./EventHeader";
@@ -41,7 +38,7 @@ const EventDetails = () => {
     <Box>
       <HomeNavbar />
       {event && (
-        <Grid width='90%' margin='auto' container spacing={2}>
+        <Grid width='90%' margin='auto' container mt={2}>
           <Grid
             sx={{ marginBottom: "1rem" }}
             item
@@ -71,43 +68,32 @@ const EventDetails = () => {
             <Box position='sticky' top='5rem'>
               {!location.state.isPast ? (
                 <Register event={event} />
+              ) : event?.isPhotoUploaded ? (
+                <EventImages photos={event.photos} />
               ) : (
-                <Card
-                  component={motion.div}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{
-                    duration: 0.4,
-                    ease: "easeInOut",
-                  }}
-                  sx={{
-                    padding: "0rem 0.5rem",
-                    backgroundImage: "none",
-                    backgroundColor: theme.palette.background.alt,
-                  }}
+                <Box
+                  sx={{ display: "block", overflow: "auto" }}
+                  marginBottom='1rem'
                 >
-                  <CardContent>
-                    <Box
-                      display='flex'
-                      justifyContent='center'
-                      alignItems='flex-start'
-                      flexDirection='column'
+                  <Box
+                    sx={{
+                      padding: "0rem 0.7rem",
+                      borderRadius: "0.55rem",
+                      backgroundImage: "none",
+                      backgroundColor: theme.palette.background.alt,
+                    }}
+                  >
+                    <Typography
+                      fontSize={isNonMobile ? "1.6rem" : "1.2rem"}
+                      textDecoration='underline'
+                      fontWeight='bold'
+                      p='0.3rem 0rem 1rem 0rem'
+                      color='#d12121'
                     >
-                      <Typography
-                        fontSize={isNonMobile ? "1.8rem" : "1.5rem"}
-                        textDecoration='underline'
-                        fontWeight='bold'
-                        p='0.3rem 0rem 1rem 0rem'
-                        color='#d12121'
-                      >
-                        EVENT CONCLUDED!
-                      </Typography>
-                    </Box>
-                    {event?.isPhotoUploaded && (
-                      <EventImages photos={event.photos} />
-                    )}
-                  </CardContent>
-                </Card>
+                      Event Concluded
+                    </Typography>
+                  </Box>
+                </Box>
               )}
             </Box>
             {!isNonMobile && <Footer />}
