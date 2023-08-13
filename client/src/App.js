@@ -13,6 +13,7 @@ const Login = lazy(() => import("./scenes/Login/Login"));
 const EventDetails = lazy(() =>
   import("./components/EventDetails/EventDetails")
 );
+const HomeLayout = lazy(() => import("./scenes/HomeLayout/HomeLayout"));
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -41,41 +42,50 @@ function App() {
           <Routes>
             <Route path='*' element={<Navigate to='/' />} />
             <Route
-              path='/'
               element={
                 <Suspense>
-                  <Home />
+                  <HomeLayout />
                 </Suspense>
               }
-            />
-            <Route
-              path='/EventDetails/:eventId'
-              element={
-                <Suspense fallback={<div></div>}>
-                  <EventDetails />
-                </Suspense>
-              }
-            />
-            <Route
-              path='/Login'
-              element={
-                !isAuth ? (
-                  <Suspense fallback={<div></div>}>
-                    <Login />
+            >
+              <Route
+                path='/'
+                element={
+                  <Suspense>
+                    <Home />
                   </Suspense>
-                ) : (
-                  <Navigate to='/Dashboard' />
-                )
-              }
-            />
-            <Route
-              path='/About'
-              element={
-                <Suspense fallback={<div></div>}>
-                  <About />
-                </Suspense>
-              }
-            />
+                }
+              />
+              <Route
+                path='/About'
+                element={
+                  <Suspense fallback={<div></div>}>
+                    <About />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='/EventDetails/:eventId'
+                element={
+                  <Suspense fallback={<div></div>}>
+                    <EventDetails />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='/Login'
+                element={
+                  !isAuth ? (
+                    <Suspense fallback={<div></div>}>
+                      <Login />
+                    </Suspense>
+                  ) : (
+                    <Navigate to='/Dashboard' />
+                  )
+                }
+              />
+            </Route>
+
             {isAdmin && adminRoutes()}
             {(isConvenor || isMember) && committeeRoutes(isConvenor)}
           </Routes>
