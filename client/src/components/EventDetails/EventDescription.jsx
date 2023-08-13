@@ -7,7 +7,7 @@ const EventDescription = ({ description }) => {
   return (
     <>
       <Typography
-        fontSize='1.7rem'
+        fontSize='1.3rem'
         variant='h2'
         fontWeight='bold'
         color='secondary'
