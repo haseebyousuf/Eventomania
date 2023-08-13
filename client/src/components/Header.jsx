@@ -8,13 +8,12 @@ const Header = ({ title, subtitle }) => {
 
   return (
     <Box overflow='hidden'>
-      <Box
-        component={motion.div}
-        initial={{ y: "-100%" }}
-        animate={{ y: "0%" }}
-        transition={{ delay: 0.4, duration: 0.5 }}
-      >
+      <Box>
         <Typography
+          component={motion.div}
+          initial={{ y: "-100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
           variant={isNonMobile ? "h2" : "h3"}
           color={theme.palette.secondary[100]}
           fontWeight='bold'
@@ -23,6 +22,10 @@ const Header = ({ title, subtitle }) => {
           {title}
         </Typography>
         <Typography
+          component={motion.div}
+          initial={{ y: "-100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
           sx={{ mb: "5px" }}
           variant={isNonMobile ? "h5" : "h6"}
           fontWeight='bold'
