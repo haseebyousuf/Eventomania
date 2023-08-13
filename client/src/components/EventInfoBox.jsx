@@ -1,4 +1,4 @@
-import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
+import { Box, Divider, Grid, Typography, useMediaQuery } from "@mui/material";
 import React from "react";
 
 const EventInfoBox = ({ icon, title, value, last }) => {
@@ -6,27 +6,24 @@ const EventInfoBox = ({ icon, title, value, last }) => {
 
   return (
     <>
-      <Box>
-        <Box display='flex' gap={1}>
-          {icon}
-          <Box>
-            <Typography
-              color='secondary'
-              fontSize={!isNonMobile && "1rem"}
-              fontWeight='bold'
-            >
-              {title}
-            </Typography>
-            <Typography fontSize={!isNonMobile && "1rem"}>{value}</Typography>
+      <Grid item xs={12} sm={12} md={4} lg={4}>
+        <Box display='flex' gap={2}>
+          <Box display='flex' gap={1}>
+            {icon}
+            <Box>
+              <Typography
+                color='secondary'
+                fontSize={!isNonMobile && "1rem"}
+                fontWeight='bold'
+              >
+                {title}
+              </Typography>
+              <Typography fontSize={!isNonMobile && "1rem"}>{value}</Typography>
+            </Box>
           </Box>
+          {!last && isNonMobile && <Divider orientation='vertical' flexItem />}
         </Box>
-      </Box>
-      {!last && (
-        <Divider
-          orientation={isNonMobile ? "vertical" : "horizontal"}
-          flexItem
-        />
-      )}
+      </Grid>
     </>
   );
 };
