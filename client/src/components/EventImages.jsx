@@ -6,6 +6,7 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
+import AnimateText from "animations/AnimateText";
 import { motion } from "framer-motion";
 import React from "react";
 import ImageGallery from "react-image-gallery";
@@ -46,7 +47,7 @@ const EventImages = ({ photos }) => {
               p='0.3rem 0rem 1rem 0rem'
               color='#d12121'
             >
-              EVENT CONCLUDED!
+              <AnimateText text='EVENT CONCLUDED!' delayValue={0.05} />
             </Typography>
           </Box>
           <Box
