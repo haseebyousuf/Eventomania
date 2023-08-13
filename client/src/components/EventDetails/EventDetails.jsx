@@ -9,13 +9,13 @@ import {
   useTheme,
 } from "@mui/material";
 
-import HomeNavbar from "../HomeNavbar";
 import EventHeader from "./EventHeader";
 import EventDescription from "./EventDescription";
 
 import Register from "./Register";
 import EventImages from "../EventImages";
 import Footer from "components/Footer";
+import AnimateText from "animations/AnimateText";
 
 const EventDetails = () => {
   const location = useLocation();
@@ -36,7 +36,6 @@ const EventDetails = () => {
 
   return (
     <Box>
-      <HomeNavbar />
       {event && (
         <Grid width='90%' margin='auto' container mt={2}>
           <Grid
@@ -65,7 +64,7 @@ const EventDetails = () => {
             <EventDescription description={event.description} />
           </Grid>
           <Grid item xs={12} sm={12} md={5} lg={4}>
-            <Box position='sticky' top='5rem'>
+            <Box position={isNonMobile && "sticky"} top={isNonMobile && "5rem"}>
               {!location.state.isPast ? (
                 <Register event={event} />
               ) : event?.isPhotoUploaded ? (
@@ -77,7 +76,7 @@ const EventDetails = () => {
                 >
                   <Box
                     sx={{
-                      padding: "0rem 0.7rem",
+                      padding: " 0.7rem",
                       borderRadius: "0.55rem",
                       backgroundImage: "none",
                       backgroundColor: theme.palette.background.alt,
@@ -90,7 +89,7 @@ const EventDetails = () => {
                       p='0.3rem 0rem 1rem 0rem'
                       color='#d12121'
                     >
-                      Event Concluded
+                      <AnimateText text='EVENT CONCLUDED!' delayValue={0.05} />
                     </Typography>
                   </Box>
                 </Box>
