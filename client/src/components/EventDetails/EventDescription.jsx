@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const EventDescription = ({ description }) => {
   const theme = useTheme();
@@ -21,19 +14,19 @@ const EventDescription = ({ description }) => {
       >
         About This Event
       </Typography>
-      <Box mt={1} width={isNonMobile ? "90%" : "100%"}>
-        <Card
-          sx={{
-            backgroundImage: "none",
-            backgroundColor: theme.palette.background.alt,
-          }}
-        >
-          <CardContent>
-            <Typography textAlign='left' fontSize='1rem'>
-              {description}
-            </Typography>
-          </CardContent>
-        </Card>
+      <Box
+        borderRadius='0.55rem'
+        width={isNonMobile ? "90%" : "100%"}
+        mt={2}
+        sx={{
+          backgroundImage: "none",
+          backgroundColor: theme.palette.background.alt,
+          p: "1rem ",
+        }}
+      >
+        <Typography textAlign='left' fontSize='1rem'>
+          {description}
+        </Typography>
       </Box>
     </>
   );
