@@ -72,15 +72,6 @@ const Register = ({ event }) => {
               label='Faculty'
               key='faculty'
             />
-            <Tab
-              component={motion.div}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.26 }}
-              exit={{ y: 20, opacity: 0 }}
-              label='Other'
-              key='other'
-            />
           </Tabs>
           <Box pt='0.5rem'>
             {tabIndex === 0 && (
