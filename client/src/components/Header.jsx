@@ -1,4 +1,5 @@
 import { Typography, Box, useTheme, useMediaQuery } from "@mui/material";
+import AnimateText from "animations/AnimateText";
 import { motion } from "framer-motion";
 import React from "react";
 
@@ -22,16 +23,12 @@ const Header = ({ title, subtitle }) => {
           {title}
         </Typography>
         <Typography
-          component={motion.div}
-          initial={{ y: "-100%", opacity: 0 }}
-          animate={{ y: "0%", opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
           sx={{ mb: "5px" }}
           variant={isNonMobile ? "h5" : "h6"}
           fontWeight='bold'
           color={theme.palette.secondary[300]}
         >
-          {subtitle}
+          <AnimateText text={subtitle} delayValue={0.05} />
         </Typography>
       </Box>
     </Box>
