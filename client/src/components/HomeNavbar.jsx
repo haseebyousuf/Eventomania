@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setMode } from "state";
 import FlexBetween from "components/FlexBetween";
+import AnimateText from "animations/AnimateText";
 
 const navItems = [
   {
@@ -84,12 +85,15 @@ const Navbar = () => {
           >
             <Typography
               color={theme.palette.secondary.main}
-              sx={{ fontSize: "1.5rem", cursor: "pointer" }}
+              sx={{
+                fontSize: "1.8rem",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
               variant='h1'
-              fontWeight='bold'
               onClick={() => navigate("/")}
             >
-              EVENTOMANIA
+              <AnimateText text='eventomania.' delayValue={0.1} />
             </Typography>
           </Box>
         </FlexBetween>
@@ -201,6 +205,7 @@ const Navbar = () => {
                     onClick={() => {
                       navigate(link);
                       setActive(link);
+                      setIsSidebarOpen(!isSidebarOpen);
                     }}
                     sx={{
                       color: theme.palette.secondary.main,
@@ -233,7 +238,10 @@ const Navbar = () => {
               fontWeight: "bold",
             }}
             variant='contained'
-            onClick={() => navigate("/Login")}
+            onClick={() => {
+              navigate("/Login");
+              setIsSidebarOpen(!isSidebarOpen);
+            }}
             color='secondary'
           >
             Sign IN
