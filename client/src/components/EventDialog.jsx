@@ -73,6 +73,7 @@ const EventDialog = ({
             margin: "auto",
             display: "block",
             overflow: "auto",
+            minHeight: "100vh",
           }}
         >
           {params && (
