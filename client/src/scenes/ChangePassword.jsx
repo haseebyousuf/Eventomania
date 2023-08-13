@@ -93,7 +93,7 @@ const ConfirmPassword = () => {
   return (
     <Box>
       <Box
-        m='1rem 2.5rem'
+        m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
         position='relative'
         component={motion.div}
         initial={{ opacity: 0 }}

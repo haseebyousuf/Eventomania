@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 
@@ -10,6 +10,8 @@ import { useMembersQuery } from "state/adminApiSlice";
 
 const Members = () => {
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+
   const { data, isLoading } = useMembersQuery();
 
   const columns = [
@@ -56,7 +58,7 @@ const Members = () => {
   ];
   return (
     <Box
-      m='1rem 2.5rem'
+      m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
       position='relative'
       component={motion.div}
       initial={{ opacity: 0 }}

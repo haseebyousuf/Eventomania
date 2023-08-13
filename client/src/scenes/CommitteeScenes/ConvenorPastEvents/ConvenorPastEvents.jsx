@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Button, useTheme, useMediaQuery } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import SendIcon from "@mui/icons-material/Send";
 import { DataGrid } from "@mui/x-data-grid";
@@ -27,6 +27,7 @@ const filterData = (data) => {
 
 const ConvenorPastEvents = () => {
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
   const user = useSelector((state) => state.global.user);
 
   //state
@@ -237,7 +238,7 @@ const ConvenorPastEvents = () => {
 
   return (
     <Box
-      m='1rem 2.5rem'
+      m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
       position='relative'
       component={motion.div}
       initial={{ opacity: 0 }}

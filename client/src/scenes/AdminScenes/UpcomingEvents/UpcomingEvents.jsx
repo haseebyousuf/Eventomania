@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { motion } from "framer-motion";
@@ -40,6 +40,7 @@ const UpcomingEvents = () => {
 
   //hooks
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   //sort function
   const dayInMonthComparator = (v1, v2) =>
@@ -116,7 +117,7 @@ const UpcomingEvents = () => {
 
   return (
     <Box
-      m='1rem 2.5rem'
+      m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
       position='relative'
       component={motion.div}
       initial={{ opacity: 0 }}

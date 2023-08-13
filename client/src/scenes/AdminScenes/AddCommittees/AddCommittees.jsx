@@ -1,15 +1,17 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
 
 import Form from "./Form";
 import Header from "components/Header";
 
 const AddCommittees = () => {
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+
   return (
     <Box>
       <Box
-        m='1rem 2.5rem'
+        m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
         position='relative'
         component={motion.div}
         initial={{ opacity: 0 }}

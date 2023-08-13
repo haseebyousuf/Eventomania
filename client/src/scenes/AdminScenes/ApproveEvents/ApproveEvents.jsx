@@ -1,4 +1,4 @@
-import { Box, Switch, useTheme } from "@mui/material";
+import { Box, Switch, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
@@ -14,6 +14,8 @@ import {
 
 const ApproveEvents = () => {
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+
   // RTK Query
   const { data, isLoading } = useUnapprovedEventsQuery();
   const [approveEvent] = useApproveEventMutation();
@@ -124,7 +126,7 @@ const ApproveEvents = () => {
 
   return (
     <Box
-      m='1rem 2.5rem'
+      m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
       component={motion.div}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

@@ -4,6 +4,7 @@ import {
   useTheme,
   Card,
   CardContent,
+  useMediaQuery,
   TextField,
   Button,
   CardActions,
@@ -52,6 +53,7 @@ const initialValuesMember = {
 
 const AddCommitteeMember = () => {
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
   const user = useSelector((state) => state.global.user);
 
   // States
@@ -84,7 +86,7 @@ const AddCommitteeMember = () => {
   return (
     <Box>
       <Box
-        m='1rem 2.5rem'
+        m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
         position='relative'
         component={motion.div}
         initial={{ opacity: 0 }}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Switch, useTheme } from "@mui/material";
+import { Box, Button, Switch, useTheme, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { motion } from "framer-motion";
@@ -45,6 +45,7 @@ const PastEvents = () => {
 
   //hooks
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   //handlers
   const handlePublishBtn = async (id, isPublished) => {
@@ -200,7 +201,7 @@ const PastEvents = () => {
 
   return (
     <Box
-      m='1rem 2.5rem'
+      m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
       position='relative'
       component={motion.div}
       initial={{ opacity: 0 }}

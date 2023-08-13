@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, useTheme } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import moment from "moment";
@@ -20,6 +20,7 @@ const filterAndSortData = (data) => {
 
 const AdminEventLog = () => {
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
   //state
   const [events, setEvents] = useState(null);
   //RTK Query
@@ -97,7 +98,7 @@ const AdminEventLog = () => {
 
   return (
     <Box
-      m='1rem 2.5rem'
+      m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
       position='relative'
       component={motion.div}
       initial={{ opacity: 0 }}

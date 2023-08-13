@@ -10,6 +10,7 @@ import {
   InputAdornment,
   IconButton,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -55,6 +56,8 @@ const initialValuesMember = {
 
 const AddMember = () => {
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+
   // States
   const [showPassword, setShowPassword] = useState(false);
 
@@ -92,7 +95,7 @@ const AddMember = () => {
   return (
     <Box>
       <Box
-        m='1rem 2.5rem'
+        m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
         position='relative'
         component={motion.div}
         initial={{ opacity: 0 }}

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useLocation, useNavigate } from "react-router-dom";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
@@ -8,6 +15,7 @@ import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 
 const AudienceDetails = () => {
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -92,7 +100,7 @@ const AudienceDetails = () => {
 
   return (
     <Box
-      m='1rem 2.5rem'
+      m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
       component={motion.div}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

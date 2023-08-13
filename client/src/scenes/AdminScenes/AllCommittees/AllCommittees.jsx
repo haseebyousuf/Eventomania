@@ -1,4 +1,10 @@
-import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Tooltip,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import { Delete } from "@mui/icons-material";
@@ -14,6 +20,8 @@ import {
 
 const AllCommittees = () => {
   const theme = useTheme();
+  const isNonMobile = useMediaQuery("(min-width: 600px)");
+
   //RTK query
   const { data, isLoading } = useCommitteesQuery();
   const [deleteCommittee] = useDeleteCommitteeMutation();
@@ -94,7 +102,7 @@ const AllCommittees = () => {
 
   return (
     <Box
-      m='1rem 2.5rem'
+      m={isNonMobile ? "1rem 2.5rem" : "0.8rem"}
       component={motion.div}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
