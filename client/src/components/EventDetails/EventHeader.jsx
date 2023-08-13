@@ -1,9 +1,8 @@
-import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import { Box, Typography, useTheme, useMediaQuery, Grid } from "@mui/material";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TodayIcon from "@mui/icons-material/Today";
 import moment from "moment";
-import FlexBetween from "components/FlexBetween";
 import EventInfoBox from "components/EventInfoBox";
 
 const EventHeader = ({ name, banner, startDate, venue, organizedBy }) => {
@@ -37,7 +36,7 @@ const EventHeader = ({ name, banner, startDate, venue, organizedBy }) => {
           p: "1rem ",
         }}
       >
-        <FlexBetween flexWrap='wrap' gap={!isNonMobile && 3}>
+        <Grid container spacing={isNonMobile ? 2 : 3}>
           <EventInfoBox
             icon={<TodayIcon color='secondary' />}
             title='Date'
@@ -55,7 +54,7 @@ const EventHeader = ({ name, banner, startDate, venue, organizedBy }) => {
             value={organizedBy}
             last={true}
           />
-        </FlexBetween>
+        </Grid>
       </Box>
     </>
   );
