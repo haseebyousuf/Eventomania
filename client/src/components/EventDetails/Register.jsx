@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 
 import StudentForm from "./StudentForm";
 import FacultyForm from "./FacultyForm";
+import AnimateText from "animations/AnimateText";
 
 const Register = ({ event }) => {
   const theme = useTheme();
@@ -45,7 +46,7 @@ const Register = ({ event }) => {
               p='0.3rem 0rem 1rem 0rem'
               color={theme.palette.secondary.main}
             >
-              REGISTER NOW!
+              <AnimateText text='REGISTER NOW!' delayValue={0.05} />
             </Typography>
           </Box>
           <Tabs
