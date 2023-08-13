@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React from "react";
-import HomeNavbar from "../../components/HomeNavbar";
 
 const About = () => {
   const theme = useTheme();
@@ -23,12 +22,7 @@ const About = () => {
   };
 
   return (
-    <Box
-      sx={{
-        height: "100vh",
-      }}
-    >
-      <HomeNavbar />
+    <Box>
       <Box
         sx={{
           margin: isNonMobile ? "2rem 5rem 2rem 5rem" : "1rem 2rem 1rem 2rem",
