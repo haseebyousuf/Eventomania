@@ -1,35 +1,14 @@
-import {
-  Divider,
-  Paper,
-  Stack,
-  Typography,
-  styled,
-  useMediaQuery,
-} from "@mui/material";
-import EventIcon from "@mui/icons-material/Event";
+import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
+import Diversity1Icon from "@mui/icons-material/Diversity1";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TodayIcon from "@mui/icons-material/Today";
 import moment from "moment";
+import FlexBetween from "components/FlexBetween";
+import EventInfoBox from "components/EventInfoBox";
 
-const EventHeader = ({
-  name,
-  banner,
-  startDate,
-  endDate,
-  venue,
-  organizedBy,
-  createdBy,
-  dialog,
-}) => {
+const EventHeader = ({ name, banner, startDate, venue, organizedBy }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
-
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundImage: "none",
-    backgroundColor: theme.palette.background.alt,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+  const theme = useTheme();
 
   return (
     <>
@@ -48,96 +27,36 @@ const EventHeader = ({
       >
         {name}
       </Typography>
-      <Stack
+      <Box
+        borderRadius='0.55rem'
         width={isNonMobile ? "90%" : "100%"}
         mt={2}
-        mb={2}
-        direction={isNonMobile ? "row" : "column"}
-        divider={<Divider orientation='vertical' flexItem />}
-        spacing={1}
+        sx={{
+          backgroundImage: "none",
+          backgroundColor: theme.palette.background.alt,
+          p: "1rem ",
+        }}
       >
-        <Item
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-          }}
-        >
-          <TodayIcon color='secondary' />{" "}
-          <Typography fontSize={!isNonMobile && "1rem"}>
-            {isNonMobile
-              ? `${moment(new Date(startDate)).format(
-                  "MMMM Do YYYY, h:mm A"
-                )} - ${moment(new Date(endDate)).format(
-                  "MMMM Do YYYY, h:mm A"
-                )}`
-              : moment(new Date(startDate)).format("MMMM Do YYYY, h:mm A")}
-          </Typography>
-        </Item>
-        {!isNonMobile && (
-          <Item
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
-          >
-            <EventIcon color='secondary' />{" "}
-            <Typography fontSize={!isNonMobile && "1rem"}>
-              {moment(new Date(endDate)).format("MMMM Do YYYY, h:mm A")}
-            </Typography>
-          </Item>
-        )}
-        <Item
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-          }}
-        >
-          <LocationOnIcon color='secondary' />
-          <Typography fontSize={!isNonMobile && "1rem"}>{venue}</Typography>
-        </Item>
-      </Stack>
-      <Stack
-        width={isNonMobile ? "90%" : "100%"}
-        mt={2}
-        mb={2}
-        direction={isNonMobile ? "row" : "column"}
-        divider={<Divider orientation='vertical' flexItem />}
-        spacing={1}
-      >
-        <Item
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-          }}
-        >
-          <Typography fontSize={!isNonMobile && "1rem"}>
-            Organized By:
-          </Typography>
-          <Typography color='secondary' fontSize={!isNonMobile && "1rem"}>
-            {organizedBy}
-          </Typography>
-        </Item>
-        {dialog && (
-          <Item
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
-          >
-            <Typography fontSize={!isNonMobile && "1rem"}>
-              Created By:
-            </Typography>
-            <Typography color='secondary' fontSize={!isNonMobile && "1rem"}>
-              {createdBy}
-            </Typography>
-          </Item>
-        )}
-      </Stack>
+        <FlexBetween flexWrap='wrap' gap={!isNonMobile && 3}>
+          <EventInfoBox
+            icon={<TodayIcon color='secondary' />}
+            title='Date'
+            value={moment(new Date(startDate)).format("Do MMMM YYYY, h:mm A")}
+          />
+
+          <EventInfoBox
+            icon={<LocationOnIcon color='secondary' />}
+            title='Venue'
+            value={venue}
+          />
+          <EventInfoBox
+            icon={<Diversity1Icon color='secondary' />}
+            title='Organizers'
+            value={organizedBy}
+            last={true}
+          />
+        </FlexBetween>
+      </Box>
     </>
   );
 };
