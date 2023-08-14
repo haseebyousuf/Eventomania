@@ -12,7 +12,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { Formik } from "formik";
-import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -20,36 +19,8 @@ import { toast } from "react-toastify";
 
 import Header from "components/Header";
 import { useAddMemberMutation } from "state/adminApiSlice";
-
-const AddMemberSchema = yup.object().shape({
-  memberName: yup.string().required("*Name Required"),
-  memberPassword: yup
-    .string()
-    .required("*No password provided.")
-    .min(8, "*Password must be 8 characters long")
-    .matches(/[0-9]/, "*Password requires a number")
-    .matches(/[a-z]/, "*Password requires a lowercase letter")
-    .matches(/[A-Z]/, "*Password requires an uppercase letter")
-    .matches(/[^\w]/, "*Password requires a symbol"),
-  memberEmail: yup
-    .string()
-    .email("That doesn't look like an email")
-    .required("Email is required"),
-  mobile: yup
-    .string()
-    .matches(
-      new RegExp(/^(\+91[-\s]?)?[0]?(91)?[6789]\d{9}$/),
-      "That doesn't look like a valid phone number"
-    )
-    .required("Mobile is required"),
-});
-
-const initialValuesMember = {
-  memberName: "",
-  memberEmail: "",
-  memberPassword: "",
-  mobile: "",
-};
+import { committeeMemberSchema } from "utils/validationSchemas";
+import { committeeMemberInitialValues } from "utils/initialValues";
 
 const AddCommitteeMember = () => {
   const theme = useTheme();
@@ -97,8 +68,8 @@ const AddCommitteeMember = () => {
 
         <Formik
           onSubmit={handleFormSubmit}
-          initialValues={initialValuesMember}
-          validationSchema={AddMemberSchema}
+          initialValues={committeeMemberInitialValues}
+          validationSchema={committeeMemberSchema}
         >
           {({
             values,

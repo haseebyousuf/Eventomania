@@ -17,7 +17,6 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { Formik } from "formik";
-import * as yup from "yup";
 import Dropzone from "react-dropzone";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { motion } from "framer-motion";
@@ -26,49 +25,8 @@ import { toast } from "react-toastify";
 import { useCreateEventMutation } from "state/eventApiSlice";
 import Header from "components/Header";
 import FlexBetween from "components/FlexBetween";
-
-const isNotPast = (value) => {
-  return moment(value).isSameOrAfter(moment(), "day");
-};
-
-// Custom validation method for ensuring the end date is after the start date
-const isEndDateAfterStartDate = (endDate, options) => {
-  const { startDate } = options.parent;
-  return moment(new Date(startDate)).isBefore(new Date(endDate));
-};
-
-const eventSchema = yup.object().shape({
-  name: yup.string().required("*Name Required!"),
-  startDate: yup
-    .date()
-    .required("Start Date is required")
-    .typeError("Invalid Date and Time!")
-    .test("is-not-past", "Start Date should not be in the past", isNotPast),
-  endDate: yup
-    .date()
-    .required("End Date and Time is required")
-    .typeError("Invalid Date and Time!")
-    .test("is-not-past", "End Date should not be in the past", isNotPast)
-    .test(
-      "is-after-start-date",
-      "End Date should not be before Start Date",
-      isEndDateAfterStartDate
-    ),
-  venue: yup.string().required("*Venue is Required!"),
-  description: yup.string().required("*Description is Required"),
-  banner: yup.string().required("*banner required"),
-  order: yup.string().required("*order file required"),
-});
-
-const initialValuesEvent = {
-  name: "",
-  startDate: null,
-  endDate: null,
-  venue: "",
-  description: "",
-  banner: "",
-  order: "",
-};
+import { eventSchema } from "utils/validationSchemas";
+import { eventInitialValues } from "utils/initialValues";
 
 const CreateEvent = () => {
   const user = useSelector((state) => state.global.user);
@@ -116,7 +74,7 @@ const CreateEvent = () => {
         <Header title='CREATE EVENT' subtitle='Create a New Event.' />
         <Formik
           onSubmit={handleFormSubmit}
-          initialValues={initialValuesEvent}
+          initialValues={eventInitialValues}
           validationSchema={eventSchema}
         >
           {({

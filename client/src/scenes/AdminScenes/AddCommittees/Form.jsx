@@ -10,26 +10,17 @@ import {
 } from "@mui/material";
 import { toast } from "react-toastify";
 import { Formik } from "formik";
-import * as yup from "yup";
 import { motion } from "framer-motion";
 import { useTheme } from "@emotion/react";
 
 import { useAddCommitteeMutation } from "state/committeeApiSlice";
+import { committeeSchema } from "utils/validationSchemas";
+import { committeeInitialValues } from "utils/initialValues";
 
 const inputs = [
   { id: 1, label: "Committee Name", name: "name" },
   { id: 2, label: "Description", name: "description" },
 ];
-
-const addCommitteeSchema = yup.object().shape({
-  name: yup.string().required("*Name is Required"),
-  description: yup.string().required("Description is required"),
-});
-
-const initialValuesCommittee = {
-  name: "",
-  description: "",
-};
 
 const Form = () => {
   //RTK query
@@ -53,8 +44,8 @@ const Form = () => {
   return (
     <Formik
       onSubmit={handleFormSubmit}
-      initialValues={initialValuesCommittee}
-      validationSchema={addCommitteeSchema}
+      initialValues={committeeInitialValues}
+      validationSchema={committeeSchema}
     >
       {({
         values,

@@ -11,7 +11,6 @@ import {
   IconButton,
 } from "@mui/material";
 import { Formik } from "formik";
-import * as yup from "yup";
 import { motion } from "framer-motion";
 import { useTheme } from "@emotion/react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -20,37 +19,14 @@ import { toast } from "react-toastify";
 
 import { useChangePasswordMutation } from "state/adminApiSlice";
 import Header from "components/Header";
+import { changePasswordSchema } from "utils/validationSchemas";
+import { changePasswordInitialValues } from "utils/initialValues";
 
 const inputs = [
   { id: 1, label: "Current Password", name: "currentPassword" },
   { id: 2, label: "New Password", name: "newPassword" },
   { id: 3, label: "Confirm New Password", name: "cNewPassword" },
 ];
-const changePasswordSchema = yup.object().shape({
-  currentPassword: yup.string().required("Current Password is Required"),
-  newPassword: yup
-    .string()
-    .required("*No password provided.")
-    .min(8, "*Password must be 8 characters long")
-    .matches(/[0-9]/, "*Password requires a number")
-    .matches(/[a-z]/, "*Password requires a lowercase letter")
-    .matches(/[A-Z]/, "*Password requires an uppercase letter")
-    .matches(/[^\w]/, "*Password requires a symbol")
-    .notOneOf(
-      [yup.ref("currentPassword"), null],
-      "Old Password and New Password Cannot Be Same"
-    ),
-  cNewPassword: yup
-    .string()
-    .required("Confirm Password Please")
-    .oneOf([yup.ref("newPassword")], "Passwords does not match"),
-});
-
-const initialValuesPassword = {
-  currentPassword: "",
-  newPassword: "",
-  cNewPassword: "",
-};
 
 const ConfirmPassword = () => {
   //hooks
@@ -103,7 +79,7 @@ const ConfirmPassword = () => {
         <Header title='CHANGE PASSWORD' subtitle='Enter Details' />
         <Formik
           onSubmit={handleFormSubmit}
-          initialValues={initialValuesPassword}
+          initialValues={changePasswordInitialValues}
           validationSchema={changePasswordSchema}
         >
           {({

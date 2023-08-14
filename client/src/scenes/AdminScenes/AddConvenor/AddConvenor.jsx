@@ -13,7 +13,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Formik } from "formik";
-import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import Header from "components/Header";
@@ -21,29 +20,8 @@ import { toast } from "react-toastify";
 
 import { useCommitteesQuery } from "state/committeeApiSlice";
 import { useAddConvenorMutation } from "state/adminApiSlice";
-
-const addConvenorSchema = yup.object().shape({
-  name: yup.string().required("*Name Required"),
-  password: yup
-    .string()
-    .required("*No password provided.")
-    .min(8, "*Password must be 8 characters long")
-    .matches(/[0-9]/, "*Password requires a number")
-    .matches(/[a-z]/, "*Password requires a lowercase letter")
-    .matches(/[A-Z]/, "*Password requires an uppercase letter")
-    .matches(/[^\w]/, "*Password requires a symbol"),
-  email: yup.string().email("*Invalid Email").required("*No Email Provided"),
-  committee: yup.string().required("Committee is required!").ensure(),
-  mobile: yup.number().required("*Mobile Number is Required"),
-});
-
-const initialValuesConvenor = {
-  name: "",
-  email: "",
-  password: "",
-  committee: "",
-  mobile: "",
-};
+import { convenorSchema } from "utils/validationSchemas";
+import { convenorInitialValues } from "utils/initialValues";
 
 const AddConvenor = () => {
   const theme = useTheme();
@@ -95,8 +73,8 @@ const AddConvenor = () => {
         <Header title='ADD CONVENOR' subtitle='Add New Convenor Details.' />
         <Formik
           onSubmit={handleFormSubmit}
-          initialValues={initialValuesConvenor}
-          validationSchema={addConvenorSchema}
+          initialValues={convenorInitialValues}
+          validationSchema={convenorSchema}
         >
           {({
             values,

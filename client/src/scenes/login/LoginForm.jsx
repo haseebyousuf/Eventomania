@@ -10,7 +10,6 @@ import {
   CardActions,
 } from "@mui/material";
 import { Formik } from "formik";
-import * as yup from "yup";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -18,15 +17,8 @@ import { useLoginMutation } from "state/adminApiSlice";
 import { setLogin } from "state";
 import AnimateText from "animations/AnimateText";
 
-const loginSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("required"),
-  password: yup.string().required("No password provided."),
-});
-
-const initialValuesLogin = {
-  email: "",
-  password: "",
-};
+import { loginSchema } from "utils/validationSchemas";
+import { loginInitialValues } from "utils/initialValues";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -49,7 +41,7 @@ const LoginForm = () => {
   return (
     <Formik
       onSubmit={handleFormSubmit}
-      initialValues={initialValuesLogin}
+      initialValues={loginInitialValues}
       validationSchema={loginSchema}
     >
       {({

@@ -1,23 +1,17 @@
 import { Formik } from "formik";
-import * as yup from "yup";
-import React from "react";
 import { CloudUploadOutlined } from "@mui/icons-material";
 import Dropzone from "react-dropzone";
 import { Box, Button } from "@mui/material";
 import { toast } from "react-toastify";
 
 import { useUploadPhotosMutation } from "state/eventApiSlice";
+import { photosSchema } from "utils/validationSchemas";
 
 const UploadPhotos = ({ id }) => {
+  //rtk
   const [uploadPhotos, { isLoading }] = useUploadPhotosMutation();
 
-  const photosSchema = yup.object().shape({
-    photos: yup
-      .array()
-      .required("*photos required")
-      .max(5, "You can upload up to 5 photos."),
-  });
-
+  //handler
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       const formData = new FormData();

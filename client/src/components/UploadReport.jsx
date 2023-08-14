@@ -1,6 +1,4 @@
 import { Formik } from "formik";
-import * as yup from "yup";
-import React from "react";
 import { CloudUploadOutlined } from "@mui/icons-material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Dropzone from "react-dropzone";
@@ -9,18 +7,14 @@ import { toast } from "react-toastify";
 
 import FlexBetween from "./FlexBetween";
 import { useUploadReportMutation } from "state/eventApiSlice";
+import { reportSchema } from "utils/validationSchemas";
+import { reportInitialValue } from "utils/initialValues";
 
 const UploadReport = ({ id }) => {
+  //rtk
   const [uploadReport] = useUploadReportMutation();
 
-  const reportSchema = yup.object().shape({
-    report: yup.string().required("*report required"),
-  });
-
-  const initialReportValue = {
-    report: "",
-  };
-
+  //handler
   const handleFormSubmit = async (values, onSubmitProps) => {
     try {
       const formData = new FormData();
@@ -40,7 +34,7 @@ const UploadReport = ({ id }) => {
   return (
     <Formik
       onSubmit={handleFormSubmit}
-      initialValues={initialReportValue}
+      initialValues={reportInitialValue}
       validationSchema={reportSchema}
     >
       {({

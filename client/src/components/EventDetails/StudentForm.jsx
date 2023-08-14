@@ -1,30 +1,12 @@
 import { Formik } from "formik";
-import * as yup from "yup";
 import { Button, CardActions, TextField } from "@mui/material";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 
 import { useRegisterStudentMutation } from "state/userApiSlice";
+import { studentSchema } from "utils/validationSchemas";
+import { studentInitialValues } from "utils/initialValues";
 
-const studentSchema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  regNo: yup.string().required("Registration Number is required"),
-  courseSemesterDept: yup
-    .string()
-    .matches(new RegExp(/^.+-.+-.+$/), "Please use Hyphens (-)")
-    .required("Required Field"),
-  mobileNo: yup
-    .string()
-    .matches(
-      new RegExp(/^(\+91[-\s]?)?[0]?(91)?[6789]\d{9}$/),
-      "That doesn't look like a valid phone number"
-    )
-    .required("Mobile is required"),
-  email: yup
-    .string()
-    .email("That doesn't look like an email")
-    .required("Email is required"),
-});
 const inputs = [
   { label: "Name", name: "name" },
   { label: "Registration Number", name: "regNo" },
@@ -32,14 +14,6 @@ const inputs = [
   { label: "Email", name: "email" },
   { label: "Course - Department - Semester", name: "courseSemesterDept" },
 ];
-const initialValuesStudent = {
-  name: "",
-  regNo: "",
-  mobileNo: "",
-  email: "",
-  courseSemesterDept: "",
-  department: "",
-};
 
 const StudentForm = ({ eventDetails }) => {
   // RTK query
@@ -76,7 +50,7 @@ const StudentForm = ({ eventDetails }) => {
   return (
     <Formik
       onSubmit={handleFormSubmit}
-      initialValues={initialValuesStudent}
+      initialValues={studentInitialValues}
       validationSchema={studentSchema}
     >
       {({
