@@ -108,7 +108,6 @@ const StudentForm = ({ eventDetails }) => {
               type='submit'
               disabled={isLoading}
               sx={{
-                color: "black",
                 fontWeight: "bold",
               }}
               size='large'

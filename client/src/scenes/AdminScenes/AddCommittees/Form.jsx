@@ -115,7 +115,6 @@ const Form = () => {
                   disabled={isLoading}
                   type='submit'
                   sx={{
-                    color: "black",
                     fontWeight: "bold",
                   }}
                   size='large'

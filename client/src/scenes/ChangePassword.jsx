@@ -170,7 +170,6 @@ const ConfirmPassword = () => {
                       variant='contained'
                       type='submit'
                       sx={{
-                        color: "black",
                         fontWeight: "bold",
                       }}
                       size='large'

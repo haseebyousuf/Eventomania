@@ -272,7 +272,6 @@ const AddMember = () => {
                       disabled={isLoading}
                       type='submit'
                       sx={{
-                        color: "black",
                         fontWeight: "bold",
                       }}
                       size='large'
