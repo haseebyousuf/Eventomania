@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, useTheme, useMediaQuery } from "@mui/material";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import SendIcon from "@mui/icons-material/Send";
 import { DataGrid } from "@mui/x-data-grid";
@@ -18,6 +18,7 @@ import {
   useCommitteeApprovedEventsQuery,
   useSendCertificatesMutation,
 } from "state/eventApiSlice";
+import DataGridContainer from "components/DataGridContainer";
 
 const filterData = (data) => {
   return data.filter((event) =>
@@ -26,7 +27,6 @@ const filterData = (data) => {
 };
 
 const ConvenorPastEvents = () => {
-  const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const user = useSelector((state) => state.global.user);
 
@@ -246,35 +246,7 @@ const ConvenorPastEvents = () => {
       transition={{ delay: 0.1, ease: "easeInOut" }}
     >
       <Header title='PAST EVENTS' subtitle='List of All Past Events.' />
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={isLoading || !events}
           getRowId={(row) => row._id}
@@ -304,7 +276,7 @@ const ConvenorPastEvents = () => {
             },
           }}
         ></DataGrid>
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };

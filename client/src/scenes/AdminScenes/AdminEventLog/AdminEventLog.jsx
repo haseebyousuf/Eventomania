@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import moment from "moment";
@@ -9,6 +9,7 @@ import EventActions from "./EventActions";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { useApprovedEventsQuery } from "state/eventApiSlice";
 import { useGetUsersQuery } from "state/userApiSlice";
+import DataGridContainer from "components/DataGridContainer";
 
 const filterAndSortData = (data) => {
   return data
@@ -19,7 +20,6 @@ const filterAndSortData = (data) => {
 };
 
 const AdminEventLog = () => {
-  const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   //state
   const [events, setEvents] = useState(null);
@@ -106,35 +106,7 @@ const AdminEventLog = () => {
       transition={{ delay: 0.1, ease: "easeInOut" }}
     >
       <Header title='EVENT LOGS' subtitle='Generate Event Reports.' />
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={isLoading}
           getRowId={(row) => row._id}
@@ -145,7 +117,7 @@ const AdminEventLog = () => {
             toolbar: { csvOptions, showExport: true, events },
           }}
         ></DataGrid>
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };

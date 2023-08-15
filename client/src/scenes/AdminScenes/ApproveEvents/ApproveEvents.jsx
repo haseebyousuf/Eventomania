@@ -1,4 +1,4 @@
-import { Box, Switch, useTheme, useMediaQuery } from "@mui/material";
+import { Box, Switch, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
@@ -11,9 +11,9 @@ import {
   useApproveEventMutation,
   useUnapprovedEventsQuery,
 } from "state/eventApiSlice";
+import DataGridContainer from "components/DataGridContainer";
 
 const ApproveEvents = () => {
-  const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   // RTK Query
@@ -133,35 +133,7 @@ const ApproveEvents = () => {
       transition={{ delay: 0.1, ease: "easeInOut" }}
     >
       <Header title='APPROVE EVENTS' subtitle='List of Unapproved Events.' />
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
@@ -172,7 +144,7 @@ const ApproveEvents = () => {
             toolbar: { showExport: false, data },
           }}
         />
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };

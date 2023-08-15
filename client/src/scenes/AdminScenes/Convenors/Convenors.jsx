@@ -1,4 +1,4 @@
-import { Box, useTheme, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import moment from "moment";
@@ -7,9 +7,9 @@ import Header from "components/Header";
 import Actions from "./Actions";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { useConvenorsQuery } from "state/adminApiSlice";
+import DataGridContainer from "components/DataGridContainer";
 
 const Convenors = () => {
-  const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   //rtk query
@@ -69,35 +69,7 @@ const Convenors = () => {
     >
       <Header title='CONVENORS' subtitle='List of All Convenors.' />
 
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
@@ -108,7 +80,7 @@ const Convenors = () => {
             toolbar: { showExport: false, data },
           }}
         />
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };

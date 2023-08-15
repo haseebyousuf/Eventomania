@@ -1,4 +1,4 @@
-import { Box, useTheme, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import moment from "moment";
@@ -7,9 +7,9 @@ import { useSelector } from "react-redux";
 import { useCommitteeUnapprovedEventsQuery } from "state/eventApiSlice";
 import Header from "components/Header";
 import Actions from "./Actions";
+import DataGridContainer from "components/DataGridContainer";
 
 const UnapprovedEvents = () => {
-  const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const user = useSelector((state) => state.global.user);
 
@@ -94,35 +94,7 @@ const UnapprovedEvents = () => {
       transition={{ delay: 0.1, ease: "easeInOut" }}
     >
       <Header title='UNAPPROVED EVENTS' subtitle='List of Unapproved Events.' />
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={isLoading || !events}
           getRowId={(row) => row._id}
@@ -132,7 +104,7 @@ const UnapprovedEvents = () => {
             toolbar: { showExport: false, events },
           }}
         />
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };

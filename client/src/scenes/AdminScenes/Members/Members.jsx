@@ -1,4 +1,4 @@
-import { Box, useTheme, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 
@@ -7,9 +7,9 @@ import moment from "moment";
 import Header from "components/Header";
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import { useMembersQuery } from "state/adminApiSlice";
+import DataGridContainer from "components/DataGridContainer";
 
 const Members = () => {
-  const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   const { data, isLoading } = useMembersQuery();
@@ -67,35 +67,7 @@ const Members = () => {
     >
       <Header title='MEMBERS' subtitle='List of All Members.' />
 
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
@@ -106,7 +78,7 @@ const Members = () => {
             toolbar: { showExport: false, data },
           }}
         />
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };

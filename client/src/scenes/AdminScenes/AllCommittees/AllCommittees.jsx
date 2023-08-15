@@ -1,10 +1,4 @@
-import {
-  Box,
-  IconButton,
-  Tooltip,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, IconButton, Tooltip, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { motion } from "framer-motion";
 import { Delete } from "@mui/icons-material";
@@ -17,9 +11,9 @@ import {
   useCommitteesQuery,
   useDeleteCommitteeMutation,
 } from "state/committeeApiSlice";
+import DataGridContainer from "components/DataGridContainer";
 
 const AllCommittees = () => {
-  const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   //RTK query
@@ -109,35 +103,7 @@ const AllCommittees = () => {
       transition={{ delay: 0.1, ease: "easeInOut" }}
     >
       <Header title='COMMITTEES' subtitle='List of All Committees.' />
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
@@ -148,7 +114,7 @@ const AllCommittees = () => {
             toolbar: { showExport: false, data },
           }}
         />
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };

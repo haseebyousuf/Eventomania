@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, useTheme, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import moment from "moment";
 import { motion } from "framer-motion";
@@ -9,6 +9,7 @@ import DataGridCustomToolbar from "components/DataGridCustomToolbar";
 import Header from "components/Header";
 import { useApprovedEventsQuery } from "state/eventApiSlice";
 import { useGetUsersQuery } from "state/userApiSlice";
+import DataGridContainer from "components/DataGridContainer";
 
 const filterAndSortData = (data) => {
   return data
@@ -39,7 +40,6 @@ const UpcomingEvents = () => {
   }, [data]);
 
   //hooks
-  const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
   //sort function
@@ -125,35 +125,7 @@ const UpcomingEvents = () => {
       transition={{ delay: 0.1, ease: "easeInOut" }}
     >
       <Header title='UPCOMING EVENTS' subtitle='List of All Upcoming Events.' />
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
@@ -164,7 +136,7 @@ const UpcomingEvents = () => {
             toolbar: { showExport: false, data },
           }}
         ></DataGrid>
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };
