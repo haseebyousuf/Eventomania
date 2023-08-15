@@ -18,7 +18,7 @@ const StatBox = ({ title, value, icon, description }) => {
       borderRadius='0.55rem'
     >
       <FlexBetween>
-        <Typography variant='h6' sx={{ color: theme.palette.secondary[100] }}>
+        <Typography variant='h6' sx={{ color: theme.palette.secondary.main }}>
           {title}
         </Typography>
         {icon}
@@ -27,7 +27,7 @@ const StatBox = ({ title, value, icon, description }) => {
       <Typography
         variant='h3'
         fontWeight='600'
-        sx={{ color: theme.palette.secondary[200] }}
+        sx={{ color: theme.palette.secondary.dark }}
       >
         {value}
       </Typography>
@@ -37,7 +37,9 @@ const StatBox = ({ title, value, icon, description }) => {
           flexDirection: "row-reverse",
         }}
       >
-        <Typography>{description}</Typography>
+        <Typography sx={{ color: theme.palette.secondary.accent }}>
+          {description}
+        </Typography>
       </Box>
     </Box>
   );

@@ -30,40 +30,41 @@ const OverallStats = ({ data }) => {
             axis: {
               domain: {
                 line: {
-                  stroke: theme.palette.secondary[200],
+                  stroke: theme.palette.secondary.main,
                 },
               },
               legend: {
                 text: {
-                  fill: theme.palette.secondary[200],
+                  fill: theme.palette.secondary.main,
                 },
               },
               ticks: {
                 line: {
-                  stroke: theme.palette.secondary[200],
+                  stroke: theme.palette.secondary.main,
                   strokeWidth: 1,
                 },
                 text: {
-                  fill: theme.palette.secondary[200],
+                  fill: theme.palette.secondary.main,
                 },
               },
             },
             legends: {
               text: {
-                fill: theme.palette.secondary[200],
+                fill: theme.palette.secondary.main,
               },
             },
             tooltip: {
               container: {
-                color: theme.palette.primary.main,
+                color: theme.palette.secondary.contrast,
               },
             },
           }}
+          colors={theme.palette.secondary.main}
           margin={{
             top: 20,
             right: 20,
             bottom: isNonMobile ? 45 : 30,
-            left: isNonMobile ? 45 : 20,
+            left: isNonMobile ? 50 : 20,
           }}
           xScale={{ type: "point" }}
           yScale={{

@@ -81,13 +81,13 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                   <Typography
                     fontWeight='bold'
                     fontSize='0.9rem'
-                    sx={{ color: theme.palette.secondary[100] }}
+                    sx={{ color: theme.palette.secondary.main }}
                   >
                     {user.name}
                   </Typography>
                   <Typography
                     fontSize='0.8rem'
-                    sx={{ color: theme.palette.secondary[200] }}
+                    sx={{ color: theme.palette.secondary.dark }}
                   >
                     {user.role}
                   </Typography>
@@ -101,7 +101,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                   <IconButton aria-label='logout' onClick={handleLogout}>
                     <LogoutOutlinedIcon
                       sx={{
-                        color: theme.palette.secondary[300],
+                        color: theme.palette.secondary.main,
                         fontSize: "25px ",
                       }}
                     />

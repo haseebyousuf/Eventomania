@@ -16,7 +16,7 @@ const Header = ({ title, subtitle }) => {
           animate={{ y: "0%", opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
           variant={isNonMobile ? "h2" : "h3"}
-          color={theme.palette.secondary[100]}
+          color={theme.palette.secondary.dark}
           fontWeight='bold'
           sx={{ mb: "5px" }}
         >
@@ -26,7 +26,7 @@ const Header = ({ title, subtitle }) => {
           sx={{ mb: "5px" }}
           variant={isNonMobile ? "h5" : "h6"}
           fontWeight='bold'
-          color={theme.palette.secondary[300]}
+          color={theme.palette.secondary.accent}
         >
           <AnimateText text={subtitle} delayValue={0.05} />
         </Typography>

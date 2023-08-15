@@ -93,7 +93,7 @@ const Dashboard = () => {
               icon={
                 <EventIcon
                   sx={{
-                    color: theme.palette.secondary[300],
+                    color: theme.palette.secondary.light,
                     fontSize: "26px",
                   }}
                 />
@@ -106,7 +106,7 @@ const Dashboard = () => {
               icon={
                 <PendingActionsIcon
                   sx={{
-                    color: theme.palette.secondary[300],
+                    color: theme.palette.secondary.light,
                     fontSize: "26px",
                   }}
                 />
@@ -132,7 +132,7 @@ const Dashboard = () => {
               icon={
                 <ManageAccountsIcon
                   sx={{
-                    color: theme.palette.secondary[300],
+                    color: theme.palette.secondary.light,
                     fontSize: "26px",
                   }}
                 />
@@ -145,7 +145,7 @@ const Dashboard = () => {
               icon={
                 <Diversity3Outlined
                   sx={{
-                    color: theme.palette.secondary[300],
+                    color: theme.palette.secondary.light,
                     fontSize: "26px",
                   }}
                 />
@@ -165,7 +165,7 @@ const Dashboard = () => {
                 },
                 "& .MuiDataGrid-columnHeaders": {
                   backgroundColor: theme.palette.background.alt,
-                  color: theme.palette.secondary[100],
+                  color: theme.palette.secondary.main,
                   borderBottom: "none",
                 },
                 "& .MuiDataGrid-virtualScroller": {
@@ -177,7 +177,7 @@ const Dashboard = () => {
                   borderTop: "none",
                 },
                 "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                  color: `${theme.palette.secondary[200]} !important`,
+                  color: `${theme.palette.secondary.main} !important`,
                 },
               }}
             >
@@ -197,7 +197,7 @@ const Dashboard = () => {
             >
               <Typography
                 variant='h6'
-                sx={{ color: theme.palette.secondary[100] }}
+                sx={{ color: theme.palette.secondary.dark }}
               >
                 Events By Committees
               </Typography>
@@ -205,7 +205,7 @@ const Dashboard = () => {
               <Typography
                 p='0 0.6rem'
                 fontSize='0.8rem'
-                sx={{ color: theme.palette.secondary[200] }}
+                sx={{ color: theme.palette.secondary.accent }}
               >
                 Breakdown of information via Committees for Events organized for
                 this year.
