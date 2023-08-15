@@ -33,7 +33,7 @@ const EventContainer = ({
       }}
     >
       <Typography
-        fontSize='1.5rem'
+        fontSize='1.4rem'
         fontWeight='bold'
         variant='h2'
         p='1rem 0rem 1rem 0rem'
