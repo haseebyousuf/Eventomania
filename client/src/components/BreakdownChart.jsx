@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { Box, Typography, useTheme } from "@mui/material";
 
-const BreakdownChart = ({ data }) => {
+const BreakdownChart = ({ data, totalEvents }) => {
   const theme = useTheme();
 
   const [pieData, setPieData] = useState(null);
-
   useEffect(() => {
     const colors = [
       theme.palette.chart.main,
@@ -105,14 +104,14 @@ const BreakdownChart = ({ data }) => {
         position='absolute'
         top='50%'
         left='50%'
-        color={theme.palette.secondary[400]}
+        color={theme.palette.secondary.dark}
         textAlign='center'
         pointerEvents='none'
         sx={{
           transform: "translate(-75%, -170%)",
         }}
       >
-        <Typography variant='h6'></Typography>
+        <Typography variant='h6'>{`Total: ${totalEvents}`}</Typography>
       </Box>
     </Box>
   );
