@@ -127,17 +127,19 @@ export const uploadPhotos = async (req, res) => {
   }
 };
 
-//@desc     upload photos of an Event
-//@route    POST /event/uploadPhotos
-//@access   private {convenor, member}
-// export const getEvents = async (req, res) => {
-//   try {
-//     const events = await Event.find();
-//     res.status(200).json(events);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+//@desc     get a single event
+//@route    POST /events/getEvent
+//@access   public
+export const getEvent = async (req, res) => {
+  try {
+    const { eventId } = req.body;
+    const event = await Event.findOne({ _id: eventId });
+    if (!event) return res.status(404).json({ msg: "No Event Found " });
+    res.status(200).json(event);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 //@desc     get a list of all unApproved events
 //@route    GET /events/unapprovedEvents
