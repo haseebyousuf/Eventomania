@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Divider,
@@ -16,27 +16,32 @@ import Register from "./Register";
 import EventImages from "../EventImages";
 import Footer from "components/Footer";
 import AnimateText from "animations/AnimateText";
+import { useGetEventQuery } from "state/eventApiSlice";
+import moment from "moment";
+import EventDetailsShimmer from "components/EventDetailsShimmer";
 
 const EventDetails = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const theme = useTheme();
+  const { eventId } = useParams();
+  const {
+    data: event,
+    isLoading,
+    isError,
+  } = useGetEventQuery({
+    eventId,
+  });
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
-  const [event, setEvent] = useState(null);
-
   useEffect(() => {
-    if (!location.state) {
+    if (isError) {
       navigate("/");
-    } else {
-      setEvent(location.state.event);
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [isError, navigate]);
 
   return (
     <Box>
-      {event && (
+      {!isLoading ? (
         <Grid width='90%' margin='auto' container mt={2}>
           <Grid
             sx={{ marginBottom: "1rem" }}
@@ -65,7 +70,7 @@ const EventDetails = () => {
           </Grid>
           <Grid item xs={12} sm={12} md={5} lg={4}>
             <Box position={isNonMobile && "sticky"} top={isNonMobile && "5rem"}>
-              {!location.state.isPast ? (
+              {moment(new Date(event.startDate)).isAfter(moment()) ? (
                 <Register event={event} />
               ) : event?.isPhotoUploaded ? (
                 <EventImages photos={event.photos} />
@@ -98,6 +103,8 @@ const EventDetails = () => {
             {!isNonMobile && <Footer />}
           </Grid>
         </Grid>
+      ) : (
+        <EventDetailsShimmer />
       )}
     </Box>
   );
