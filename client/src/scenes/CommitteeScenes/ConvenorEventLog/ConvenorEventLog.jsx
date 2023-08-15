@@ -120,7 +120,7 @@ const ConvenorEventLog = () => {
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
+            color: theme.palette.secondary.main,
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -132,7 +132,7 @@ const ConvenorEventLog = () => {
             borderTop: "none",
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
+            color: `${theme.palette.secondary.main} !important`,
           },
         }}
       >
