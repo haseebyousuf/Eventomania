@@ -93,7 +93,7 @@ const Navbar = () => {
               variant='h1'
               onClick={() => navigate("/")}
             >
-              <AnimateText text='eventomania.' delayValue={0.1} />
+              <AnimateText text='EVENTOMANIA' delayValue={0.1} />
             </Typography>
           </Box>
         </FlexBetween>
@@ -104,13 +104,15 @@ const Navbar = () => {
               {navItems.map(({ text, link }) => {
                 const isActive = active === link;
                 return (
-                  <ListItem key={text} disablePadding>
-                    <ListItemButton
+                  <Box>
+                    <Button
                       onClick={() => {
                         navigate(link);
                         setActive(link);
                       }}
                       sx={{
+                        mx: "0.5rem",
+                        minWidth: "5rem",
                         borderBottom: isActive
                           ? `2px solid ${theme.palette.secondary.main}`
                           : "2px solid transparent",
@@ -119,9 +121,9 @@ const Navbar = () => {
                           : theme.palette.secondary.main,
                       }}
                     >
-                      <ListItemText primary={text} />
-                    </ListItemButton>
-                  </ListItem>
+                      <Typography fontWeight={500}>{text}</Typography>
+                    </Button>
+                  </Box>
                 );
               })}
             </FlexBetween>
