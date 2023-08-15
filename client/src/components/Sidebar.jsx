@@ -95,7 +95,7 @@ const Sidebar = ({
                   onClick={() => navigate("/")}
                   sx={{ cursor: "pointer" }}
                 >
-                  <Typography variant='h4' fontWeight='bold'>
+                  <Typography variant='h3' fontWeight='bold'>
                     EVENTOMANIA
                   </Typography>
                 </Box>
@@ -114,6 +114,7 @@ const Sidebar = ({
                       <Typography
                         key={text}
                         sx={{
+                          color: theme.palette.secondary.main,
                           m: "2.25rem 0 1rem 3rem",
                         }}
                         fontWeight='bold'
@@ -137,12 +138,12 @@ const Sidebar = ({
                         sx={{
                           backgroundColor:
                             active === lcText
-                              ? theme.palette.secondary[300]
+                              ? theme.palette.secondary.main
                               : "transparent",
                           color:
                             active === lcText
-                              ? theme.palette.primary[600]
-                              : theme.palette.secondary[100],
+                              ? theme.palette.primary.light
+                              : theme.palette.secondary.main,
                         }}
                       >
                         <ListItemIcon
@@ -150,8 +151,8 @@ const Sidebar = ({
                             ml: "1rem",
                             color:
                               active === lcText
-                                ? theme.palette.primary[600]
-                                : theme.palette.secondary[200],
+                                ? theme.palette.primary.light
+                                : theme.palette.secondary.main,
                           }}
                         >
                           {icon}
@@ -171,6 +172,7 @@ const Sidebar = ({
                       <Typography
                         key={text}
                         sx={{
+                          color: theme.palette.secondary.main,
                           m: "2.25rem 0 1rem 3rem",
                         }}
                       >
@@ -192,12 +194,12 @@ const Sidebar = ({
                         sx={{
                           backgroundColor:
                             active === lcText
-                              ? theme.palette.secondary[300]
+                              ? theme.palette.secondary.main
                               : "transparent",
                           color:
                             active === lcText
-                              ? theme.palette.primary[600]
-                              : theme.palette.secondary[100],
+                              ? theme.palette.primary.light
+                              : theme.palette.secondary.main,
                         }}
                       >
                         <ListItemIcon
@@ -205,8 +207,8 @@ const Sidebar = ({
                             ml: "1rem",
                             color:
                               active === lcText
-                                ? theme.palette.primary[600]
-                                : theme.palette.secondary[200],
+                                ? theme.palette.primary.light
+                                : theme.palette.secondary.main,
                           }}
                         >
                           {icon}
@@ -226,6 +228,7 @@ const Sidebar = ({
                       <Typography
                         key={text}
                         sx={{
+                          color: theme.palette.secondary.main,
                           m: "2.25rem 0 1rem 3rem",
                         }}
                       >
@@ -247,12 +250,12 @@ const Sidebar = ({
                         sx={{
                           backgroundColor:
                             active === lcText
-                              ? theme.palette.secondary[300]
+                              ? theme.palette.secondary.main
                               : "transparent",
                           color:
                             active === lcText
-                              ? theme.palette.primary[600]
-                              : theme.palette.secondary[100],
+                              ? theme.palette.primary.light
+                              : theme.palette.secondary.main,
                         }}
                       >
                         <ListItemIcon
@@ -260,8 +263,8 @@ const Sidebar = ({
                             ml: "1rem",
                             color:
                               active === lcText
-                                ? theme.palette.primary[600]
-                                : theme.palette.secondary[200],
+                                ? theme.palette.primary.light
+                                : theme.palette.secondary.main,
                           }}
                         >
                           {icon}
@@ -296,13 +299,13 @@ const Sidebar = ({
                 <Typography
                   fontWeight='bold'
                   fontSize='0.8rem'
-                  sx={{ color: theme.palette.secondary[100] }}
+                  sx={{ color: theme.palette.secondary.main }}
                 >
                   {user.name}
                 </Typography>
                 <Typography
                   fontSize='0.8rem'
-                  sx={{ color: theme.palette.secondary[200] }}
+                  sx={{ color: theme.palette.secondary.dark }}
                 >
                   {user.role}
                 </Typography>
@@ -316,7 +319,7 @@ const Sidebar = ({
                 <IconButton aria-label='logout' onClick={handleLogout}>
                   <LogoutOutlined
                     sx={{
-                      color: theme.palette.secondary[300],
+                      color: theme.palette.secondary.main,
                       fontSize: "25px ",
                     }}
                   />
