@@ -88,12 +88,7 @@ export const adminDashboardStats = async (req, res) => {
       (event) =>
         (event.isApproved &&
           moment(new Date(event.startDate)).isAfter(moment())) ||
-        moment(new Date(event.startDate)).isSame(
-          moment(),
-          "day",
-          "month",
-          "year"
-        )
+        moment(new Date(event.startDate)).isSame(moment())
     );
 
     const adminsCount = await Admin.countDocuments().exec();
@@ -139,12 +134,7 @@ export const committeeDashboardStats = async (req, res) => {
     const upcomingEvents = approvedEvents.filter(
       (event) =>
         moment(new Date(event.startDate)).isAfter(moment()) ||
-        moment(new Date(event.startDate)).isSame(
-          moment(),
-          "day",
-          "month",
-          "year"
-        )
+        moment(new Date(event.startDate)).isSame(moment())
     );
 
     //EVENTS PER COMMITTEE
