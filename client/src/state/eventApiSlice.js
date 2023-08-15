@@ -51,6 +51,16 @@ export const eventApiSlice = api.injectEndpoints({
       providesTags: ["Events"],
       invalidatesTags: ["Events"],
     }),
+    getEvent: build.query({
+      query: (data) => ({
+        url: `events/getEvent`,
+        method: "POST",
+        body: data,
+        formData: true,
+      }),
+      providesTags: ["Events"],
+      invalidatesTags: ["Events"],
+    }),
     deleteEvent: build.mutation({
       query: (data) => ({
         url: `events/deleteEvent`,
@@ -111,6 +121,7 @@ export const {
   useCommitteeUnapprovedEventsQuery,
   useApprovedEventsQuery,
   useCommitteeApprovedEventsQuery,
+  useGetEventQuery,
   useApproveEventMutation,
   useDeleteEventMutation,
   useTogglePublishMutation,
