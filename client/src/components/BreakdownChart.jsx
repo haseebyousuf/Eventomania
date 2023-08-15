@@ -8,6 +8,16 @@ const BreakdownChart = ({ data }) => {
   const [pieData, setPieData] = useState(null);
 
   useEffect(() => {
+    const colors = [
+      theme.palette.chart.main,
+      theme.palette.chart.light,
+      theme.palette.chart.dark,
+      theme.palette.chart.main,
+      theme.palette.chart.light,
+      theme.palette.chart.main,
+      theme.palette.chart.dark,
+      theme.palette.chart.main,
+    ];
     setPieData(
       data.map((event, i) => ({
         id: event.label,
@@ -16,19 +26,12 @@ const BreakdownChart = ({ data }) => {
         color: colors[i],
       }))
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const colors = [
-    theme.palette.secondary[500],
-    theme.palette.secondary[300],
-    theme.palette.secondary[300],
-    theme.palette.secondary[500],
-    theme.palette.secondary[500],
-    theme.palette.secondary[300],
-    theme.palette.secondary[300],
-    theme.palette.secondary[500],
-  ];
+  }, [
+    data,
+    theme.palette.chart.main,
+    theme.palette.chart.light,
+    theme.palette.chart.dark,
+  ]);
 
   return (
     <Box
@@ -70,7 +73,7 @@ const BreakdownChart = ({ data }) => {
             },
             tooltip: {
               container: {
-                color: theme.palette.primary.main,
+                color: theme.palette.secondary.contrast,
               },
             },
           }}
@@ -88,16 +91,13 @@ const BreakdownChart = ({ data }) => {
             modifiers: [["darker", 0.2]],
           }}
           enableArcLinkLabels={true} //check false also
-          arcLinkLabelsTextColor={theme.palette.secondary[200]}
+          arcLinkLabelsTextColor={theme.palette.secondary.accent}
           arcLinkLabelsThickness={1}
           arcLinkLabelsTextOffset={0}
           arcLinkLabelsStraightLength={10}
-          arcLinkLabelsColor={{ from: "color" }}
+          arcLinkLabelsColor={theme.palette.secondary.accent}
           arcLabelsSkipAngle={10}
-          arcLabelsTextColor={{
-            from: "color",
-            modifiers: [["darker", 2]],
-          }}
+          arcLabelsTextColor={theme.palette.primary.main}
           legends={[]}
         />
       )}
