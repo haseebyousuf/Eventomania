@@ -21,12 +21,7 @@ const Home = () => {
         events.filter((item) => {
           if (
             moment(new Date(item.startDate)).isAfter(moment()) ||
-            moment(new Date(item.startDate)).isSame(
-              moment(),
-              "day",
-              "month",
-              "year"
-            )
+            moment(new Date(item.startDate)).isSame(moment())
           ) {
             return true;
           } else {
@@ -38,12 +33,7 @@ const Home = () => {
         events.filter(
           (item) =>
             moment(new Date(item.startDate)).isAfter(moment()) ||
-            moment(new Date(item.startDate)).isSame(
-              moment(),
-              "day",
-              "month",
-              "year"
-            )
+            moment(new Date(item.startDate)).isSame(moment())
         )
       );
       setPastEvents(
