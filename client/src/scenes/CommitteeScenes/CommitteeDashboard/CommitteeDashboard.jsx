@@ -213,7 +213,10 @@ const CommitteeDashboard = () => {
               >
                 Events By Members
               </Typography>
-              <BreakdownChart data={data.eventsPerMember} />
+              <BreakdownChart
+                data={data.eventsPerMember}
+                totalEvents={data.approvedEventsCount}
+              />
               <Typography
                 p='0 0.6rem'
                 fontSize='0.8rem'
