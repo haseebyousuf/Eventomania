@@ -32,6 +32,7 @@ import {
   convenorNavItems,
 } from "utils/constants";
 import { useLogoutMutation } from "state/adminApiSlice";
+import AnimateText from "animations/AnimateText";
 
 const Sidebar = ({
   drawerWidth,
@@ -95,8 +96,8 @@ const Sidebar = ({
                   onClick={() => navigate("/")}
                   sx={{ cursor: "pointer" }}
                 >
-                  <Typography variant='h3' fontWeight='bold'>
-                    EVENTOMANIA
+                  <Typography variant='h4' fontWeight='bold'>
+                    <AnimateText text='EVENTOMANIA' delayValue={0.1} />
                   </Typography>
                 </Box>
                 {!isNonMobile && (
