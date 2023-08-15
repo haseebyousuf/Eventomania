@@ -11,7 +11,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useLocation, useNavigate } from "react-router-dom";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import { motion } from "framer-motion";
+
 import DataGridCustomToolbar from "components/DataGridCustomToolbar";
+import DataGridContainer from "components/DataGridContainer";
+import AnimateText from "animations/AnimateText";
 
 const AudienceDetails = () => {
   const theme = useTheme();
@@ -114,8 +117,12 @@ const AudienceDetails = () => {
           alignItems='center'
         >
           <Typography
-            variant='h2'
-            color={theme.palette.secondary[100]}
+            component={motion.div}
+            initial={{ y: "-100%", opacity: 0 }}
+            animate={{ y: "0%", opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            variant={isNonMobile ? "h2" : "h3"}
+            color={theme.palette.secondary.dark}
             fontWeight='bold'
             sx={{ mb: "5px" }}
           >
@@ -135,42 +142,14 @@ const AudienceDetails = () => {
 
         <Typography
           sx={{ mb: "5px" }}
-          variant='h5'
+          variant={isNonMobile ? "h5" : "h6"}
           fontWeight='bold'
-          color={theme.palette.secondary[300]}
+          color={theme.palette.secondary.accent}
         >
-          Audience Details.
+          <AnimateText text='Audience Details.' delayValue={0.05} />
         </Typography>
       </Box>
-      <Box
-        mt='20px'
-        pb='20px'
-        height='75vh'
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
+      <DataGridContainer>
         <DataGrid
           loading={data.isLoading || !data}
           getRowId={(row) => row._id}
@@ -181,7 +160,7 @@ const AudienceDetails = () => {
             toolbar: { csvOptions, showExport: true, data },
           }}
         />
-      </Box>
+      </DataGridContainer>
     </Box>
   );
 };
