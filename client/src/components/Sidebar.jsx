@@ -175,6 +175,7 @@ const Sidebar = ({
                           color: theme.palette.secondary.main,
                           m: "2.25rem 0 1rem 3rem",
                         }}
+                        fontWeight='bold'
                       >
                         {text}
                       </Typography>
@@ -231,6 +232,7 @@ const Sidebar = ({
                           color: theme.palette.secondary.main,
                           m: "2.25rem 0 1rem 3rem",
                         }}
+                        fontWeight='bold'
                       >
                         {text}
                       </Typography>
