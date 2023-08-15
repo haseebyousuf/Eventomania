@@ -8,6 +8,26 @@ import EventInfoBox from "components/EventInfoBox";
 const EventHeader = ({ name, banner, startDate, venue, organizedBy }) => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const theme = useTheme();
+  const eventDetails = [
+    {
+      icon: <TodayIcon color='secondary' />,
+      title: "Date",
+      value: moment(new Date(startDate)).format("Do MMMM YYYY, h:mm A"),
+      last: false,
+    },
+    {
+      icon: <LocationOnIcon color='secondary' />,
+      title: "Venue",
+      value: venue,
+      last: false,
+    },
+    {
+      icon: <Diversity1Icon color='secondary' />,
+      title: "Organizers",
+      value: organizedBy,
+      last: true,
+    },
+  ];
 
   return (
     <>
@@ -37,23 +57,16 @@ const EventHeader = ({ name, banner, startDate, venue, organizedBy }) => {
         }}
       >
         <Grid container spacing={isNonMobile ? 2 : 3}>
-          <EventInfoBox
-            icon={<TodayIcon color='secondary' />}
-            title='Date'
-            value={moment(new Date(startDate)).format("Do MMMM YYYY, h:mm A")}
-          />
-
-          <EventInfoBox
-            icon={<LocationOnIcon color='secondary' />}
-            title='Venue'
-            value={venue}
-          />
-          <EventInfoBox
-            icon={<Diversity1Icon color='secondary' />}
-            title='Organizers'
-            value={organizedBy}
-            last={true}
-          />
+          {eventDetails.map((item, index) => (
+            <EventInfoBox
+              index={index}
+              key={index}
+              icon={item.icon}
+              title={item.title}
+              value={item.value}
+              last={item.last}
+            />
+          ))}
         </Grid>
       </Box>
     </>
