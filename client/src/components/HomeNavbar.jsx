@@ -104,7 +104,7 @@ const Navbar = () => {
               {navItems.map(({ text, link }) => {
                 const isActive = active === link;
                 return (
-                  <Box>
+                  <Box key={text}>
                     <Button
                       onClick={() => {
                         navigate(link);
