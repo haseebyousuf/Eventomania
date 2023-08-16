@@ -15,7 +15,7 @@ const filterEvents = (data) => {
   return data.filter((event) => event.status === true);
 };
 
-const ConvenorEventLog = () => {
+const CommitteeEventLog = () => {
   const theme = useTheme();
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const user = useSelector((state) => state.global.user);
@@ -151,4 +151,4 @@ const ConvenorEventLog = () => {
   );
 };
 
-export default ConvenorEventLog;
+export default CommitteeEventLog;
