@@ -32,7 +32,7 @@ const Members = lazy(() => import("./scenes/AdminScenes/Members/Members"));
 const AddMember = lazy(() =>
   import("./scenes/AdminScenes/AddMember/AddMember")
 );
-const Layout = lazy(() => import("./scenes/Layout/Layout"));
+const DashboardLayout = lazy(() => import("./scenes/Layout/DashboardLayout"));
 const ChangePassword = lazy(() => import("./scenes/ChangePassword"));
 const AudienceDetails = lazy(() =>
   import("./components/AudienceDetails/AudienceDetails")
@@ -52,11 +52,11 @@ const UpcomingCommitteeEvents = lazy(() =>
     "./scenes/CommitteeScenes/UpcomingCommitteeEvents/UpcomingCommitteeEvents"
   )
 );
-const ConvenorPastEvents = lazy(() =>
-  import("./scenes/CommitteeScenes/ConvenorPastEvents/ConvenorPastEvents")
+const CommitteePastEvents = lazy(() =>
+  import("./scenes/CommitteeScenes/CommitteePastEvents/CommitteePastEvents")
 );
-const ConvenorEventLog = lazy(() =>
-  import("./scenes/CommitteeScenes/ConvenorEventLog/ConvenorEventLog")
+const CommitteeEventLog = lazy(() =>
+  import("./scenes/CommitteeScenes/CommitteeEventLog/CommitteeEventLog")
 );
 const CommitteeMembers = lazy(() =>
   import("./scenes/CommitteeScenes/CommitteeMembers/CommitteeMembers")
@@ -69,7 +69,7 @@ export const adminRoutes = () => (
   <Route
     element={
       <Suspense>
-        <Layout />
+        <DashboardLayout />
       </Suspense>
     }
   >
@@ -184,7 +184,7 @@ export const committeeRoutes = (isConvenor) => (
   <Route
     element={
       <Suspense>
-        <Layout />
+        <DashboardLayout />
       </Suspense>
     }
   >
@@ -226,7 +226,7 @@ export const committeeRoutes = (isConvenor) => (
       path='/PastEvents'
       element={
         <Suspense fallback={<div></div>}>
-          <ConvenorPastEvents />{" "}
+          <CommitteePastEvents />{" "}
         </Suspense>
       }
     />
@@ -234,7 +234,7 @@ export const committeeRoutes = (isConvenor) => (
       path='/EventLog'
       element={
         <Suspense fallback={<div></div>}>
-          <ConvenorEventLog />{" "}
+          <CommitteeEventLog />{" "}
         </Suspense>
       }
     />
