@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import Navbar from "components/Navbar";
 import Sidebar from "components/Sidebar";
 
-const Layout = () => {
+const DashboardLayout = () => {
   const user = useSelector((state) => state.global.user);
   const isNonMobile = useMediaQuery("(min-width: 600px)");
 
@@ -38,4 +38,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default DashboardLayout;
