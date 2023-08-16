@@ -93,7 +93,7 @@ const EventContainer = ({
                   flexDirection='row'
                 >
                   <Typography
-                    fontSize='1.8rem'
+                    fontSize={isNonMobile ? "1.8rem" : "1.1rem"}
                     textDecoration='underline'
                     fontWeight='bold'
                     p='1rem 0rem 1rem 0rem'
