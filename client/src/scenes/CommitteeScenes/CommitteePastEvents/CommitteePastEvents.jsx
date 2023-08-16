@@ -26,7 +26,7 @@ const filterData = (data) => {
   );
 };
 
-const ConvenorPastEvents = () => {
+const CommitteePastEvents = () => {
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   const user = useSelector((state) => state.global.user);
 
@@ -281,4 +281,4 @@ const ConvenorPastEvents = () => {
   );
 };
 
-export default ConvenorPastEvents;
+export default CommitteePastEvents;
