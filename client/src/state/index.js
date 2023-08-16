@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  mode: "dark",
+  mode: localStorage.getItem("mode")
+    ? JSON.parse(localStorage.getItem("mode"))
+    : "dark",
   user: localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null,
@@ -12,11 +14,9 @@ export const globalSlice = createSlice({
   initialState,
   reducers: {
     setMode: (state) => {
-      state.mode = state.mode === "light" ? "dark" : "light";
-      localStorage.setItem(
-        "mode",
-        JSON.stringify(state.mode === "light" ? "dark" : "light")
-      );
+      const newMode = state.mode === "light" ? "dark" : "light";
+      state.mode = newMode;
+      localStorage.setItem("mode", JSON.stringify(newMode));
     },
     setLogin: (state, action) => {
       state.user = action.payload.user;
