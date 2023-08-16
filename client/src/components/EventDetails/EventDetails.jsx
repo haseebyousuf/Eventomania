@@ -18,17 +18,12 @@ import Footer from "components/Footer";
 import AnimateText from "animations/AnimateText";
 import { useGetEventQuery } from "state/eventApiSlice";
 import moment from "moment";
-import EventDetailsShimmer from "components/EventDetailsShimmer";
 
 const EventDetails = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { eventId } = useParams();
-  const {
-    data: event,
-    isLoading,
-    isError,
-  } = useGetEventQuery({
+  const { data: event, isError } = useGetEventQuery({
     eventId,
   });
   const isNonMobile = useMediaQuery("(min-width: 600px)");
@@ -41,7 +36,7 @@ const EventDetails = () => {
 
   return (
     <Box>
-      {!isLoading ? (
+      {event && (
         <Grid width='90%' margin='auto' container mt={2}>
           <Grid
             sx={{ marginBottom: "1rem" }}
@@ -103,8 +98,6 @@ const EventDetails = () => {
             {!isNonMobile && <Footer />}
           </Grid>
         </Grid>
-      ) : (
-        <EventDetailsShimmer />
       )}
     </Box>
   );
