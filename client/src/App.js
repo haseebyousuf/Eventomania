@@ -13,7 +13,7 @@ const Login = lazy(() => import("./scenes/Login/Login"));
 const EventDetails = lazy(() =>
   import("./components/EventDetails/EventDetails")
 );
-const HomeLayout = lazy(() => import("./scenes/HomeLayout/HomeLayout"));
+const HomeLayout = lazy(() => import("./scenes/Layout/HomeLayout"));
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
