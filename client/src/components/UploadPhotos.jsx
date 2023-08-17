@@ -75,7 +75,7 @@ const UploadPhotos = ({ id }) => {
               >
                 {({ getRootProps, getInputProps }) => (
                   <Box {...getRootProps()}>
-                    <input {...getInputProps()} />
+                    <input data-testid='dropzone' {...getInputProps()} />
                     {values.photos.length <= 0 && (
                       <Button
                         variant='contained'
