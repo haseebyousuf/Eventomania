@@ -61,7 +61,7 @@ const UploadReport = ({ id }) => {
               >
                 {({ getRootProps, getInputProps }) => (
                   <Box {...getRootProps()}>
-                    <input {...getInputProps()} />
+                    <input data-testid='dropzone' {...getInputProps()} />
                     {!values.report ? (
                       <Button
                         variant='contained'
