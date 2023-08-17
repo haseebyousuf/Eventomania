@@ -38,7 +38,7 @@ const navItems = [
   },
 ];
 
-const Navbar = () => {
+const HomeNavbar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -264,4 +264,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default HomeNavbar;
