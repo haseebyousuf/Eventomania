@@ -128,9 +128,7 @@ const EventCard = ({ event, isPast }) => {
             size='large'
             color='secondary'
             onClick={() => {
-              navigate(`/EventDetails/${event._id}`, {
-                state: { event, isPast },
-              });
+              navigate(`/EventDetails/${event._id}`);
             }}
           >
             {!isPast ? "Register Now" : "View Details"}
