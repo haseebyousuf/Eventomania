@@ -6,12 +6,17 @@ import Event from "../models/Event.js";
 import User from "../models/User.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import { generateCertificate } from "../utils/generateCertificate.js";
+import { validationResult } from "express-validator";
 
 //@desc     create a new Event
 //@route    POST /event/createEvent
 //@access   private {convenor, member}
 export const createEvent = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     //get files from req.files
     const { banner, order } = req.files;
     const bannerName = banner[0].filename;

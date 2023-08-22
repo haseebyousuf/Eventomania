@@ -26,6 +26,7 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import { createEvent, uploadPhotos } from "./controllers/eventController.js";
 import { uploadReport } from "./controllers/eventController.js";
 import { checkRole } from "./middleware/authMiddleware.js";
+import { eventValidationRules } from "./middleware/validationMiddleware.js";
 
 // CONFIGURATION
 const __filename = fileURLToPath(import.meta.url);
@@ -114,6 +115,7 @@ app.post(
     { name: "banner", maxCount: 1 },
     { name: "order", maxCount: 1 },
   ]),
+  eventValidationRules,
   createEvent
 );
 app.post(

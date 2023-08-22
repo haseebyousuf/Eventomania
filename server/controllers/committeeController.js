@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import Committee from "../models/Committee.js";
 
 //@desc     create a new committee
@@ -5,6 +6,10 @@ import Committee from "../models/Committee.js";
 //@access   private {admin}
 export const addCommittee = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { name, description } = req.body;
     const newCommittee = new Committee({ name, description });
     const savedCommittee = await newCommittee.save();

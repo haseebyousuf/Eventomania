@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { validationResult } from "express-validator";
 import Admin from "../models/Admin.js";
 import Committee from "../models/Committee.js";
 import generateToken from "../utils/generateToken.js";
@@ -44,6 +45,10 @@ export const logout = async (req, res) => {
 //@access   private {admin}
 export const addConvenor = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { name, email, password, committeeId, committeeName, role, mobile } =
       req.body;
     const lcEmail = email.toLowerCase();
@@ -155,6 +160,10 @@ export const deleteConvenor = async (req, res) => {
 //@access   private {admin,convenor}
 export const addMember = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const {
       memberName,
       memberEmail,
@@ -244,6 +253,10 @@ export const getCommitteeMembers = async (req, res) => {
 //@access   private {admin, convenor, member}
 export const changePassword = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { currentPassword, newPassword, cNewPassword, userId } = req.body;
 
     const user = await Admin.findOne({ _id: userId });

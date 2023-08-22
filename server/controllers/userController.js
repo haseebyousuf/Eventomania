@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import User from "../models/User.js";
 
 //@desc     register student for an event
@@ -5,6 +6,10 @@ import User from "../models/User.js";
 //@access   public
 export const registerStudent = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const {
       name,
       mobileNo,
@@ -54,6 +59,10 @@ export const registerStudent = async (req, res) => {
 //@access   public
 export const registerFaculty = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const {
       name,
       mobileNo,
