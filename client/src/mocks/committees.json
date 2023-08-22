@@ -1,0 +1,64 @@
+[
+  {
+    "_id": "640c1fe01d6aa82f04b90dea",
+    "name": "Demo Committee",
+    "description": "Description of Demo Committee",
+    "convenor": "641459b0ec282499f5d58601",
+    "members": ["Prof. Zaffer Majeef", "Prof. Zarka Malik"],
+    "events": [""],
+    "updatedAt": "2023-07-30T06:19:36.603Z",
+    "convenorId": "-",
+    "convenorName": "-"
+  },
+  {
+    "_id": "640c217ec2e94c4802f30933",
+    "name": "NSS",
+    "description": "The National Service Scheme is an Indian government sector public service program conducted by the Ministry of Youth Affairs and Sports of the Government of India. ",
+    "members": [],
+    "events": [],
+    "createdAt": "2023-03-11T06:36:46.858Z",
+    "updatedAt": "2023-07-30T06:19:58.232Z",
+    "__v": 0,
+    "convenor": "",
+    "convenorId": "6418643e85a1c443ad3321b3",
+    "convenorName": "Jawad Shakeel"
+  },
+  {
+    "_id": "640c21d3c2e94c4802f30939",
+    "name": "Test Committee",
+    "description": "Test Committee Description",
+    "members": [],
+    "events": [],
+    "createdAt": "2023-03-11T06:38:11.052Z",
+    "updatedAt": "2023-08-16T06:00:23.241Z",
+    "__v": 0,
+    "convenor": "",
+    "convenorId": "-",
+    "convenorName": "-"
+  },
+  {
+    "_id": "640c2bf0c2e94c4802f3094d",
+    "name": "Cultural Committee",
+    "description": "Cc of sp college was founded in 1906",
+    "members": [],
+    "events": [],
+    "createdAt": "2023-03-11T07:21:20.671Z",
+    "updatedAt": "2023-07-30T06:18:03.759Z",
+    "__v": 0,
+    "convenor": "",
+    "convenorId": "64454cc68ae4f9c09541c959",
+    "convenorName": "Haseeb Yousuf"
+  },
+  {
+    "_id": "641853eca6e06f5351358ca2",
+    "name": "hello wordl",
+    "description": "my committe",
+    "convenorName": "Test Convenor 1",
+    "convenorId": "644f48fa3d55d7f6738e2f25",
+    "members": [],
+    "events": [],
+    "createdAt": "2023-03-20T12:39:08.618Z",
+    "updatedAt": "2023-07-30T06:18:27.136Z",
+    "__v": 0
+  }
+]
