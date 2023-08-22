@@ -1,4 +1,3 @@
-import { useTheme } from "@emotion/react";
 import {
   Box,
   Card,
@@ -7,6 +6,7 @@ import {
   Skeleton,
   Typography,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 
