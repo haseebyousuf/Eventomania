@@ -1,0 +1,395 @@
+[
+  {
+    "photos": [],
+    "_id": "644f78833d55d7f6738e3230",
+    "name": "Recruitment Drive",
+    "venue": "Auditorium",
+    "startDate": "Wed May 10 2023 10:00:00 GMT+0530",
+    "endDate": "Wed May 10 2023 16:00:00 GMT+0530",
+    "description": "Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive Recruitment Drive ",
+    "recommendedAudience": "all students",
+    "bannerPath": "public\\assets\\banner-e88510d3-52fd-4bcc-a446-50a3946896c4-1682929795613.jpeg",
+    "bannerName": "banner-e88510d3-52fd-4bcc-a446-50a3946896c4-1682929795613.jpeg",
+    "orderPath": "public\\assets\\order-3c132e40-2651-4f06-864a-4414a0a54240-1682929795620.pdf",
+    "orderName": "order-3c132e40-2651-4f06-864a-4414a0a54240-1682929795620.pdf",
+    "committee": [
+      {
+        "id": "640c2bf0c2e94c4802f3094d",
+        "name": "Cultural Committee",
+        "_id": "644f78833d55d7f6738e3231"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "64454cc68ae4f9c09541c959",
+        "name": "Haseeb Yousuf",
+        "_id": "644f78833d55d7f6738e3232"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "status": false,
+    "createdAt": "2023-05-01T08:29:55.633Z",
+    "updatedAt": "2023-08-10T08:46:24.064Z",
+    "__v": 0,
+    "isCertificateGenerated": true,
+    "isPhotoUploaded": false
+  },
+  {
+    "photos": [],
+    "isPhotoUploaded": false,
+    "isCertificateGenerated": false,
+    "_id": "644f7fbc3d55d7f6738e32ce",
+    "name": "National Youth Day ",
+    "venue": "SP College Auditorium",
+    "startDate": "Thu May 11 2023 10:00:00 GMT+0530",
+    "endDate": "Thu May 11 2023 11:00:00 GMT+0530",
+    "description": "National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day National Youth Day ",
+    "recommendedAudience": "Students",
+    "bannerPath": "public\\assets\\banner-c45651be-4c89-41e8-be25-84e287ded7c2-1682931644320.jpeg",
+    "bannerName": "banner-c45651be-4c89-41e8-be25-84e287ded7c2-1682931644320.jpeg",
+    "orderPath": "public\\assets\\order-d8da1000-fa9b-4d9a-9cc3-4fcc84111510-1682931644322.pdf",
+    "orderName": "order-d8da1000-fa9b-4d9a-9cc3-4fcc84111510-1682931644322.pdf",
+    "committee": [
+      {
+        "id": "640c217ec2e94c4802f30933",
+        "name": "NSS",
+        "_id": "644f7fbc3d55d7f6738e32cf"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "6418643e85a1c443ad3321b3",
+        "name": "Jawad Shakeel",
+        "_id": "644f7fbc3d55d7f6738e32d0"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "status": false,
+    "createdAt": "2023-05-01T09:00:44.332Z",
+    "updatedAt": "2023-05-01T09:01:58.616Z",
+    "__v": 0
+  },
+  {
+    "photos": [],
+    "_id": "6451e6b03dbf1a2a105b0fc0",
+    "name": "National Technology Day",
+    "venue": "IT Department",
+    "startDate": "Wed May 03 2023 12:00:00 GMT+0530",
+    "endDate": "Wed May 03 2023 16:00:00 GMT+0530",
+    "description": "National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day National Technology Day ",
+    "recommendedAudience": "IT Students",
+    "bannerPath": "public\\assets\\banner-292cee35-61d4-4375-add9-34e005a77889-1683089071997.png",
+    "bannerName": "banner-292cee35-61d4-4375-add9-34e005a77889-1683089071997.png",
+    "orderPath": "public\\assets\\order-3f22c6ef-6f30-4850-9e56-49387038943e-1683089072028.pdf",
+    "orderName": "order-3f22c6ef-6f30-4850-9e56-49387038943e-1683089072028.pdf",
+    "committee": [
+      {
+        "id": "640c2bf0c2e94c4802f3094d",
+        "name": "Cultural Committee",
+        "_id": "6451e6b03dbf1a2a105b0fc1"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "64454cc68ae4f9c09541c959",
+        "name": "Haseeb Yousuf",
+        "_id": "6451e6b03dbf1a2a105b0fc2"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "status": true,
+    "createdAt": "2023-05-03T04:44:32.110Z",
+    "updatedAt": "2023-08-13T05:20:58.962Z",
+    "__v": 0,
+    "reportName": "report-a8769fd1-79dd-4f69-8f4c-cdeba02af47d-1683124890154.pdf",
+    "reportPath": "public\\assets\\report-a8769fd1-79dd-4f69-8f4c-cdeba02af47d-1683124890154.pdf",
+    "isCertificateGenerated": true,
+    "isPhotoUploaded": false
+  },
+  {
+    "photos": [],
+    "isPhotoUploaded": false,
+    "isCertificateGenerated": false,
+    "_id": "64782b41797daff6b9111419",
+    "name": "Environment Week",
+    "venue": "Auditorium",
+    "startDate": "Mon Jun 05 2023 10:00:00 GMT+0530",
+    "endDate": "Mon Jun 12 2023 16:00:00 GMT+0530",
+    "description": "Celebration of Environment Week",
+    "recommendedAudience": "EVS Students, Faculty",
+    "bannerPath": "public\\assets\\banner-fc4a2d00-4d83-4c3e-afd7-0925d399ca44-1685596993282.png",
+    "bannerName": "banner-fc4a2d00-4d83-4c3e-afd7-0925d399ca44-1685596993282.png",
+    "orderPath": "public\\assets\\order-2c6a68bd-bcf3-4b68-8eb1-7d43cfdc883c-1685596993330.pdf",
+    "orderName": "order-2c6a68bd-bcf3-4b68-8eb1-7d43cfdc883c-1685596993330.pdf",
+    "committee": [
+      {
+        "id": "640c1fe01d6aa82f04b90dea",
+        "name": "Demo Committee",
+        "_id": "64782b41797daff6b911141a"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "644f34336da271bd7309d0f9",
+        "name": "Naseebo Lal",
+        "_id": "64782b41797daff6b911141b"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "status": false,
+    "createdAt": "2023-06-01T05:23:13.550Z",
+    "updatedAt": "2023-08-09T14:49:52.376Z",
+    "__v": 0
+  },
+  {
+    "_id": "64797ab45b3cc5a66b7f701d",
+    "name": "Painting Competition",
+    "venue": "SP College",
+    "startDate": "Tue Jun 06 2023 10:30:00 GMT+0530",
+    "endDate": "Tue Jun 06 2023 16:00:00 GMT+0530",
+    "description": "Painting Competition on the theme of World Environment Day(2023). World Environment Day is the biggest international day for the environment, led by the United Nations Environment Programme (UNEP), and is held annually since 1973. It has grown to be the largest global platform for environmental outreach. It is celebrated by millions of people across the World. This year’s World Environment Day is hosted by Côte d'Ivoire (Ivory Coast) in partnership with the Netherlands. This year the theme of the day is ”Solutions to Plastic Pollution” under the campaign #BeatPlasticPollution. World Environment Day-2023 is a reminder that people’s actions on Plastic Pollution matter. The Steps governments and businesses are taking to tackle Plastic Pollution are the consequence of this action. It is time to accelerate this action and transition to a circular economy. It is time to #BeatPlasticPollution.",
+    "recommendedAudience": "All students",
+    "bannerPath": "public\\assets\\banner-2b55dd15-791e-4661-a985-aad5c7040bd5-1685682868717.png",
+    "bannerName": "banner-2b55dd15-791e-4661-a985-aad5c7040bd5-1685682868717.png",
+    "orderPath": "public\\assets\\order-76289cb1-b1e8-44c3-b59e-6662014ec325-1685682868743.pdf",
+    "orderName": "order-76289cb1-b1e8-44c3-b59e-6662014ec325-1685682868743.pdf",
+    "committee": [
+      {
+        "id": "640c2bf0c2e94c4802f3094d",
+        "name": "Cultural Committee",
+        "_id": "64797ab45b3cc5a66b7f701e"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "64454cc68ae4f9c09541c959",
+        "name": "Haseeb Yousuf",
+        "_id": "64797ab45b3cc5a66b7f701f"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "status": true,
+    "createdAt": "2023-06-02T05:14:28.850Z",
+    "updatedAt": "2023-08-10T08:23:25.178Z",
+    "__v": 0,
+    "reportName": "report-a7d70e8d-5366-4525-bf95-8f69d4114263-1686040439324.pdf",
+    "reportPath": "public\\assets\\report-a7d70e8d-5366-4525-bf95-8f69d4114263-1686040439324.pdf",
+    "isCertificateGenerated": false,
+    "isPhotoUploaded": true,
+    "photos": [
+      {
+        "filename": "compressedPhotos-ed12d9fb-ad78-45e6-9e1e-1f80239ace8b-1691655804995.jpg",
+        "path": "public\\assets\\compressedPhotos-ed12d9fb-ad78-45e6-9e1e-1f80239ace8b-1691655804995.jpg"
+      }
+    ]
+  },
+  {
+    "_id": "647ae15dfc8c6c042e057fef",
+    "name": "Video Clip Competition",
+    "venue": "SP College",
+    "startDate": "Sat Jun 10 2023 10:00:00 GMT+0530",
+    "endDate": "Sat Jun 10 2023 16:00:00 GMT+0530",
+    "description": "Video Clip Competition on the theme of World Environment Day (2023). World Environment Day is the biggest international day for the environment, led by the United Nations Environment Programme (UNEP), and is held annually since 1973. It has grown to be the largest global platform for environmental outreach. It is celebrated by millions of people across the World. This year’s World Environment Day is hosted by Côte d'Ivoire (Ivory Coast) in partnership with the Netherlands. This year the theme of the day is ”Solutions to Plastic Pollution” under the campaign #BeatPlasticPollution. World Environment Day-2023 is a reminder that people’s actions on Plastic Pollution matters. The Steps governments and businesses are taking to tackle Plastic Pollution are the consequence of this action. It is time to accelerate this action and transition to a circular economy. It is time to #BeatPlasticPollution.",
+    "recommendedAudience": "Everyone",
+    "bannerPath": "public\\assets\\banner-dcce196e-86c2-4736-8517-eb8ea9da892f-1685774685177.png",
+    "bannerName": "banner-dcce196e-86c2-4736-8517-eb8ea9da892f-1685774685177.png",
+    "orderPath": "public\\assets\\order-75fe029e-af75-4adf-9bc1-cf538fd6e4d2-1685774685207.pdf",
+    "orderName": "order-75fe029e-af75-4adf-9bc1-cf538fd6e4d2-1685774685207.pdf",
+    "committee": [
+      {
+        "id": "640c2bf0c2e94c4802f3094d",
+        "name": "Cultural Committee",
+        "_id": "647ae15dfc8c6c042e057ff0"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "647adcf3fc8c6c042e057669",
+        "name": "Prof. Zafar Majeed",
+        "_id": "647ae15dfc8c6c042e057ff1"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "status": true,
+    "createdAt": "2023-06-03T06:44:45.277Z",
+    "updatedAt": "2023-08-10T08:23:10.196Z",
+    "__v": 0,
+    "isPhotoUploaded": true,
+    "photos": [
+      {
+        "filename": "compressedPhotos-ffc832a6-1d81-467c-8027-6392e9d80680-1689948349699.JPG",
+        "path": "public\\assets\\compressedPhotos-ffc832a6-1d81-467c-8027-6392e9d80680-1689948349699.JPG"
+      },
+      {
+        "filename": "compressedPhotos-6cc46cd6-8cda-40bf-b4f4-3239d1b6c6f7-1689948350076.JPG",
+        "path": "public\\assets\\compressedPhotos-6cc46cd6-8cda-40bf-b4f4-3239d1b6c6f7-1689948350076.JPG"
+      },
+      {
+        "filename": "compressedPhotos-5fbf9a78-2483-4d85-ad0a-a4e2cb8f2652-1689948350511.JPG",
+        "path": "public\\assets\\compressedPhotos-5fbf9a78-2483-4d85-ad0a-a4e2cb8f2652-1689948350511.JPG"
+      },
+      {
+        "filename": "compressedPhotos-f31311ab-ff2e-40ff-a4fe-6e9d4b5f97e0-1689948350962.JPG",
+        "path": "public\\assets\\compressedPhotos-f31311ab-ff2e-40ff-a4fe-6e9d4b5f97e0-1689948350962.JPG"
+      }
+    ],
+    "isCertificateGenerated": false,
+    "reportName": "report-dd4e7e16-2237-491d-9606-311febfe2488-1691655790170.pdf",
+    "reportPath": "public\\assets\\report-dd4e7e16-2237-491d-9606-311febfe2488-1691655790170.pdf"
+  },
+  {
+    "_id": "647b49e0fc8c6c042e059254",
+    "name": "Quiz Competition",
+    "venue": "SP College",
+    "startDate": "Fri Jun 09 2023 10:00:00 GMT+0530",
+    "endDate": "Fri Jun 09 2023 16:00:00 GMT+0530",
+    "description": "Quiz Competition on the theme of World Environment Day (2023). World Environment Day is the biggest international day for the environment, led by the United Nations Environment Programme (UNEP), and is held annually since 1973. It has grown to be the largest global platform for environmental outreach. It is celebrated by millions of people across the World. This year’s World Environment Day is hosted by Côte d'Ivoire (Ivory Coast) in partnership with the Netherlands. This year the theme of the day is ”Solutions to Plastic Pollution” under the campaign #BeatPlasticPollution. World Environment Day-2023 is a reminder that people’s actions on Plastic Pollution matters. The Steps governments and businesses are taking to tackle Plastic Pollution are the consequence of this action. It is time to accelerate this action and transition to a circular economy. It is time to #BeatPlasticPollution.",
+    "recommendedAudience": "Everyone",
+    "bannerPath": "public\\assets\\banner-19260911-1126-4226-a663-514c168130d0-1685801440554.png",
+    "bannerName": "banner-19260911-1126-4226-a663-514c168130d0-1685801440554.png",
+    "orderPath": "public\\assets\\order-7aca4e85-b52d-4737-b7a9-507c564c5c32-1685801440581.pdf",
+    "orderName": "order-7aca4e85-b52d-4737-b7a9-507c564c5c32-1685801440581.pdf",
+    "committee": [
+      {
+        "id": "640c2bf0c2e94c4802f3094d",
+        "name": "Cultural Committee",
+        "_id": "647b49e0fc8c6c042e059255"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "647b31f0fc8c6c042e058cf3",
+        "name": "Raqib Akbar",
+        "_id": "647b49e0fc8c6c042e059256"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "status": true,
+    "createdAt": "2023-06-03T14:10:40.613Z",
+    "updatedAt": "2023-08-09T16:05:42.508Z",
+    "__v": 0,
+    "isPhotoUploaded": true,
+    "reportName": "report-93c6b70e-f505-4db4-83b7-aadf91eb1963-1690736963763.pdf",
+    "reportPath": "public\\assets\\report-93c6b70e-f505-4db4-83b7-aadf91eb1963-1690736963763.pdf",
+    "photos": [
+      {
+        "filename": "compressedPhotos-7e0ebda6-d058-418f-a84b-c3738ecf8e89-1690737394220.jpg",
+        "path": "public\\assets\\compressedPhotos-7e0ebda6-d058-418f-a84b-c3738ecf8e89-1690737394220.jpg"
+      },
+      {
+        "filename": "compressedPhotos-3302fb25-01bd-4a2c-9d96-89eda90190a9-1690737394226.png",
+        "path": "public\\assets\\compressedPhotos-3302fb25-01bd-4a2c-9d96-89eda90190a9-1690737394226.png"
+      },
+      {
+        "filename": "compressedPhotos-6017c624-a96c-48d2-a2e1-0802f8c23f18-1690737394230.png",
+        "path": "public\\assets\\compressedPhotos-6017c624-a96c-48d2-a2e1-0802f8c23f18-1690737394230.png"
+      },
+      {
+        "filename": "compressedPhotos-32109efe-6893-4cc6-8eb5-090c55ee67f8-1690737394244.png",
+        "path": "public\\assets\\compressedPhotos-32109efe-6893-4cc6-8eb5-090c55ee67f8-1690737394244.png"
+      }
+    ],
+    "isCertificateGenerated": true
+  },
+  {
+    "_id": "64916594a16c7b03ec48e9ce",
+    "name": "NAAC Visit",
+    "venue": "SP College Srinagar",
+    "startDate": "Wed Jun 21 2023 10:00:00 GMT+0530",
+    "endDate": "Thu Jun 22 2023 16:00:00 GMT+0530",
+    "description": "The NATIONAL ASSESSMENT AND ACCREDITATION COUNCIL (NAAC) is going to conduct assessment and accreditation of our College to derive an understanding of the 'Quality Status' of our institution.",
+    "recommendedAudience": "Students, Faculty, Alumni, Parents",
+    "bannerPath": "public\\assets\\banner-866cffef-7693-450f-bf42-f6b0fc0aceab-1687250324838.png",
+    "bannerName": "banner-866cffef-7693-450f-bf42-f6b0fc0aceab-1687250324838.png",
+    "orderPath": "public\\assets\\order-1e5903a7-7201-45e1-afe7-6e59c282fd44-1687250324860.pdf",
+    "orderName": "order-1e5903a7-7201-45e1-afe7-6e59c282fd44-1687250324860.pdf",
+    "committee": [
+      {
+        "id": "640c2bf0c2e94c4802f3094d",
+        "name": "Cultural Committee",
+        "_id": "64916594a16c7b03ec48e9cf"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "64454cc68ae4f9c09541c959",
+        "name": "Haseeb Yousuf",
+        "_id": "64916594a16c7b03ec48e9d0"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "status": true,
+    "createdAt": "2023-06-20T08:38:44.934Z",
+    "updatedAt": "2023-08-16T06:05:40.405Z",
+    "__v": 0,
+    "reportName": "report-749597b4-db18-4aba-b847-f1812fd5f75b-1689677176785.pdf",
+    "reportPath": "public\\assets\\report-749597b4-db18-4aba-b847-f1812fd5f75b-1689677176785.pdf",
+    "isPhotoUploaded": true,
+    "photos": [
+      {
+        "filename": "compressedPhotos-3a07b895-3d69-475d-ae8e-ce76da5ca171-1689947751666.JPG",
+        "path": "public\\assets\\compressedPhotos-3a07b895-3d69-475d-ae8e-ce76da5ca171-1689947751666.JPG"
+      },
+      {
+        "filename": "compressedPhotos-aea5e695-8d77-49ac-a0ec-f89b14462eb8-1689947751877.JPG",
+        "path": "public\\assets\\compressedPhotos-aea5e695-8d77-49ac-a0ec-f89b14462eb8-1689947751877.JPG"
+      },
+      {
+        "filename": "compressedPhotos-dd3fa849-5349-464a-bec0-16e8a88f9c8c-1689947752100.JPG",
+        "path": "public\\assets\\compressedPhotos-dd3fa849-5349-464a-bec0-16e8a88f9c8c-1689947752100.JPG"
+      },
+      {
+        "filename": "compressedPhotos-da83258c-6a02-437d-a416-b976c6bcfde2-1689947752457.JPG",
+        "path": "public\\assets\\compressedPhotos-da83258c-6a02-437d-a416-b976c6bcfde2-1689947752457.JPG"
+      },
+      {
+        "filename": "compressedPhotos-dbf63d9c-95a9-4564-96ce-ab994345ca58-1689947753119.JPG",
+        "path": "public\\assets\\compressedPhotos-dbf63d9c-95a9-4564-96ce-ab994345ca58-1689947753119.JPG"
+      }
+    ],
+    "isCertificateGenerated": true
+  },
+  {
+    "_id": "64d74cb1e942bb50d99d4bc6",
+    "name": "Independence Day Celebrations",
+    "venue": "SP College Srinagar",
+    "startDate": "Tue Aug 15 2023 10:00:00 GMT+0530",
+    "endDate": "Tue Aug 15 2023 16:00:00 GMT+0530",
+    "description": "Independence Day Celebrations At Sp College Srinagar",
+    "photos": [],
+    "isPhotoUploaded": false,
+    "bannerPath": "public/assets/banner-116949f8-1a5f-48b8-863e-d4ba4d02fdd5-1691831473820.jpg",
+    "bannerName": "banner-116949f8-1a5f-48b8-863e-d4ba4d02fdd5-1691831473820.jpg",
+    "orderPath": "public/assets/order-502f59db-f431-4f6b-a1a3-74390ed46560-1691831473824.pdf",
+    "orderName": "order-502f59db-f431-4f6b-a1a3-74390ed46560-1691831473824.pdf",
+    "committee": [
+      {
+        "id": "640c2bf0c2e94c4802f3094d",
+        "name": "Cultural Committee",
+        "_id": "64d74cb1e942bb50d99d4bc7"
+      }
+    ],
+    "createdBy": [
+      {
+        "id": "64454cc68ae4f9c09541c959",
+        "name": "Haseeb Yousuf",
+        "_id": "64d74cb1e942bb50d99d4bc8"
+      }
+    ],
+    "isPublished": true,
+    "isApproved": true,
+    "isCertificateGenerated": false,
+    "status": false,
+    "createdAt": "2023-08-12T09:11:14.020Z",
+    "updatedAt": "2023-08-13T05:50:19.670Z",
+    "__v": 0
+  }
+]
