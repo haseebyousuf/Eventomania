@@ -148,7 +148,12 @@ export const convenorSchema = yup.object().shape({
         value ? isEmail(value) : new yup.ValidationError("Invalid value")
     ),
   committee: yup.string().required("Committee is required!").ensure(),
-  mobile: yup.number().required("*Mobile Number is Required"),
+  mobile: yup
+    .string()
+    .matches(
+      new RegExp(/^(\+91[-\s]?)?[0]?(91)?[6789]\d{9}$/),
+      "That doesn't look like a valid phone number"
+    ),
 });
 
 export const committeeSchema = yup.object().shape({
