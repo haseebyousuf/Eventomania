@@ -12,7 +12,7 @@ export const verifyAdmin = async (req, res) => {
     const { email, password } = req.body;
     const lcEmail = email.toLowerCase();
     const admin = await Admin.findOne({ email: lcEmail });
-    if (!admin) return res.status(400).json({ msg: "Admin does not exist. " });
+    if (!admin) return res.status(400).json({ msg: "Invalid Credentials. " });
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid Credentials. " });
