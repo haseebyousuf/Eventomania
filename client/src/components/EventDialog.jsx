@@ -52,7 +52,12 @@ const EventDialog = ({
           }}
         >
           <Toolbar>
-            <Typography sx={{ ml: 2, flex: 1 }} variant='h3' component='div'>
+            <Typography
+              sx={{ ml: 2, flex: 1, fontWeight: "bold" }}
+              color='secondary'
+              variant='h3'
+              component='div'
+            >
               Event Details
             </Typography>
             <IconButton
@@ -95,29 +100,27 @@ const EventDialog = ({
                   dialog={true}
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={5} lg={5}>
+              <Grid item xs={12} sm={12} md={5} lg={5} spacing={2}>
                 <EventDescription description={params.row.description} />
                 {showOrder && (
-                  <Button
-                    sx={{
-                      margin: "1rem",
-                      fontWeight: "bold",
-                    }}
-                    onClick={() => {}}
-                    variant='contained'
-                    color='secondary'
-                    size='large'
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`${process.env.REACT_APP_BASE_URL}assets/${params.row.orderName}`}
+                    target='_blank'
+                    rel='noreferrer'
                   >
-                    <Link
-                      style={{ textDecoration: "none", color: "black" }}
-                      to={`${process.env.REACT_APP_BASE_URL}assets/${params.row.orderName}`}
-                      target='_blank'
-                      rel='noreferrer'
+                    <Button
+                      variant='contained'
+                      sx={{
+                        marginTop: "1.5rem",
+                        fontWeight: "bold",
+                      }}
+                      size='large'
+                      color='secondary'
                     >
-                      {" "}
                       View Order
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
                 )}
               </Grid>
             </Grid>
