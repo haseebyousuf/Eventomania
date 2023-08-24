@@ -67,10 +67,17 @@ const EventContainer = ({
         {events ? (
           filteredEvents.length > 0 ? (
             filteredEvents
-              .sort(
-                (a, b) =>
-                  moment(new Date(b.startDate)) - moment(new Date(a.startDate))
-              )
+              .sort((a, b) => {
+                if (isPast) {
+                  return (
+                    moment(new Date(b.startDate)) -
+                    moment(new Date(a.startDate))
+                  );
+                }
+                return (
+                  moment(new Date(a.startDate)) - moment(new Date(b.startDate))
+                );
+              })
               .map((event) => {
                 return (
                   <EventCard isPast={isPast} key={event._id} event={event} />
