@@ -18,6 +18,7 @@ import Footer from "components/Footer";
 import AnimateText from "animations/AnimateText";
 import { useGetEventQuery } from "state/eventApiSlice";
 import moment from "moment";
+import EventDetailsShimmer from "components/EventDetailsShimmer";
 
 const EventDetails = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const EventDetails = () => {
 
   return (
     <Box>
-      {event && (
+      {event ? (
         <Grid width='90%' margin='auto' container mt={2}>
           <Grid
             sx={{ marginBottom: "1rem" }}
@@ -98,6 +99,8 @@ const EventDetails = () => {
             {!isNonMobile && <Footer />}
           </Grid>
         </Grid>
+      ) : (
+        <EventDetailsShimmer />
       )}
     </Box>
   );
