@@ -151,14 +151,14 @@ export const eventValidationRules = [
 
   body("startDate")
     .trim()
-    .isDate()
+    .isString()
     .notEmpty()
     .withMessage("Start Date is required")
     .toDate(),
 
   body("endDate")
     .trim()
-    .isDate()
+    .isString()
     .notEmpty()
     .withMessage("End Date and Time is required")
     .toDate(),
