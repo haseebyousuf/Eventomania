@@ -158,6 +158,7 @@ const HomeNavbar = () => {
 
             <IconButton
               name={theme.palette.mode}
+              aria-label={`${theme.palette.mode}_mode`}
               onClick={() => dispatch(setMode())}
             >
               {theme.palette.mode === "dark" ? (
