@@ -156,7 +156,10 @@ const HomeNavbar = () => {
               </Button>
             )}
 
-            <IconButton onClick={() => dispatch(setMode())}>
+            <IconButton
+              name={theme.palette.mode}
+              onClick={() => dispatch(setMode())}
+            >
               {theme.palette.mode === "dark" ? (
                 <DarkModeOutlined sx={{ fontSize: "25px" }} />
               ) : (
