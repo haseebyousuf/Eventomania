@@ -64,6 +64,7 @@ const UploadReport = ({ id }) => {
                     <input data-testid='dropzone' {...getInputProps()} />
                     {!values.report ? (
                       <Button
+                        name='upload'
                         variant='contained'
                         color='error'
                         endIcon={<CloudUploadOutlined />}
@@ -96,6 +97,7 @@ const UploadReport = ({ id }) => {
           ) : (
             <Box>
               <Button
+                name='submit'
                 type='submit'
                 variant='contained'
                 color='success'
@@ -107,6 +109,7 @@ const UploadReport = ({ id }) => {
                 Submit
               </Button>
               <Button
+                name='reset'
                 variant='contained'
                 color='warning'
                 sx={{

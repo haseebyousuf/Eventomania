@@ -111,6 +111,7 @@ const Form = () => {
                 }}
               >
                 <Button
+                  name='add_committee'
                   variant='contained'
                   disabled={isLoading}
                   type='submit'

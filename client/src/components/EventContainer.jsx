@@ -25,7 +25,7 @@ const EventContainer = ({
   const isNonMobile = useMediaQuery("(min-width: 600px)");
   //STATES
   const [animateCard, setAnimateCard] = useState({ y: 0, opacity: 1 });
-
+  console.log(filteredEvents);
   return (
     <Box
       sx={{
@@ -64,7 +64,8 @@ const EventContainer = ({
           paddingBottom: "2rem",
         }}
       >
-        {events ? (
+        {console.log(events)}
+        {filteredEvents ? (
           filteredEvents.length > 0 ? (
             filteredEvents
               .sort((a, b) => {

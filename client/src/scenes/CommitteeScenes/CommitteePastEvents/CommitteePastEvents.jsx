@@ -117,6 +117,7 @@ const CommitteePastEvents = () => {
           <Box color='success'>
             {params.row.status ? (
               <Button
+                name='generated'
                 disabled
                 variant='contained'
                 color='success'
@@ -152,6 +153,7 @@ const CommitteePastEvents = () => {
           <Box color='success'>
             {params.row.isCertificateGenerated ? (
               <Button
+                name='generated'
                 disabled
                 variant='contained'
                 color='success'
@@ -170,6 +172,7 @@ const CommitteePastEvents = () => {
               </Button>
             ) : (
               <Button
+                name='send_now'
                 disabled={buttonDisabled[params.row._id]}
                 variant='contained'
                 color='error'
@@ -199,6 +202,7 @@ const CommitteePastEvents = () => {
           <Box color='success'>
             {params.row.isPhotoUploaded ? (
               <Button
+                name='uploaded'
                 disabled
                 variant='contained'
                 color='success'

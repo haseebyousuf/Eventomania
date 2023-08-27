@@ -167,6 +167,7 @@ const ConfirmPassword = () => {
                     }}
                   >
                     <Button
+                      name='change_password'
                       variant='contained'
                       type='submit'
                       sx={{

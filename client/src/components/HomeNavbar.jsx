@@ -106,6 +106,7 @@ const HomeNavbar = () => {
                 return (
                   <Box key={text}>
                     <Button
+                      name={text}
                       onClick={() => {
                         navigate(link);
                         setActive(link);
@@ -129,6 +130,7 @@ const HomeNavbar = () => {
             </FlexBetween>
             {isAuth ? (
               <Button
+                name='dashboard'
                 sx={{
                   margin: "1rem",
                   fontWeight: "bold",
@@ -141,6 +143,7 @@ const HomeNavbar = () => {
               </Button>
             ) : (
               <Button
+                name='sign_in'
                 sx={{
                   margin: "1rem",
                   fontWeight: "bold",
@@ -223,6 +226,7 @@ const HomeNavbar = () => {
         </Box>
         {isAuth ? (
           <Button
+            name='dashboard'
             sx={{
               margin: "1rem",
               fontWeight: "bold",
@@ -235,6 +239,7 @@ const HomeNavbar = () => {
           </Button>
         ) : (
           <Button
+            name='sign_in'
             sx={{
               margin: "1rem",
               fontWeight: "bold",

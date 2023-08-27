@@ -24,6 +24,7 @@ const DataGridCustomToolbar = ({ csvOptions, showExport, data }) => {
                 printOptions={{ disableToolbarButton: true }}
               />
               <Button
+                name='print'
                 onClick={() => alert("Print")}
                 variant='text'
                 startIcon={<PrintOutlinedIcon />}

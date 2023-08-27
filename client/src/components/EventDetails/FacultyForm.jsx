@@ -93,6 +93,7 @@ const FacultyForm = ({ eventDetails }) => {
             }}
           >
             <Button
+              name='register'
               variant='contained'
               type='submit'
               disabled={isLoading}

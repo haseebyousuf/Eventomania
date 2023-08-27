@@ -138,6 +138,7 @@ const LoginForm = () => {
                 }}
               >
                 <Button
+                  name='login'
                   variant='contained'
                   type='submit'
                   disabled={isLoading}

@@ -120,6 +120,7 @@ const EventCard = ({ event, isPast }) => {
           }}
         >
           <Button
+            name='event_btn'
             variant='contained'
             type='submit'
             sx={{

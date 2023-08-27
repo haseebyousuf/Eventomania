@@ -256,6 +256,7 @@ const AddConvenor = () => {
                     }}
                   >
                     <Button
+                      name='add_convenor'
                       variant='contained'
                       disabled={isLoading}
                       type='submit'

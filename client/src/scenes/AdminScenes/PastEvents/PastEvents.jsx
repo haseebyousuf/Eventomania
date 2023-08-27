@@ -140,6 +140,7 @@ const PastEvents = () => {
           <Box color='success'>
             {params.row.status ? (
               <Button
+                name='completed'
                 disabled
                 variant='contained'
                 color='success'
@@ -155,6 +156,7 @@ const PastEvents = () => {
               </Button>
             ) : (
               <Button
+                name='report_pending'
                 disabled
                 variant='contained'
                 color='error'

@@ -502,6 +502,7 @@ const CreateEvent = () => {
                     }}
                   >
                     <Button
+                      name='create_event'
                       variant='contained'
                       type='submit'
                       sx={{

@@ -78,6 +78,7 @@ const UploadPhotos = ({ id }) => {
                     <input data-testid='dropzone' {...getInputProps()} />
                     {values.photos.length <= 0 && (
                       <Button
+                        name='photo_error'
                         variant='contained'
                         color='error'
                         endIcon={<CloudUploadOutlined />}
@@ -105,6 +106,7 @@ const UploadPhotos = ({ id }) => {
           ) : (
             <Box>
               <Button
+                name='submit'
                 disabled={isLoading}
                 type='submit'
                 variant='contained'
@@ -117,6 +119,7 @@ const UploadPhotos = ({ id }) => {
                 Submit
               </Button>
               <Button
+                name='reset'
                 variant='contained'
                 color='warning'
                 sx={{

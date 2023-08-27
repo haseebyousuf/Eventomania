@@ -268,6 +268,7 @@ const AddMember = () => {
                     }}
                   >
                     <Button
+                      name='add_member'
                       variant='contained'
                       disabled={isLoading}
                       type='submit'

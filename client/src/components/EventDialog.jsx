@@ -110,6 +110,7 @@ const EventDialog = ({
                     rel='noreferrer'
                   >
                     <Button
+                      name='order_btn'
                       variant='contained'
                       sx={{
                         marginTop: "1.5rem",
