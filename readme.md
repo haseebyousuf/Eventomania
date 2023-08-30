@@ -4,15 +4,7 @@ Eventomania provides a centralized platform for planning, organizing, and execut
 The system provides a highly intuitive and user-friendly interface, coupled with a robust set of tools that greatly enhance the execution of events.
 It streamlines the entire event management process, from event registration to post-event analysis.
 
-## Screenshots
-
-### Dashboard
-
-![DASHBOARD](https://res.cloudinary.com/doly2rjqz/image/upload/v1690125931/Screen_Shot_2023-07-23_at_20.53.30_gwaxsa.png)
-
-### Past Events
-
-![PAST EVENTS](https://res.cloudinary.com/doly2rjqz/image/upload/v1690125931/Screen_Shot_2023-07-23_at_20.54.03_whob0r.png)
+![DASHBOARD](./client/public/banner.jpg)
 
 ## Features
 
