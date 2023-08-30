@@ -34,3 +34,8 @@ body,
 .image-gallery-right-nav {
   padding: 50px 0;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
