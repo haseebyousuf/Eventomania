@@ -1,5 +1,6 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const theme = useTheme();
@@ -15,11 +16,10 @@ const Footer = () => {
       }}
     >
       <Typography textAlign='center' fontSize={!isNonMobile && "0.7rem"}>
-        Developed and maintained by{" "}
-        <Typography variant='span' fontWeight='bold' color='secondary'>
-          Department of IT
+        Developed with ❤️ By
+        <Typography mx={1} variant='span' fontWeight='bold' color='secondary'>
+          <Link to='https://github.com/haseebyousuf'> Haseeb Yousuf</Link>
         </Typography>
-        , SP College
       </Typography>
     </Box>
   );
